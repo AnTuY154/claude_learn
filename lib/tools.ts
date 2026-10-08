@@ -42,3 +42,30 @@ export function searchProducts(query: string, maxPrice?: number) {
       (maxPrice === undefined || product.price <= maxPrice),
   );
 }
+
+export function calculateOrderTotal(items: unknown) {
+  if (!Array.isArray(items) || items.length === 0) {
+    throw new Error("Đơn hàng phải có ít nhất một sản phẩm");
+  }
+
+  const lines = items.map((item) => {
+    if (!item || typeof item !== "object") throw new Error("Sản phẩm không hợp lệ");
+    const { product_name, quantity } = item as Record<string, unknown>;
+    const product = products.find(({ name }) => name === product_name);
+    if (!product) throw new Error(`Sản phẩm không tồn tại: ${String(product_name ?? "")}`);
+    if (typeof quantity !== "number" || !Number.isInteger(quantity) || quantity <= 0) {
+      throw new Error(`Số lượng của ${product.name} phải là số nguyên dương`);
+    }
+    return {
+      product_name: product.name,
+      quantity,
+      unit: product.unit,
+      unit_price: product.price,
+      line_total: product.price * quantity,
+    };
+  });
+
+  const subtotal = lines.reduce((sum, line) => sum + line.line_total, 0);
+  const apple_cover_fee = lines.some(({ product_name }) => product_name === "Táo") ? 10_000 : 0;
+  return { items: lines, subtotal, apple_cover_fee, total: subtotal + apple_cover_fee, currency: "VND" };
+}

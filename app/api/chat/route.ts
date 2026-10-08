@@ -1,5 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { calculate, searchProducts } from "@/lib/tools";
+import { calculate, calculateOrderTotal, searchProducts } from "@/lib/tools";
 
 const client = new Anthropic();
 const model = process.env.ANTHROPIC_MODEL || "claude-haiku-5-5";
@@ -38,6 +38,30 @@ const tools: Anthropic.Tool[] = [
       required: ["query"],
     },
   },
+  {
+    name: "calculate_order_total",
+    description: "Tính chi tiết và tổng tiền đơn hàng theo giá catalog; đơn có Táo được cộng một lần 10.000 VND tiền bìa.",
+    input_schema: {
+      type: "object",
+      properties: {
+        items: {
+          type: "array",
+          minItems: 1,
+          items: {
+            type: "object",
+            properties: {
+              product_name: { type: "string", description: "Tên chính xác trong catalog" },
+              quantity: { type: "integer", minimum: 1 },
+            },
+            required: ["product_name", "quantity"],
+            additionalProperties: false,
+          },
+        },
+      },
+      required: ["items"],
+      additionalProperties: false,
+    },
+  },
 ];
 
 function runTool(name: string, input: unknown) {
@@ -48,6 +72,9 @@ function runTool(name: string, input: unknown) {
   if (name === "search_products") {
     const maxPrice = value.max_price === undefined ? undefined : Number(value.max_price);
     return JSON.stringify(searchProducts(String(value.query ?? ""), maxPrice));
+  }
+  if (name === "calculate_order_total") {
+    return JSON.stringify(calculateOrderTotal(value.items));
   }
   throw new Error(`Tool không tồn tại: ${name}`);
 }
