@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { course, type Locale } from "@/lib/bilingual-course";
 import { labExamples } from "@/lib/lab-examples";
 import { Lesson7Original } from "./Lesson7Original";
+import { LessonStory } from "./LessonStory";
 import { LessonGlossary, TermText } from "./CourseGlossary";
 
 const labels = {
@@ -97,6 +98,7 @@ export default function BilingualLesson({ number }: { number: number }) {
             {topic.warning && <p className="bilingual-warning">{topic.warning}</p>}
           </section>)}
         </section>
+        {number>=1 && number<=6 && <LessonStory number={number} language={language}/>}
         {number===7 && <section className="lesson7-comparison" aria-label={language==="vi"?"So sánh ba chiến lược session":"Compare session strategies"}>
           <div className="section-heading"><span>Session decision matrix</span><h2>{language==="vi"?"So sánh Resume, Fork và Fresh Start":"Resume vs Fork vs Fresh Start"}</h2></div>
           <div className="lesson7-table-wrap"><table>
