@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ExamDecisionBoard } from "./ExamDecisionBoard";
 import { useState } from "react";
 import type { CourseLesson } from "@/lib/agentic-course";
 import { runLessonSimulation, type SimulationResult } from "@/lib/agentic-exercises";
@@ -137,6 +138,7 @@ export default function CourseLessonView({ lesson }: { lesson: CourseLesson }) {
             <span>Exam traps</span><h3>Nhìn đáp án để không bị đánh lừa</h3>
             <ol>{lesson.traps.map(trap => <li key={trap}>{trap}</li>)}</ol>
           </section>
+          <ExamDecisionBoard number={lesson.number} />
           <ExamQuiz lesson={lesson}/>
           <Exercise lesson={lesson}/>
           <footer className="lesson-footer">
