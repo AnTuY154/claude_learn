@@ -60,24 +60,32 @@ const concepts = [
 
 export function Lesson3Theory() {
   return (
-    <section aria-labelledby="theory-heading" style={{ marginBlock: 34 }}>
-      <h2 id="theory-heading">A. Lý thuyết chi tiết — Bài 1.3</h2>
-      <p>Đọc lần lượt 8 khái niệm, thử Build Exercise rồi hoàn thành quiz. Các đoạn code bên dưới mang tính minh họa, không phải lời gọi SDK hoàn chỉnh.</p>
-      <nav aria-label="Mục lục bài học" style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 18 }}>
-        {concepts.map((c, i) => <a key={i} href={`#concept-${i + 1}`} style={{ padding: "5px 10px", border: "1px solid #8886", borderRadius: 8 }}>Phần {i + 1}</a>)}
+    <section className="lesson3-theory" id="lesson3-theory" aria-labelledby="theory-heading">
+      <div className="section-heading">
+        <span>Study notes · 8 concepts</span>
+        <h2 id="theory-heading">Lý thuyết cần nắm trước khi thi</h2>
+      </div>
+      <p className="lesson3-intro">Mỗi phần gồm: khái niệm, thuật ngữ tiếng Anh, cách áp dụng bằng JavaScript/TypeScript và một điểm dễ xuất hiện trong câu hỏi tình huống.</p>
+      <nav className="lesson3-topic-nav" aria-label="Đi đến chủ đề">
+        {concepts.map((concept, i) => (
+          <a key={concept.title} href={`#concept-${i + 1}`}>
+            {String(i + 1).padStart(2, "0")} <span>{concept.title.replace(/^\\d+\\. /, "")}</span>
+          </a>
+        ))}
       </nav>
-      {concepts.map((concept, i) => (
-        <article key={concept.title} id={`concept-${i + 1}`} style={{ padding: 18, border: "1px solid #8885", borderRadius: 12, marginBottom: 14 }}>
-          <h3>{concept.title}</h3>
-          <p><strong>Keywords (EN):</strong> {concept.english}</p>
-          <p>{concept.body}</p>
-          <pre style={{ whiteSpace: "pre-wrap", overflowWrap: "anywhere", background: "#80808015", padding: 12, borderRadius: 8 }}>{concept.example}</pre>
-          <p><strong>Ghi nhớ khi thi:</strong> {concept.takeaway}</p>
-        </article>
-      ))}
-      <h3>Phân biệt Agent SDK và demo trong repository</h3>
-      <p>Agent SDK có khái niệm agent definitions và Agent tool invocation. Demo hiện tại dùng Messages API để gọi model tách biệt. Hai cách cùng minh họa nguyên lý context isolation, nhưng không nên gọi chúng là cùng một implementation.</p>
-      <p><a href="https://claudecertificationguide.com/learn/1-agentic-architecture/1-3-subagent-invocation-context" target="_blank" rel="noreferrer">Đọc bài 1.3 gốc ↗</a></p>
+      <div className="lesson3-concepts">
+        {concepts.map((concept, i) => (
+          <article key={concept.title} id={`concept-${i + 1}`} className="lesson3-concept">
+            <div className="lesson3-concept-head">
+              <span>{String(i + 1).padStart(2, "0")}</span>
+              <div><small>{concept.english}</small><h3>{concept.title.replace(/^\\d+\\. /, "")}</h3></div>
+            </div>
+            <p>{concept.body}</p>
+            <div className="lesson3-code"><span>Example / mental model</span><pre>{concept.example}</pre></div>
+            <div className="lesson3-exam-note"><strong>Điểm thi cần nhớ</strong><p>{concept.takeaway}</p></div>
+          </article>
+        ))}
+      </div>
     </section>
   );
 }
