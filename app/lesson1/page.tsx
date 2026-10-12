@@ -165,7 +165,7 @@ export default function Lesson1Page() {
 
           <footer className="lesson-footer">
             <a href="https://claudecertificationguide.com/learn/1-agentic-architecture/1-1-agentic-loops" target="_blank" rel="noreferrer">Nguồn bài học ↗</a>
-            <span>01 / 02</span>
+            <span>01 / 07</span>
             <Link href="/lesson2">Multi-Agent Orchestration →</Link>
           </footer>
         </article>
