@@ -6,9 +6,9 @@ export const dynamic = "force-static";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Quầy giá · Claude Tools",
-    short_name: "Quầy giá",
-    description: "Tra sản phẩm, xem giá và tính toán với Claude.",
+    name: "Claude Learning Lab",
+    short_name: "Claude Lab",
+    description: "Ôn Claude Certified Architect: 7 bài Agentic Architecture.",
     start_url: process.env.GITHUB_PAGES_EXPORT === "true" ? "/claude_learn/" : "/",
     display: "standalone",
     background_color: "#eef5ff",
