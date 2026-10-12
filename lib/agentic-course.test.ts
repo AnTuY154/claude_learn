@@ -24,7 +24,7 @@ test("Bốn lesson đầy đủ cho ôn thi", () => {
 });
 
 test("Bài 1.4-1.7 chứa core exam concepts", () => {
-  const flatten = (n) => JSON.stringify(lessons[n]).toLowerCase();
+  const flatten = (n: number) => JSON.stringify(lessons[n]).toLowerCase();
   for(const value of ["prerequisite", "handoff", "verified"]) assert.ok(flatten(4).includes(value));
   for(const value of ["pretooluse", "posttooluse", "updatedtooloutput"]) assert.ok(flatten(5).includes(value));
   for(const value of ["attention dilution", "cross-file", "dynamic"]) assert.ok(flatten(6).includes(value));
