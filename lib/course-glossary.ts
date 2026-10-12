@@ -101,7 +101,7 @@ export const glossary: Term[] = [
   {term:"targeted re-analysis",vi:"phân tích lại có trọng tâm",explanation:"Chỉ đọc lại những phần thay đổi và dependency bị ảnh hưởng."},
   {term:"baseline",vi:"mốc dữ liệu ban đầu",explanation:"Trạng thái hoặc kết quả làm điểm xuất phát chung cho các hướng nghiên cứu."},
   {term:"tool call",vi:"lần yêu cầu gọi công cụ",explanation:"Một yêu cầu Claude gửi để app hoặc hệ thống thực thi một tool."},
-  {term:"tool output",vi:"đầu ra của công cụ",explanation:"Dữ liệu mà công cụ trả về sau khi thực thi."}
+  {term:"tool output",vi:"đầu ra của công cụ",explanation:"Dữ liệu mà công cụ trả về sau khi thực thi."},
   {term:"citations",vi:"các trích dẫn / dẫn nguồn",explanation:"Dạng số nhiều của citation: các tham chiếu giúp truy ngược từng nhận định về tài liệu, URL hoặc số trang; không tự chứng minh nhận định đúng."},
   {term:"cite",vi:"trích dẫn nguồn",explanation:"Động từ chỉ hành động dẫn ra nguồn để người đọc kiểm tra chứng cứ hỗ trợ một phát biểu."},
   {term:"spawn",vi:"khởi tạo / giao việc cho subagent",explanation:"Trong hệ agent, coordinator yêu cầu bắt đầu một lượt làm việc của agent chuyên trách. Không có nghĩa bắt buộc tạo tiến trình hệ điều hành riêng."},
