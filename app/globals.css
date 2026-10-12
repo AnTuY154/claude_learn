@@ -294,3 +294,26 @@ textarea::placeholder { color: #71819a; }
   .lesson3-page .research-form .form-foot { flex-direction: column; align-items: stretch; gap: 14px; }
   .lesson3-page .research-form .form-foot button { justify-content: center; }
 }
+
+
+/* Lesson 3 overview: cùng editorial grid/borders/type scale của Lesson 1–2. */
+.lesson3-overview { margin: 64px 0 44px; }
+.lesson3-overview-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; border: 1px solid var(--line); background: var(--line); }
+.lesson3-overview-item { display: flex; flex-direction: column; min-width: 0; padding: 23px; background: white; }
+.lesson3-overview-item > span { color: var(--blue); font-size: 10px; font-weight: 900; letter-spacing: .12em; }
+.lesson3-overview-item h3 { margin: 19px 0 9px; font-size: 22px; letter-spacing: -.035em; line-height: 1.25; }
+.lesson3-overview-item p { margin: 0; color: #40516a; font-size: 15px; line-height: 1.65; }
+.lesson3-overview-item small { margin-top: auto; padding-top: 22px; color: var(--blue); font-size: 11px; font-weight: 750; line-height: 1.5; }
+.lesson3-overview-rules { margin-top: 32px; }
+.lesson3-overview-rules .section-heading h3 { margin: 8px 0 20px; font-size: clamp(24px, 3vw, 32px); letter-spacing: -.04em; }
+.lesson3-overview-rules ol { padding: 0; margin: 0; list-style: none; border-top: 1px solid var(--line); }
+.lesson3-overview-rules li { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 18px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.lesson3-overview-rules li strong { color: var(--blue); font-size: 13px; }
+.lesson3-overview-rules li p { margin: 0; font-size: 14px; line-height: 1.55; }
+.lesson3-overview-detail { margin-top: 25px; }
+.lesson3-overview-detail p + p { margin-top: 12px; }
+@media (max-width: 720px) {
+  .lesson3-overview-grid { grid-template-columns: 1fr; }
+  .lesson3-overview-item { padding: 18px; }
+  .lesson3-overview-rules li { grid-template-columns: 1fr; gap: 5px; }
+}
