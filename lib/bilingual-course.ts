@@ -1,6 +1,6 @@
 import { foundationLessons } from "./foundation-study.ts";
 import { lessons } from "./agentic-course.ts";
-import { lesson7Deep } from "./lesson7-deep";
+import { lesson7Deep } from "./lesson7-deep.ts";
 
 // Nguồn chuẩn: bảy bài tại claudecertificationguide.com; content tiếng Anh ở đây
 // là diễn giải/biên soạn sát nghĩa, KHÔNG phải bản chép nguyên văn tài liệu nguồn.
