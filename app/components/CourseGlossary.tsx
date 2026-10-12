@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { glossaryMap, lessonGlossary, type Term } from "@/lib/course-glossary";
 
 // Khớp cụm dài trước ("structured findings" trước "findings") để không cắt sai.
@@ -33,15 +34,32 @@ export function TermText({text,number,active}:{text:string;number:number;active:
 
 function TermTrigger({term}:{term:Term}){
   const [open,setOpen]=useState(false);
-  return <span className="course-term">
+  // Mobile: render inside a fixed bottom sheet via portal rather than positioning
+  // relative to the inline word. Prevents clipping at BOTH viewport edges.
+  useEffect(()=>{
+    if (!open) return;
+    const onKeyDown=(event:KeyboardEvent)=>{if(event.key==="Escape")setOpen(false);};
+    window.addEventListener("keydown",onKeyDown);
+    return ()=>window.removeEventListener("keydown",onKeyDown);
+  },[open]);
+  return <>
     <button type="button" aria-expanded={open} aria-label={`Giải nghĩa thuật ngữ ${term.term}`}
-      title={`${term.vi}: ${term.explanation}`} onClick={()=>setOpen(!open)}
-      className="course-term-button">{term.term}<sup>?</sup></button>
-    {open&&<span className="course-term-popup" role="note">
-      <strong>{term.vi}</strong><span>{term.explanation}</span>
-      <button type="button" onClick={()=>setOpen(false)} aria-label="Đóng chú thích">×</button>
-    </span>}
-  </span>;
+      onClick={()=>setOpen(true)} className="course-term-button">{term.term}<sup>?</sup></button>
+    {open && createPortal(
+      <div className="course-term-overlay" role="presentation" onMouseDown={(event)=>{
+        if(event.target===event.currentTarget)setOpen(false);
+      }}>
+        <section className="course-term-dialog" role="dialog" aria-modal="true"
+          aria-label={`Giải nghĩa ${term.term}`}>
+          <div className="course-term-dialog-top">
+            <span>{term.term}</span>
+            <button type="button" onClick={()=>setOpen(false)} aria-label="Đóng chú thích">×</button>
+          </div>
+          <strong>{term.vi}</strong>
+          <p>{term.explanation}</p>
+        </section>
+      </div>,document.body)}
+  </>;
 }
 
 export function LessonGlossary({number}:{number:number}){
