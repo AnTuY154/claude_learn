@@ -37,3 +37,10 @@ Client → POST /api/context-passing → Coordinator
 - GOOD giữ metadata đã được cung cấp và normalize; **không** chứng minh citation đúng sự thật. BAD là lỗi cố ý cho mục đích học.
 - Không đưa `ANTHROPIC_API_KEY` vào React client. API route chạy phía server.
 - Tách context logic sang `lib/context-passing.ts` để dễ test và review.
+
+## Cấu trúc bài học trên giao diện
+1. **A. Lý thuyết chi tiết**: 8 chủ đề có keywords tiếng Anh, code snippets, exam traps; nội dung ở `app/lesson3/Lesson3Theory.tsx`.
+2. **B. Build Exercise**: API thật, so sánh GOOD/BAD, trace và JSON.
+3. **C. Knowledge Quiz**: 10 câu trắc nghiệm tương tác, chấm điểm và giải thích chi tiết. Code ở `app/lesson3/Lesson3Quiz.tsx`. Quiz là client-side, không gọi API và không phát sinh phí.
+
+Mục tiêu ôn tập: hiểu isolated context, explicit metadata passing, independent parallel calls, dependent sequential calls, và phân biệt Messages API simulation với Agent SDK.
