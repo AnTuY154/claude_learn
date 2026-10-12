@@ -8,7 +8,9 @@
     "start": "next start -p 3001",
     "test": "node --experimental-strip-types --test lib/tools.test.ts lib/research.test.ts lib/seasonal-fruits.test.ts lib/context-passing.test.ts lib/agentic-course.test.ts lib/agentic-exercises.test.ts lib/certification-audit.test.ts lib/bilingual-course.test.ts",
     "review:lessons": "node --experimental-strip-types scripts/review-lessons.mjs",
-    "lab": "node scripts/live-labs.mjs"
+    "lab": "node scripts/live-labs.mjs",
+    "lab:sdk-hooks": "node scripts/sdk-hooks-lab.mjs",
+    "lab:sdk-sessions": "node scripts/sdk-sessions-lab.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "latest",
