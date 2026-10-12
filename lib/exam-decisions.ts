@@ -27,7 +27,7 @@ export const examDecisions: Record<number, ExamDecision[]> = {
     { symptom: "Muốn cấm spawn khi context còn thiếu", action: "PreToolUse matcher Agent", because: "SubagentStart có thể thêm context nhưng không block spawn." },
   ],
   5: [
-    { symptom: "Transfer vượt hạn mức hoặc thiếu AML", action: "PreToolUse deny / approval và backend guard", because: "Phải chặn trước side effect." },
+    { symptom: "Transfer vượt hạn mức hoặc thiếu AML", action: "PreToolUse deny / approval và backend guard", because: "Lệnh phải bị chặn trước khi xảy ra side effect tài chính." },
     { symptom: "Tool trả date/status nhiều format", action: "PostToolUse updatedToolOutput với parser theo source contract", because: "Normalizing sau tool nhưng trước model tránh diễn giải lẫn lộn." },
     { symptom: "Muốn rollback money transfer bằng PostToolUse", action: "Không thể; dùng PreToolUse và transaction backend", because: "PostToolUse xảy ra sau khi side effect đã được thực hiện." },
     { symptom: "Muốn sao lưu lịch sử trước compaction", action: "PreCompact (ngoài phần trọng tâm của 1.5)", because: "Đây là session event, không phải tool result hook." },
@@ -39,8 +39,8 @@ export const examDecisions: Record<number, ExamDecision[]> = {
     { symptom: "Chia 14 files thành batches nhưng không so sánh giữa batches", action: "Bổ sung dedicated cross-file integration", because: "Các lỗi consistency/data flow qua nhiều file có thể bị bỏ sót." },
   ],
   7: [
-    { symptom: "Tiếp tục hôm qua, code chưa đổi", action: "Resume", because: "Context còn valid; không cần fresh re-analysis." },
-    { symptom: "Muốn so sánh hai refactor strategies từ baseline", action: "Fork session", because: "Mỗi nhánh độc lập sau khi fork." },
+    { symptom: "Tiếp tục hôm qua, code chưa đổi", action: "Resume session hiện tại", because: "Context còn valid; không cần fresh re-analysis." },
+    { symptom: "Muốn so sánh hai refactor strategies từ baseline", action: "Fork session để so sánh hai nhánh", because: "Mỗi nhánh độc lập sau khi fork." },
     { symptom: "3 trong 50 files đã sửa, lời khuyên cũ mâu thuẫn", action: "Fresh session + curated summary + re-read changed files", because: "Resume hay fork vẫn mang raw stale tool results." },
     { symptom: "Vừa nâng dependency ảnh hưởng nhiều modules", action: "Re-evaluate impacted dependency graph, mở rộng scope nếu cần", because: "Targeted re-analysis không đồng nghĩa bỏ qua ảnh hưởng lan truyền." },
   ],
