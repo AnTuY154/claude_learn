@@ -1,5 +1,5 @@
-import { foundationLessons } from "./foundation-study";
-import { lessons } from "./agentic-course";
+import { foundationLessons } from "./foundation-study.ts";
+import { lessons } from "./agentic-course.ts";
 
 // Nguồn chuẩn: bảy bài tại claudecertificationguide.com; content tiếng Anh ở đây
 // là diễn giải/biên soạn sát nghĩa, KHÔNG phải bản chép nguyên văn tài liệu nguồn.
