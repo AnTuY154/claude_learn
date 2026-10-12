@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ExamDecisionBoard } from "@/app/components/ExamDecisionBoard";
 import { useState, type FormEvent } from "react";
 import type { Finding } from "@/lib/context-passing";
 import { Lesson3Theory } from "./Lesson3Theory";
@@ -226,6 +227,8 @@ export default function Lesson3Page() {
           </section>
 
           {/* QUIZ đứng trước lab: học lý thuyết → tự kiểm tra → thực hành. */}
+          <ExamDecisionBoard number={3} />
+
           <Lesson3Quiz />
 
           <section className="build-checklist">
