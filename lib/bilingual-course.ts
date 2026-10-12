@@ -1,5 +1,6 @@
 import { foundationLessons } from "./foundation-study.ts";
 import { lessons } from "./agentic-course.ts";
+import { lesson7Deep } from "./lesson7-deep";
 
 // Nguồn chuẩn: bảy bài tại claudecertificationguide.com; content tiếng Anh ở đây
 // là diễn giải/biên soạn sát nghĩa, KHÔNG phải bản chép nguyên văn tài liệu nguồn.
@@ -306,5 +307,5 @@ function vietnamese(n:number): LearningContent {
   };
 }
 export const course: Record<number,BilingualLesson> = Object.fromEntries(
-  [1,2,3,4,5,6,7].map(n=>[n,{number:n,source:source(n),vi:vietnamese(n),en:en[n]}])
+  [1,2,3,4,5,6,7].map(n=>[n,{number:n,source:source(n),vi:n===7?lesson7Deep.vi:vietnamese(n),en:n===7?lesson7Deep.en:en[n]}])
 );
