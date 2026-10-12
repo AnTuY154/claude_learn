@@ -133,7 +133,7 @@ export default function Lesson2Page() {
       <nav className="lesson-nav" aria-label="Điều hướng bài học">
         <Link href="/lesson1">← Bài 01</Link>
         <span>Agentic Architecture</span>
-        <Link href="/seasonal-fruits">Mở ứng dụng mùa vụ →</Link>
+        <Link href="/lesson3">Bài 03 →</Link>
       </nav>
 
       <div className="lesson-shell">
@@ -251,7 +251,7 @@ Gọi cùng một agent lần 2 = một invocation độc lập mới.`}</pre>
                 <div><span>Refinement</span><strong>{iterations} vòng</strong></div>
                 <div><span>Subtopics</span><strong>{plan.tasks.length}</strong></div>
               </div>
-              <div className="coverage-meter" aria-label={`Coverage ${coverageScore}%`}><i style={{ width: `${coverageScore}%` }} /></div>
+              <div className="coverage-meter" aria-label={`Coverage ${coverageScore}%`}><i style={{ width: `${coverageScore}%` }} /></div><p className="research-limit"><strong>Lưu ý:</strong> Coverage % là ước lượng từ Claude trên các subtopics đã liệt kê, không phải chứng nhận nguồn chính xác hay nghiên cứu thực tế đầy đủ. Web agent trong lab này chưa có live browsing.</p>
               <div className="research-report"><span>Final synthesis</span><p>{report}</p></div>
               {limitation && <p className="research-limit">{limitation}</p>}
               <div className="section-heading research-subheading"><span>Coverage audit</span><h2>Phần nào đã đủ?</h2></div>
@@ -268,7 +268,7 @@ Gọi cùng một agent lần 2 = một invocation độc lập mới.`}</pre>
             </section>
           </section>
 
-          <footer className="lesson-footer"><Link href="/lesson1">← Agentic Loops</Link><span>02 / 02</span><Link href="/seasonal-fruits">Thử ứng dụng chat →</Link></footer>
+          <footer className="lesson-footer"><Link href="/lesson1">← Agentic Loops</Link><span>02 / 07</span><Link href="/lesson3">Subagent Context Passing →</Link></footer>
         </article>
       </div>
     </main>
