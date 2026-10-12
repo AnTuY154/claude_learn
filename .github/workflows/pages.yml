@@ -1,0 +1,67 @@
+name: CI & Deploy GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - name: Unit tests
+        run: npm test
+      - name: Typecheck
+        run: npx tsc --noEmit
+      - name: Prepare static-only export
+        run: |
+          # GitHub Pages không có Node server. Chỉ bỏ server routes trong CI workspace.
+          # Code app/api vẫn được giữ đầy đủ trong repository cho local/Vercel.
+          rm -rf app/api
+          # Dynamic redirect route không có static params; các lesson thực tế vẫn giữ.
+          rm -rf app/learn
+      - name: Build static Pages site
+        env:
+          GITHUB_PAGES_EXPORT: "true"
+          NEXT_PUBLIC_STATIC_HOSTING: "true"
+          NEXT_TELEMETRY_DISABLED: "1"
+        run: npm run build
+      - name: Prepare static artifact
+        run: |
+          touch out/.nojekyll
+          # Pages PWA dùng scope riêng; bỏ service worker cũ để tránh cache sai base path.
+          rm -f out/sw.js
+      - name: Upload Pages artifact
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
