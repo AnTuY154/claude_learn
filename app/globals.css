@@ -482,3 +482,11 @@ textarea::placeholder { color: #71819a; }
  .bilingual-run { padding:15px; }
  .bilingual-run pre { font-size:11px; }
 }
+
+
+/* Optional real SDK labs are intentionally separate from Messages API analogies. */
+.bilingual-sdk-live { display:grid; gap:12px; margin-top:18px; padding:17px; background:var(--sky); border:1px solid var(--blue); }
+.bilingual-sdk-live strong { font-size:16px; }
+.bilingual-sdk-live p { margin:0; font-size:14px; line-height:1.65; color:var(--ink); }
+.bilingual-sdk-live pre { margin:0; padding:14px; white-space:pre-wrap; overflow-wrap:anywhere; font:12px/1.7 Consolas,monospace; color:#dce8ff; background:var(--ink); }
+.bilingual-sdk-live a { color:var(--blue); font-weight:850; font-size:13px; }
