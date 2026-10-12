@@ -97,7 +97,7 @@ await runAgent(
 );
 
 // 4. Fresh start với bản tóm tắt
-await runAgent(`
+await runAgent(\`
 Previous findings:
 - Authentication module was reviewed.
 - Three security issues were identified.
@@ -106,7 +106,7 @@ Previous findings:
 Re-read the modified files.
 Verify which issues remain.
 Do not rely on the old file contents.
-`);`;
+\`);`;
 function Code({code}:{code:string}) {
   return <div className="pattern-code lesson7-verbatim-code"><div><span>Code example</span></div><pre>{code}</pre></div>;
 }
