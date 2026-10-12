@@ -428,3 +428,57 @@ textarea::placeholder { color: #71819a; }
   .foundation-topics .course-topic { padding: 18px; }
   .exam-decision-board .diagnostic-table td { min-width: 190px; }
 }
+
+
+/* ===== Unified Bilingual Curriculum / Lessons 1.1–1.7 ===== */
+.bilingual-lesson .lesson-hero h1 { font-size: clamp(40px,6.4vw,82px); line-height:1.02; overflow-wrap:anywhere; margin-top:10px; }
+.course-language-row { display:flex; align-items:center; justify-content:space-between; gap:20px; padding-bottom:20px; margin-bottom:42px; border-bottom:1px solid var(--line); }
+.course-language-row > span { color:var(--blue); font-size:11px; font-weight:900; letter-spacing:.13em; }
+.course-language-row > div { display:flex; border:1px solid var(--ink); background:white; }
+.course-language-row button { border:0; background:white; padding:10px 19px; cursor:pointer; font:800 13px/1 "Segoe UI",Arial,sans-serif; color:var(--ink); }
+.course-language-row button + button { border-left:1px solid var(--line); }
+.course-language-row button.active { background:var(--blue); color:white; }
+.course-language-row button:focus-visible { outline:3px solid #ff5c35; outline-offset:2px; }
+.bilingual-hero { margin-bottom:30px; }
+.bilingual-hero h2 { max-width:780px; }
+.bilingual-bridge { margin:28px 0 28px; }
+.bilingual-toc { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; padding:1px; background:var(--line); margin-bottom:30px; }
+.bilingual-toc a { display:flex; align-items:baseline; gap:12px; padding:14px 17px; background:white; color:var(--ink); text-decoration:none; font-size:13px; font-weight:700; line-height:1.4; }
+.bilingual-toc a:hover { background:var(--sky); }
+.bilingual-toc a b { color:var(--blue); }
+.bilingual-topics { display:grid; gap:17px; }
+.bilingual-topics > .course-topic { margin:0; scroll-margin-top:28px; }
+.bilingual-topics .course-topic .pattern-code pre { white-space:pre-wrap; overflow-wrap:anywhere; }
+.bilingual-warning { margin:16px 0; padding:13px 17px; border-left:4px solid #c42b3c; background:#fff1f2; color:#8a1f31 !important; font-size:14px !important; }
+.bilingual-source { overflow-wrap:anywhere; color:#52647c; font-size:12px; margin:20px 0; }
+.bilingual-source a { color:var(--blue); }
+.bilingual-summary { margin-top:60px; }
+.bilingual-summary h2 { margin:13px 0 25px; font-size:clamp(24px,3.5vw,36px); letter-spacing:-.04em; }
+.bilingual-summary ol { list-style:decimal; display:grid; gap:13px; padding-left:22px; margin:0; }
+.bilingual-summary li { padding-left:6px; border:0; line-height:1.6; font-size:16px; }
+.bilingual-quiz { margin-top:66px; }
+.bilingual-lab { margin-top:70px; }
+.bilingual-lab .section-heading { margin-top:30px; }
+.bilingual-lab .section-heading h2 { font-size:clamp(23px,3vw,32px); }
+.bilingual-lab-steps { padding:0; margin:0 0 24px; border:1px solid var(--line); background:white; list-style:none; }
+.bilingual-lab-steps li { display:grid; grid-template-columns:30px 1fr; gap:12px; align-items:start; padding:16px 18px; border-bottom:1px solid var(--line); line-height:1.6; }
+.bilingual-lab-steps li:last-child { border:0; }
+.bilingual-lab-steps strong { color:var(--blue); font-size:12px; }
+.bilingual-lab .pattern-code { margin-top:25px; }
+.bilingual-lab .pattern-code pre { white-space:pre-wrap; overflow-wrap:anywhere; }
+.bilingual-run { display:grid; gap:12px; margin-top:22px; padding:22px; border:1px solid var(--ink); background:white; }
+.bilingual-run > span { color:var(--blue); font-size:11px; font-weight:900; letter-spacing:.1em; text-transform:uppercase; }
+.bilingual-run > pre { margin:0; padding:17px; color:#dde8ff; background:var(--ink); overflow-x:auto; overflow-wrap:anywhere; font:13px/1.75 Consolas,monospace; }
+.bilingual-run p { margin:0; line-height:1.6; font-size:14px; color:#52647c; }
+.bilingual-run a { width:fit-content; color:var(--blue); font-size:13px; font-weight:800; }
+@media(max-width:720px) {
+ .course-language-row { margin-bottom:28px; }
+ .course-language-row > span { max-width:160px; }
+ .course-language-row button { padding:11px 14px; }
+ .bilingual-toc { grid-template-columns:1fr; }
+ .bilingual-lesson .lesson-hero h1 { font-size:clamp(40px,11vw,66px); }
+ .bilingual-summary { padding:20px; }
+ .bilingual-summary li { font-size:15px; }
+ .bilingual-run { padding:15px; }
+ .bilingual-run pre { font-size:11px; }
+}
