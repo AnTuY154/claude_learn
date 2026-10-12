@@ -22,40 +22,48 @@ export function Lesson3Quiz() {
   const [submitted, setSubmitted] = useState(false);
   const completed = questions.filter((_, i) => answers[i] !== undefined).length;
   const score = questions.filter((q, i) => answers[i] === q.correct).length;
+  const progress = Math.round((completed / questions.length) * 100);
 
+  // Reset cả selections và grading state. Không cần gọi Claude API.
   function reset() { setAnswers({}); setSubmitted(false); }
 
   return (
-    <section id="lesson3-quiz" aria-labelledby="quiz-title" style={{ marginBlock: 34 }}>
-      <h2 id="quiz-title">C. Quiz kiểm tra kiến thức — 10 câu</h2>
-      <p>Các câu hỏi theo dạng tình huống thường gặp khi ôn Claude Certified Architect. Chọn đủ đáp án rồi nhấn <strong>Chấm điểm</strong>; phần giải thích chỉ hiện sau khi nộp.</p>
-      <p aria-live="polite">Đã trả lời: <strong>{completed}/{questions.length}</strong>{submitted && <> · Kết quả: <strong>{score}/{questions.length} ({Math.round(score / questions.length * 100)}%)</strong></>}</p>
-      <div style={{ display: "grid", gap: 14 }}>
+    <section id="lesson3-quiz" className="lesson3-quiz" aria-labelledby="quiz-title">
+      <div className="section-heading">
+        <span>Certification practice · 10 questions</span>
+        <h2 id="quiz-title">Kiểm tra độ hiểu bài học</h2>
+      </div>
+      <p className="lesson3-intro">Các câu hỏi kiểm tra khả năng phân biệt nguyên nhân gốc, dependency và context passing. Trả lời hết rồi chấm điểm để xem giải thích theo từng tình huống.</p>
+      <div className="lesson3-quiz-progress">
+        <div><span>YOUR PROGRESS</span><strong>{completed} / {questions.length}</strong></div>
+        <div className="coverage-meter" aria-label={`Đã hoàn thành ${progress}%`}><i style={{ width: `${progress}%` }} /></div>
+        {submitted && <p role="status"><strong>{score}/{questions.length} đúng · {Math.round(score / questions.length * 100)}%</strong> — {score >= 8 ? "Đạt mục tiêu ôn tập." : "Đọc lại các giải thích và thử lần nữa."}</p>}
+      </div>
+      <div className="lesson3-questions">
         {questions.map((item, i) => (
-          <fieldset key={i} style={{ border: "1px solid #8885", borderRadius: 12, padding: 16 }}>
-            <legend style={{ fontWeight: 650 }}>Câu {i + 1}: {item.q}</legend>
-            {item.choices.map((choice, j) => (
-              <label key={j} style={{ display: "flex", gap: 8, alignItems: "baseline", padding: "5px 0", cursor: submitted ? "default" : "pointer" }}>
-                <input type="radio" name={`quiz-${i}`} checked={answers[i] === j} disabled={submitted}
-                  onChange={() => setAnswers(prev => ({ ...prev, [i]: j }))}/>
-                <span>{String.fromCharCode(65 + j)}. {choice}</span>
-              </label>
-            ))}
-            {submitted && (
-              <div role="status" style={{ marginTop: 10, borderTop: "1px solid #8885", paddingTop: 8 }}>
-                <strong>{answers[i] === item.correct ? "✓ Chính xác" : `✗ Chưa đúng — Đáp án: ${String.fromCharCode(65 + item.correct)}`}</strong>
-                <p>{item.explanation}</p>
-              </div>
-            )}
+          <fieldset key={i} className="lesson3-question">
+            <legend><span>{String(i + 1).padStart(2, "0")}</span>{item.q}</legend>
+            <div className="lesson3-answers">
+              {item.choices.map((choice, j) => (
+                <label key={j} className={submitted && j === item.correct ? "is-correct" : submitted && answers[i] === j ? "is-wrong" : ""}>
+                  <input type="radio" name={`quiz-${i}`} checked={answers[i] === j} disabled={submitted}
+                    onChange={() => setAnswers(prev => ({ ...prev, [i]: j }))} />
+                  <b>{String.fromCharCode(65 + j)}</b><span>{choice}</span>
+                </label>
+              ))}
+            </div>
+            {submitted && <div className="lesson3-answer-explain" role="status">
+              <strong>{answers[i] === item.correct ? "✓ Chính xác" : `✗ Chưa đúng · đáp án ${String.fromCharCode(65 + item.correct)}`}</strong>
+              <p>{item.explanation}</p>
+            </div>}
           </fieldset>
         ))}
       </div>
-      <div style={{ display: "flex", gap: 12, marginTop: 16 }}>
-        {!submitted && <button type="button" disabled={completed !== questions.length} onClick={() => setSubmitted(true)}
-          style={{ padding: "10px 18px", cursor: completed === questions.length ? "pointer" : "not-allowed" }}>Chấm điểm</button>}
-        <button type="button" onClick={reset} style={{ padding: "10px 18px" }}>Làm lại</button>
+      <div className="lesson3-quiz-actions">
+        {!submitted && <button type="button" disabled={completed !== questions.length} onClick={() => setSubmitted(true)}>Chấm điểm <b>→</b></button>}
+        <button type="button" className="lesson3-reset" onClick={reset}>Làm lại bài kiểm tra</button>
       </div>
-      {submitted && <p role="status"><strong>{score >= 8 ? "Đạt mục tiêu ôn tập!" : "Nên xem lại phần lý thuyết và các giải thích trên."}</strong> Mục tiêu đề xuất: từ 8/10 câu đúng.</p>}
+      <p className="research-limit">Quiz chạy trên trình duyệt; không sử dụng Claude API và không tính token.</p>
     </section>
   );
 }
