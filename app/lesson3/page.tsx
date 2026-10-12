@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
 import type { Finding } from "@/lib/context-passing";
+import { Lesson3Theory } from "./Lesson3Theory";
+import { Lesson3Quiz } from "./Lesson3Quiz";
 
 type Result = {
   mode: "good" | "bad";
@@ -51,6 +53,9 @@ export default function Lesson3Page() {
       <h1>Lesson 3 — Subagent Invocation &amp; Context Passing</h1>
       <p>Thực hành: 2 research calls song song → Coordinator giữ metadata → Synthesis Agent trích dẫn nguồn.</p>
       <p><strong>Lưu ý:</strong> Đây là mô phỏng subagent bằng Messages API hiện có trong repo, không phải Agent tool của Claude Agent SDK.</p>
+      <Lesson3Theory />
+      <h2 id="build-exercise">B. Build Exercise — Quan sát context passing</h2>
+      <p>Chạy GOOD trước, rồi BAD để xem metadata bị mất ảnh hưởng đến citations như thế nào. Mỗi lần chạy sẽ gọi Claude API và có thể tốn phí.</p>
       <form onSubmit={submit} style={{ display: "grid", gap: 14 }}>
         <label>Research topic
           <input value={topic} maxLength={500} onChange={e => setTopic(e.target.value)} required
@@ -88,6 +93,7 @@ export default function Lesson3Page() {
           <p><em>{result.limitation}</em></p>
         </section>
       )}
+      <Lesson3Quiz />
     </main>
   );
 }
