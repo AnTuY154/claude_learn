@@ -230,3 +230,67 @@ textarea::placeholder { color: #71819a; }
   .chat-card { animation: arrive .45s ease-out both; }
   @keyframes arrive { from { opacity: 0; transform: translateY(12px); } }
 }
+
+
+/* LESSON 3 — Kế thừa editorial system của Lessons 1–2; chỉ bổ sung thành phần riêng. */
+.lesson3-page .lesson3-theory { margin-top: 64px; }
+.lesson3-intro { max-width: 730px; margin: -6px 0 24px; color: #40516a; font-size: 17px; line-height: 1.7; }
+.lesson3-topic-nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; margin: 24px 0 32px; border: 1px solid var(--line); background: var(--line); }
+.lesson3-topic-nav a { display: flex; gap: 12px; align-items: baseline; min-width: 0; padding: 13px 16px; background: white; color: var(--ink); text-decoration: none; font-size: 13px; font-weight: 750; }
+.lesson3-topic-nav a:hover, .lesson3-topic-nav a:focus-visible { color: var(--blue); background: #f2f7ff; }
+.lesson3-topic-nav a::first-letter { color: var(--blue); }
+.lesson3-concepts { display: grid; gap: 18px; }
+.lesson3-concept { padding: clamp(20px, 3vw, 30px); border: 1px solid var(--line); background: rgba(255,255,255,.86); scroll-margin-top: 24px; }
+.lesson3-concept-head { display: flex; gap: 18px; align-items: flex-start; }
+.lesson3-concept-head > span { color: var(--blue); font-size: 13px; font-weight: 900; }
+.lesson3-concept-head small { display: block; color: var(--blue); font-size: 10px; font-weight: 850; letter-spacing: .09em; text-transform: uppercase; }
+.lesson3-concept h3 { margin: 8px 0 0; font-size: clamp(23px, 3vw, 30px); line-height: 1.2; letter-spacing: -.04em; }
+.lesson3-concept > p { color: #40516a; font-size: 16px; line-height: 1.75; }
+.lesson3-code { margin-top: 18px; background: var(--ink); color: #e9f1ff; }
+.lesson3-code > span { display: block; padding: 13px 18px; border-bottom: 1px solid #38506f; color: #8eb0ff; font-size: 10px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+.lesson3-code pre { overflow-x: auto; padding: 18px; margin: 0; font: 12px/1.75 Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+.lesson3-exam-note { padding: 16px 18px; margin-top: 18px; border-left: 4px solid var(--lesson-accent); background: #fff3ee; }
+.lesson3-exam-note strong { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; }
+.lesson3-exam-note p { margin: 7px 0 0; line-height: 1.55; }
+.lesson3-quiz { margin-top: 76px; padding-top: 36px; border-top: 4px solid var(--ink); scroll-margin-top: 24px; }
+.lesson3-quiz-progress { margin-bottom: 24px; padding: 18px 22px 6px; border: 1px solid var(--ink); background: white; }
+.lesson3-quiz-progress > div:first-child { display: flex; justify-content: space-between; align-items: center; }
+.lesson3-quiz-progress span { color: var(--blue); font-size: 11px; font-weight: 900; letter-spacing: .14em; }
+.lesson3-quiz-progress strong { font-size: 22px; }
+.lesson3-quiz-progress .coverage-meter { margin: 14px 0; }
+.lesson3-quiz-progress p { margin: 12px 0 18px; line-height: 1.6; }
+.lesson3-questions { display: grid; gap: 14px; }
+.lesson3-question { min-width: 0; padding: 20px; border: 1px solid var(--line); background: white; }
+.lesson3-question legend { float: left; display: flex; align-items: baseline; gap: 12px; width: 100%; margin-bottom: 17px; font-size: 18px; line-height: 1.4; font-weight: 800; }
+.lesson3-question legend span { color: var(--blue); font-size: 12px; }
+.lesson3-answers { display: grid; gap: 7px; clear: both; }
+.lesson3-answers label { display: flex; gap: 12px; align-items: center; margin: 0; padding: 12px; border: 1px solid var(--line); background: #f8fbff; cursor: pointer; font-size: 14px; font-weight: 500; letter-spacing: 0; line-height: 1.5; }
+.lesson3-answers label:has(input:checked) { border-color: var(--blue); background: #eaf1ff; }
+.lesson3-answers label.is-correct { border-color: #0c8b5c; background: #e7f7ef; }
+.lesson3-answers label.is-wrong { border-color: var(--red); background: #ffedef; }
+.lesson3-answers input { flex-shrink: 0; accent-color: var(--blue); width: 16px; height: 16px; }
+.lesson3-answers b { color: var(--blue); font-size: 12px; }
+.lesson3-answer-explain { margin-top: 15px; padding: 14px 16px; border-left: 4px solid var(--blue); background: #eef5ff; }
+.lesson3-answer-explain p { margin: 7px 0 0; font-size: 14px; line-height: 1.6; }
+.lesson3-quiz-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+.lesson3-quiz-actions button { display: flex; align-items: center; gap: 20px; border: 0; padding: 14px 18px; background: var(--blue); color: white; font-weight: 800; cursor: pointer; }
+.lesson3-quiz-actions button:disabled { opacity: .45; cursor: not-allowed; }
+.lesson3-quiz-actions .lesson3-reset { color: var(--blue); background: white; border: 1px solid var(--line); }
+.lesson3-page .research-form > .field { margin-bottom: 20px; }
+.lesson3-page .research-form .field small { display: block; }
+.lesson3-page .lesson3-short-input { min-height: 78px; }
+.lesson3-page .lesson3-mode { display: flex; flex-wrap: wrap; gap: 14px 28px; margin: 20px 0; padding: 16px; border: 1px solid var(--line); }
+.lesson3-mode legend { padding: 0 6px; color: var(--blue); font-size: 11px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+.lesson3-mode label { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 14px; font-weight: 650; letter-spacing: 0; }
+.lesson3-mode input { accent-color: var(--blue); }
+.lesson3-static-note { margin: 16px 0 24px; }
+.lesson3-json { overflow: auto; padding: 18px; border: 1px solid var(--line); background: white; }
+.lesson3-json pre { margin: 0; font: 12px/1.65 Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+.lesson3-metrics strong { font-size: clamp(22px, 4vw, 36px); }
+@media (max-width: 720px) {
+  .lesson3-topic-nav { grid-template-columns: 1fr; }
+  .lesson3-question { padding: 15px; }
+  .lesson3-page .lesson3-mode { display: grid; }
+  .lesson3-page .research-form .form-foot { flex-direction: column; align-items: stretch; gap: 14px; }
+  .lesson3-page .research-form .form-foot button { justify-content: center; }
+}
