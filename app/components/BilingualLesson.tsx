@@ -154,6 +154,18 @@ npm run lab -- ${number}`}</pre>
 [LAB 1.${number}] COMPLETE / ERROR`}</pre>
             <p>{t.notice}</p><p><small>{t.tokens}</small></p>
             <a href="https://github.com/AnTuY154/claude_learn/blob/main/scripts/live-labs.mjs" target="_blank" rel="noreferrer">{t.live} ↗</a>
+            {(number===5||number===7) && <div className="bilingual-sdk-live">
+              <strong>{language==="vi"?"Tùy chọn: chạy Claude Agent SDK THẬT":"Optional: run the REAL Claude Agent SDK"}</strong>
+              <p>{language==="vi"
+                ?"Ví dụ riêng cho 1.5/1.7 dùng package @anthropic-ai/claude-agent-sdk, in sự kiện hook/session ID và usage/cost khi SDK cung cấp. Cần cài thêm package và có API credentials hợp lệ."
+                :"The separate 1.5/1.7 examples use @anthropic-ai/claude-agent-sdk and print real hook events/session IDs and usage/cost when the SDK provides them. An additional package and valid credentials are required."}</p>
+              <pre>{`npm install --no-save --package-lock=false @anthropic-ai/claude-agent-sdk
+npm run ${number===5?"lab:sdk-hooks":"lab:sdk-sessions"}`}</pre>
+              <a href={number===5
+                ?"https://github.com/AnTuY154/claude_learn/blob/main/scripts/sdk-hooks-lab.mjs"
+                :"https://github.com/AnTuY154/claude_learn/blob/main/scripts/sdk-sessions-lab.mjs"}
+                target="_blank" rel="noreferrer">{language==="vi"?"Mở code SDK có comment":"Open commented SDK source"} ↗</a>
+            </div>}
           </div>
         </section>
         <footer className="lesson-footer">
