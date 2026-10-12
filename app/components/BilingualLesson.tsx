@@ -95,6 +95,28 @@ export default function BilingualLesson({ number }: { number: number }) {
             {topic.warning && <p className="bilingual-warning">{topic.warning}</p>}
           </section>)}
         </section>
+        {number===7 && <section className="lesson7-comparison" aria-label={language==="vi"?"So sánh ba chiến lược session":"Compare session strategies"}>
+          <div className="section-heading"><span>Session decision matrix</span><h2>{language==="vi"?"So sánh Resume, Fork và Fresh Start":"Resume vs Fork vs Fresh Start"}</h2></div>
+          <div className="lesson7-table-wrap"><table>
+            <thead><tr><th>{language==="vi"?"Tiêu chí":"Criterion"}</th><th>Resume</th><th>Fork</th><th>Fresh + Summary</th></tr></thead>
+            <tbody>{(language==="vi"?[
+              ["Giữ history cũ","Có","Có, bản sao","Không, chỉ summary"],
+              ["Session mới","Không","Có","Có"],
+              ["Thử hướng độc lập","Không phải mục tiêu chính","Phù hợp","Có thể"],
+              ["Loại stale context","Không tự động","Không tự động","Tốt hơn khi đọc lại nguồn"],
+              ["Tiếp tục việc cũ","Phù hợp","Không cần thiết","Khi history cần làm mới"],
+              ["Code thay đổi đáng kể","Kiểm tra lại dữ liệu cũ","Vẫn kế thừa dữ liệu cũ","Ưu tiên summary và re-read"]
+            ]:[
+              ["Keeps old history","Yes","Yes, copied","No, only curated summary"],
+              ["New session","No","Yes","Yes"],
+              ["Explore alternatives","Not the main purpose","Well suited","Possible"],
+              ["Removes stale context","Not automatically","Not automatically","Better with fresh reads"],
+              ["Continue existing work","Well suited","Usually unnecessary","When history needs reset"],
+              ["Code changed significantly","Check prior reads","Still inherits old reads","Prefer summary + re-read"]
+            ]).map(row=><tr key={row[0]}>{row.map((cell,i)=>i===0?<th scope="row" key={i}>{cell}</th>:<td key={i}>{cell}</td>)}</tr>)}</tbody>
+          </table></div>
+          <p className="research-limit">{language==="vi"?"Lưu ý: Fork chỉ tách lịch sử hội thoại, không tách filesystem. Fresh + Summary là chiến lược, không phải một SDK option riêng.":"Note: Fork separates conversation history, not the filesystem. Fresh + Summary is a strategy, not a dedicated SDK option."}</p>
+        </section>}
         <p className="bilingual-source">{t.source}: <a href={item.source} target="_blank" rel="noreferrer">{item.source} ↗</a></p>
 
         {/* 2. SUMMARY đặt SAU phần lý thuyết, trước quiz. */}
