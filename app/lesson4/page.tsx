@@ -1,7 +1,7 @@
-import CourseLessonView from "@/app/components/CourseLessonView";
-import { lessons } from "@/lib/agentic-course";
+import BilingualLesson from "@/app/components/BilingualLesson";
 
-// Route tĩnh để Next.js export trên GitHub Pages mà không cần Node server.
+// Trang bài học thống nhất: Theory (VI/EN) → Summary → Quiz → Build Exercise.
+// GitHub Pages export tĩnh; API key chỉ chạy trong scripts/live-labs.mjs phía Node.
 export default function Lesson4Page() {
-  return <CourseLessonView lesson={lessons[4]} />;
+  return <BilingualLesson number={4} />;
 }
