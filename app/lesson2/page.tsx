@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ExamDecisionBoard } from "@/app/components/ExamDecisionBoard";
 import { FoundationTheory, FoundationQuiz } from "@/app/components/FoundationStudy";
 import { FormEvent, useState } from "react";
 
@@ -215,6 +216,8 @@ Gọi cùng một agent lần 2 = một invocation độc lập mới.`}</pre>
             </ol>
             <details><summary>Xem đáp án và lý do</summary><p><strong>D.</strong> Các downstream agents đều hoàn thành đúng assignment. Phần bị thiếu chưa từng được giao, nên root cause nằm ở decomposition của coordinator. Sửa search, synthesis hoặc thêm agent đều không tạo lại scope đã bị bỏ quên.</p></details>
           </section>
+
+          <ExamDecisionBoard number={2} />
 
           <FoundationQuiz lessonNumber={2} />
 
