@@ -15,6 +15,68 @@ type Result = {
   limitation: string;
 };
 
+
+// Bản đồ đầy đủ các ý của bài nguồn 1.3. Mỗi item gắn một quyết định kiến trúc
+// và một keyword tiếng Anh để người học nhận diện đáp án thi nhanh hơn.
+const overviewTopics = [
+  {
+    code: "01 / INVOCATION",
+    title: "Task / Agent tool là cửa vào subagents",
+    description: "Đề thi gọi Task tool, Claude Code hiện gọi Agent. Coordinator cần cấu hình quyền gọi agent; hướng dẫn thi xem allowedTools có Task/Agent là điều kiện bắt buộc.",
+    keyword: "Task tool · Agent · allowedTools",
+  },
+  {
+    code: "02 / DEFINITION",
+    title: "AgentDefinition có ba thành phần",
+    description: "Description giúp coordinator chọn agent; system prompt quy định cách thực hiện; tool restrictions giới hạn công cụ theo chuyên môn.",
+    keyword: "description · prompt · tools",
+  },
+  {
+    code: "03 / ISOLATION",
+    title: "Subagent không tự kế thừa context",
+    description: "Không được giả định subagent nhìn thấy lịch sử của coordinator hoặc output agent khác. Thông tin cần thiết phải xuất hiện trong prompt/handoff rõ ràng.",
+    keyword: "isolated context · explicit passing",
+  },
+  {
+    code: "04 / HANDOFF",
+    title: "Ba quy tắc truyền context",
+    description: "Chuyển đầy đủ findings liên quan từ các agent trước; giữ content kèm structured metadata; giao mục tiêu và tiêu chí chất lượng thay vì chỉ đạo từng thao tác nhỏ.",
+    keyword: "complete findings · metadata · goals",
+  },
+  {
+    code: "05 / ATTRIBUTION",
+    title: "Metadata giúp truy xuất nguồn",
+    description: "Giữ claim, analysis, source_url, document_name, page_number, confidence và retrieved_by. Chỉ chuyển claim sẽ khiến synthesis không có đủ dữ liệu citation.",
+    keyword: "structured findings · source attribution",
+  },
+  {
+    code: "06 / PARALLEL",
+    title: "Independent thì spawn song song",
+    description: "Hai research agent độc lập nên được gọi cùng lượt coordinator bằng nhiều Task/Agent calls để giảm latency; synthesis phải chờ findings nên chạy sau.",
+    keyword: "parallel spawning · sequential dependency",
+  },
+  {
+    code: "07 / SESSIONS",
+    title: "Fork khác Resume",
+    description: "Resume tiếp tục cùng một nhánh nghiên cứu; fork tạo nhánh độc lập từ baseline chung. Fork session không phải parallel Task invocation.",
+    keyword: "fork_session · resume · branching",
+  },
+  {
+    code: "08 / DIAGNOSIS",
+    title: "Báo cáo thiếu citation: tìm lỗi ở handoff",
+    description: "Nếu Web/Document Agent đã có URL và page references nhưng synthesis không cite được, hãy kiểm tra coordinator có làm mất metadata trước khi gửi không.",
+    keyword: "attribution failure · root cause",
+  },
+];
+
+const overviewRules = [
+  ["Context", "Subagent chỉ có dữ liệu được truyền tường minh; đừng giả định shared history."],
+  ["Evidence", "Content + metadata phải đi cùng nhau qua mọi lần handoff."],
+  ["Scheduling", "Independent → parallel. Dependent → sequential."],
+  ["Permissions", "Đọc cấu hình Agent/Task và giới hạn tool trước khi debug agent không chạy."],
+  ["Sessions", "Resume = tiếp tục; fork = phân nhánh từ cùng trạng thái."],
+];
+
 const examTraps = [
   "Subagent tự có toàn bộ history của coordinator — sai: context phải được truyền explicit.",
   "Research có citation nhưng synthesis không có → kiểm tra coordinator có bỏ source metadata hay không.",
@@ -104,6 +166,35 @@ export default function Lesson3Page() {
             <div><b>01 / INVOKE</b><p>Định nghĩa đúng role, description, prompt và tools cho mỗi specialist.</p></div>
             <div><b>02 / PASS</b><p>Structured findings qua coordinator mà không rơi rớt attribution.</p></div>
             <div><b>03 / PROVE</b><p>Phân tích lỗi thiếu citation và nhận diện đúng exam trap.</p></div>
+          </section>
+
+          <section className="lesson3-overview" aria-labelledby="lesson3-overview-title">
+            <div className="section-heading">
+              <span>Complete lesson map · 8 key ideas</span>
+              <h2 id="lesson3-overview-title">Toàn cảnh kiến thức bài 1.3</h2>
+            </div>
+            <p className="lesson3-intro">Bài 1.2 trả lời hệ thống nhiều agent tổ chức ra sao. Bài 1.3 trả lời <strong>gọi agent bằng gì, cung cấp context thế nào, giữ chứng cứ ra sao và khi nào nên chạy song song</strong>. Dưới đây là tất cả nhóm nội dung của bài gốc trước khi đi sâu vào từng khái niệm.</p>
+            <div className="lesson3-overview-grid">
+              {overviewTopics.map(topic => (
+                <article key={topic.code} className="lesson3-overview-item">
+                  <span>{topic.code}</span>
+                  <h3>{topic.title}</h3>
+                  <p>{topic.description}</p>
+                  <small>{topic.keyword}</small>
+                </article>
+              ))}
+            </div>
+            <div className="lesson3-overview-rules">
+              <div className="section-heading"><span>Exam quick reference</span><h3>Năm quy tắc để chọn đáp án</h3></div>
+              <ol>{overviewRules.map(([label, explanation]) => (
+                <li key={label}><strong>{label}</strong><p>{explanation}</p></li>
+              ))}</ol>
+            </div>
+            <div className="application-note lesson3-overview-detail">
+              <span>Quan trọng · đề thi so với SDK hiện tại</span>
+              <p>Bài hướng dẫn thi coi <code>allowedTools</code> có <code>Task</code>/<code>Agent</code> là điều kiện để gọi subagent. Trong Agent SDK hiện tại, <code>allowedTools</code> chủ yếu là cơ chế <em>auto-approval</em>; thiếu tên agent có thể chuyển sang bước xin quyền, và tác vụ không tương tác thường không thể tiếp tục nếu quyền bị từ chối. Khi trả lời đề thi, phân biệt cách diễn đạt trong tài liệu thi với hành vi SDK thực tế.</p>
+              <p><strong>Session nuance:</strong> Trong SDK, fork có thể là tùy chọn đi cùng resume; khác biệt cốt lõi vẫn là <em>append vào session cũ</em> hay <em>tạo nhánh mới</em>.</p>
+            </div>
           </section>
 
           <section className="pattern-code">
