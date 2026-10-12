@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { FoundationTheory, FoundationQuiz } from "@/app/components/FoundationStudy";
 import { FormEvent, useState } from "react";
 
 type TraceStep = {
@@ -105,6 +106,8 @@ export default function Lesson1Page() {
             </aside>
           </div>
 
+          <FoundationTheory lessonNumber={1} />
+
           <section className="pattern-code">
             <div><span>Core pattern</span><h3>Safety cap, không phải số lượt bắt buộc</h3></div>
             <pre>{`for (let turn = 0; turn < maxTurns; turn++) {
@@ -122,6 +125,8 @@ export default function Lesson1Page() {
             <span>Các bẫy thường gặp</span><h3>Bốn cách làm khiến agent loop sai</h3>
             <ol>{traps.map((trap) => <li key={trap}>{trap}</li>)}</ol>
           </section>
+
+          <FoundationQuiz lessonNumber={1} />
 
           <section className="live-lab">
             <div className="lab-heading">
