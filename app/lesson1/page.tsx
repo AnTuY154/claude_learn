@@ -134,7 +134,7 @@ export default function Lesson1Page() {
               <form onSubmit={submit}>
                 <label htmlFor="lesson-prompt">Bạn muốn Claude làm gì?</label>
                 <textarea id="lesson-prompt" value={prompt} onChange={(event) => setPrompt(event.target.value)} maxLength={2000} />
-                <div className="form-foot"><span>{prompt.length}/2000 ký tự</span><button disabled={loading || !prompt.trim()}>{loading ? "Đang chạy…" : "Chạy agent"}<b>→</b></button></div>
+                <div className="form-foot"><span>{prompt.length}/2000 ký tự</span><button disabled={loading || !prompt.trim() || process.env.NEXT_PUBLIC_STATIC_HOSTING === "true"}>{loading ? "Đang chạy…" : "Chạy agent"}<b>→</b></button></div>
               </form>
               {(answer || error) && <div className={`receipt ${error ? "receipt-error" : ""}`}><span>{error ? "Lỗi" : "Kết quả cuối"}</span><p>{error || answer}</p></div>}
             </div>
