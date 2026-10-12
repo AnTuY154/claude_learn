@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { FoundationTheory, FoundationQuiz } from "@/app/components/FoundationStudy";
 import { FormEvent, useState } from "react";
 
 type ResearchTask = {
@@ -164,6 +165,8 @@ export default function Lesson2Page() {
             <div><b>CONTROLLED CONTEXT</b><p>Coordinator quyết định agent nào được biết dữ liệu nào.</p></div>
           </section>
 
+          <FoundationTheory lessonNumber={2} />
+
           <section className="pattern-code">
             <div><span>Critical isolation principle</span><h3>Subagent không biết gì ngoài prompt hiện tại</h3></div>
             <pre>{`Coordinator conversation history
@@ -212,6 +215,8 @@ Gọi cùng một agent lần 2 = một invocation độc lập mới.`}</pre>
             </ol>
             <details><summary>Xem đáp án và lý do</summary><p><strong>D.</strong> Các downstream agents đều hoàn thành đúng assignment. Phần bị thiếu chưa từng được giao, nên root cause nằm ở decomposition của coordinator. Sửa search, synthesis hoặc thêm agent đều không tạo lại scope đã bị bỏ quên.</p></details>
           </section>
+
+          <FoundationQuiz lessonNumber={2} />
 
           <section className="build-checklist">
             <div className="section-heading"><span>Build exercise</span><h2>Tự kiểm tra implementation</h2></div>
