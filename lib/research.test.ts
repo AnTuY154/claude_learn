@@ -59,3 +59,10 @@ test("coordinator prompt is domain-general and accepts arbitrary topics", () => 
   assert.match(prompt, /at least 5 distinct subtopics/);
   assert.doesNotMatch(prompt.toLocaleLowerCase("vi"), /nước ép|hoa quả|hà nội/);
 });
+
+test("renewable energy exercise explicitly requires all six coverage categories", () => {
+  const prompt = buildCoordinatorPrompt("Renewable energy technologies", "").toLowerCase();
+  for (const category of ["solar", "wind", "geothermal", "tidal", "biomass", "fusion"]) {
+    assert.match(prompt, new RegExp(category));
+  }
+});

@@ -131,6 +131,7 @@ textarea::placeholder { color: #71819a; }
 .takeaway-grid b { color: var(--blue); font-size: 11px; }
 .takeaway-grid p { margin: 0; font-weight: 750; line-height: 1.45; }
 .lesson-columns { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 54px; align-items: start; }
+.orchestration-responsibilities { margin-top: 56px; }
 .lesson-sections section { padding-bottom: 42px; }
 .lesson-sections h3, .pattern-code h3, .trap-section h3 { margin: 0 0 14px; font-size: clamp(24px, 3vw, 36px); letter-spacing: -.04em; }
 .lesson-sections p { margin: 0; color: #40516a; font-size: 17px; line-height: 1.75; }
@@ -151,6 +152,7 @@ textarea::placeholder { color: #71819a; }
 .trap-section li::before { content: counter(traps, decimal-leading-zero); color: var(--lesson-accent); font-weight: 900; }
 .application-note { margin-top: 54px; padding: 28px; border: 2px solid var(--blue); background: var(--sky); }
 .application-note p { margin: 10px 0 0; font-size: 18px; font-weight: 650; line-height: 1.6; }
+.application-note a { color: var(--blue); }
 .live-lab { margin-top: 72px; padding-top: 48px; border-top: 4px solid var(--ink); }
 .lab-heading { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 20px; }
 .lab-heading span { color: var(--blue); font-size: 10px; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; }
@@ -164,6 +166,7 @@ textarea::placeholder { color: #71819a; }
 .research-form .field textarea { min-height: 190px; }
 .research-form .field small { display: block; margin-top: 8px; color: #71819a; line-height: 1.45; }
 .research-results { margin-top: 42px; }
+.research-subheading { margin-top: 38px; }
 .research-meta { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--ink); background: white; }
 .research-meta div { display: flex; flex-direction: column; gap: 18px; padding: 20px; }
 .research-meta div + div { border-left: 1px solid var(--line); }

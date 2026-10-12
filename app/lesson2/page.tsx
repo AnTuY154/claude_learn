@@ -3,6 +3,18 @@
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 
+type ResearchTask = {
+  id: string;
+  title: string;
+  goal: string;
+  agent: "web" | "document";
+};
+
+type ResearchPlan = {
+  researchGoal: string;
+  tasks: ResearchTask[];
+};
+
 type CoverageItem = {
   subtopic: string;
   status: "well-covered" | "partial" | "missing";
@@ -11,76 +23,76 @@ type CoverageItem = {
 
 type TraceEvent = {
   stage: string;
-  iteration?: number;
-  agent?: "web" | "document";
-  task?: { title?: string };
-  request?: unknown;
-  response?: unknown;
-  note?: string;
-  error?: string;
+  actor: "coordinator" | "web" | "document";
+  note: string;
+  detail?: object;
 };
 
-const defaultTopic = "Lập kế hoạch mở cửa hàng nước ép hoa quả theo mùa tại Hà Nội";
-const defaultDocument = `Tài liệu nội bộ mẫu — báo giá nhà cung cấp tháng này
-Cam sành: 28.000 VND/kg · Xoài: 42.000 VND/kg · Dứa: 18.000 VND/quả
-Mặt bằng dự kiến: 18.000.000 VND/tháng
-Ly, nắp và ống hút: 2.200 VND/sản phẩm
-Ngân sách thiết bị ban đầu: 85.000.000 VND`;
+const defaultTopic = "Nghiên cứu toàn diện các công nghệ năng lượng tái tạo";
+const defaultDocument = `Tài liệu nội bộ mẫu — chiến lược năng lượng
+Phạm vi cần đánh giá: solar, wind, geothermal, tidal, biomass và fusion.
+Tiêu chí: nguyên lý, mức độ trưởng thành, ưu điểm, hạn chế và khả năng triển khai.`;
 
 const fiveS = [
   ["Select", "Chọn đúng specialist theo task, không gọi tất cả agent."],
-  ["Split", "Chia scope thành các phần rộng, không để rơi cả category."],
-  ["Supply", "Truyền explicit topic, goal, task, document và prior findings."],
-  ["Synthesize", "Coordinator gom evidence thành một báo cáo thống nhất."],
-  ["Scan / refine", "Chấm coverage, giao follow-up đúng gap rồi mới dừng."],
+  ["Split", "Chia scope đủ rộng để không bỏ sót category."],
+  ["Supply", "Truyền explicit goal, task và findings cho mỗi invocation."],
+  ["Synthesize", "Coordinator gom kết quả thành một câu trả lời."],
+  ["Scan / refine", "Kiểm tra coverage, giao lại đúng gap và dừng khi đủ."],
 ];
 
 const diagnostics = [
   ["Thiếu cả một scope/category", "Coordinator decomposition"],
   ["Có scope nhưng phân tích quá nông", "Prompt / context của subagent"],
-  ["Gọi lại agent nhưng quên kết quả cũ", "Missing prior context"],
-  ["Nhiều agent nghiên cứu trùng nhau", "Bad task partition"],
-  ["Evidence đủ nhưng report kết luận sai", "Aggregation / synthesis"],
+  ["Invocation sau quên kết quả lần trước", "Missing prior context"],
+  ["Nhiều agent nghiên cứu trùng nhau", "Bad scope partition"],
+  ["Evidence đủ nhưng report sai", "Aggregation / synthesis"],
   ["One-shot vẫn còn khoảng trống", "Missing refinement loop"],
-  ["Luôn gọi toàn bộ agent", "Bad dynamic selection"],
-  ["Các agent gọi trực tiếp lẫn nhau", "Architecture violation"],
+  ["Luôn gọi tất cả agents", "Bad dynamic selection"],
+  ["Agents gọi trực tiếp lẫn nhau", "Architecture violation"],
 ];
 
 const examTraps = [
-  "Cho subagent tự đọc toàn bộ conversation history — isolation nghĩa là context phải được coordinator truyền rõ.",
-  "Sửa prompt specialist khi thiếu hẳn một category — lỗi nằm ở decomposition của coordinator.",
-  "Gọi tất cả agent để “chắc chắn” — orchestration tốt phải select động theo nhu cầu.",
-  "Dừng sau lượt đầu dù coverage còn partial/missing — cần refinement có threshold và max rounds.",
+  "Đổ lỗi cho subagent khi report thiếu cả category — hãy kiểm tra coordinator đã giao category đó chưa.",
+  "Giả định subagent kế thừa history hoặc shared memory — mỗi invocation bắt đầu với context được truyền explicit.",
+  "Cho subagents nói chuyện trực tiếp để nhanh hơn — đáp án thi đúng luôn định tuyến qua coordinator.",
+  "Thêm nhiều agents để sửa decomposition hẹp — nhiều agents vẫn nhận những assignment hẹp như cũ.",
 ];
 
-const buildChecklist = [
-  "researchCoordinator(topic) hoạt động với mọi domain, không hardcode ví dụ.",
-  "Coordinator tạo ít nhất 5 subtopics rộng và không chồng lặp.",
-  "Có tối thiểu hai agent cô lập; không agent nào gọi agent khác.",
-  "Mỗi invocation nhận explicit goal, task, document context và prior findings.",
-  "Coverage dùng đúng ba trạng thái: well-covered / partial / missing.",
-  "Refinement có threshold dừng và giới hạn số vòng.",
-  "Test chủ đề renewable energy bao phủ đủ 6 categories và đạt 100% coverage.",
+const buildSteps = [
+  "researchCoordinator(topic) nhận một chủ đề rộng và trả structured report.",
+  "Decompose thành ít nhất 5 subtopics bao phủ toàn bộ breadth.",
+  "Gọi web/document agents với goal, assigned task và context explicit.",
+  "Aggregate và chấm từng phần: well-covered / partial / missing.",
+  "Refine đúng gap cho tới threshold hoặc chạm max iterations.",
+  "Test renewable energy đủ solar, wind, geothermal, tidal, biomass và fusion — coverage 100%.",
 ];
 
 export default function Lesson2Page() {
+  // UI PHẦN 1 — INPUT: topic rộng và tài liệu mà coordinator sẽ truyền explicit cho document agent.
   const [topic, setTopic] = useState(defaultTopic);
   const [documentContext, setDocumentContext] = useState(defaultDocument);
+  const [plan, setPlan] = useState<ResearchPlan | null>(null);
   const [report, setReport] = useState("");
   const [coverage, setCoverage] = useState<CoverageItem[]>([]);
   const [coverageScore, setCoverageScore] = useState(0);
   const [iterations, setIterations] = useState(0);
-  const [trace, setTrace] = useState<TraceEvent[]>([]);
   const [limitation, setLimitation] = useState("");
+  const [trace, setTrace] = useState<TraceEvent[]>([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // UI PHẦN 2 — GỌI COORDINATOR: gửi topic + document context tới hub trung tâm.
   async function runResearch(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!topic.trim() || loading) return;
     setLoading(true);
+    setPlan(null);
     setReport("");
     setCoverage([]);
+    setCoverageScore(0);
+    setIterations(0);
+    setLimitation("");
     setTrace([]);
     setError("");
     try {
@@ -90,21 +102,23 @@ export default function Lesson2Page() {
         body: JSON.stringify({ topic, documentContext }),
       });
       const data = await response.json() as {
+        plan?: ResearchPlan;
         report?: string;
         coverage?: CoverageItem[];
         coveragePercent?: number;
         iterations?: number;
-        trace?: TraceEvent[];
         limitation?: string;
+        trace?: TraceEvent[];
         error?: string;
       };
       setTrace(data.trace ?? []);
-      setLimitation(data.limitation ?? "");
-      if (!response.ok) throw new Error(data.error || "Coordinator không hoàn tất nghiên cứu.");
+      if (!response.ok) throw new Error(data.error || "Coordinator không thể chia task.");
+      setPlan(data.plan ?? null);
       setReport(data.report ?? "");
       setCoverage(data.coverage ?? []);
       setCoverageScore(data.coveragePercent ?? 0);
       setIterations(data.iterations ?? 0);
+      setLimitation(data.limitation ?? "");
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "Không thể chạy coordinator.");
     } finally {
@@ -117,139 +131,136 @@ export default function Lesson2Page() {
       <nav className="lesson-nav" aria-label="Điều hướng bài học">
         <Link href="/lesson1">← Bài 01</Link>
         <span>Agentic Architecture</span>
-        <Link href="/lesson2">Claude Lab / Bài 02</Link>
+        <Link href="/seasonal-fruits">Mở ứng dụng mùa vụ →</Link>
       </nav>
 
       <div className="lesson-shell">
-        <aside className="lesson-index" aria-label="Số bài học">
-          <span>Lesson</span><strong>02</strong><i /><small>1.2</small>
-        </aside>
-
+        <aside className="lesson-index" aria-label="Số bài học"><span>Lesson</span><strong>02</strong><i /><small>1.2</small></aside>
         <article className="lesson-body">
           <header className="lesson-hero">
             <p>Agentic Architecture · 1.2</p>
             <h1>Multi-Agent<br />Orchestration</h1>
-            <h2>Một coordinator phân rã công việc, gọi đúng specialist, rồi gom kết quả thành câu trả lời thống nhất.</h2>
+            <h2>Một coordinator phân rã công việc, gọi đúng specialist và giữ mọi giao tiếp ở trung tâm.</h2>
           </header>
 
           <section className="lesson-summary quick-recall">
             <span>Nhớ trong 20 giây</span>
             <ul>
-              <li><strong>Mọi giao tiếp</strong> đều đi qua coordinator.</li>
-              <li><strong>Subagents cô lập</strong>, không tự chia sẻ history hay memory.</li>
-              <li><strong>Context phải explicit</strong> trong từng invocation.</li>
-              <li><strong>Thiếu cả category</strong> là lỗi decomposition của coordinator.</li>
+              <li><strong>Mọi giao tiếp</strong> đi qua coordinator.</li>
+              <li><strong>Subagents cô lập</strong>, không tự chia sẻ history.</li>
+              <li><strong>Context phải explicit</strong> trong mỗi invocation.</li>
+              <li><strong>Thiếu category</strong> là lỗi decomposition.</li>
             </ul>
           </section>
 
           <section className="role-grid" aria-label="Vai trò coordinator và subagent">
-            <article><span>Coordinator</span><h2>Rộng & điều phối</h2><p>Chọn agent, chia scope, truyền context, theo dõi coverage, refinement và tổng hợp kết quả.</p></article>
-            <article><span>Subagent</span><h2>Hẹp & chuyên sâu</h2><p>Giải đúng assigned task bằng context được cấp; trả evidence và uncertainty về coordinator.</p></article>
+            <article><span>Coordinator</span><h2>Điều phối</h2><p>Hiểu yêu cầu, chia scope, chọn agent, truyền context, kiểm tra coverage và tổng hợp.</p></article>
+            <article><span>Subagent</span><h2>Chuyên sâu</h2><p>Chỉ giải assigned task bằng context được cấp rồi trả kết quả về coordinator.</p></article>
           </section>
+
+          <section className="takeaway-grid" aria-label="Lợi ích của coordinator trung tâm">
+            <div><b>OBSERVABILITY</b><p>Mọi message đi qua một điểm nên có thể log và theo dõi toàn bộ luồng.</p></div>
+            <div><b>ERROR HANDLING</b><p>Coordinator áp dụng cùng một chính sách retry, fallback và báo lỗi.</p></div>
+            <div><b>CONTROLLED CONTEXT</b><p>Coordinator quyết định agent nào được biết dữ liệu nào.</p></div>
+          </section>
+
+          <section className="pattern-code">
+            <div><span>Critical isolation principle</span><h3>Subagent không biết gì ngoài prompt hiện tại</h3></div>
+            <pre>{`Coordinator conversation history
+        │
+        ├── explicit prompt ──▶ Subagent A ──▶ result
+        │                            ✕ không shared memory
+        └── result A + task B ─▶ Subagent B ──▶ result
+
+Không tự kế thừa: system prompt · messages cũ · result agent khác
+Gọi cùng một agent lần 2 = một invocation độc lập mới.`}</pre>
+          </section>
+
+          <div className="lesson-columns orchestration-responsibilities">
+            <div className="lesson-sections">
+              <section><h3>1. Select động</h3><p>Phân tích query rồi chỉ gọi agents cần thiết. Câu hỏi đơn giản không phải chạy toàn bộ pipeline.</p></section>
+              <section><h3>2. Partition scope</h3><p>Chia các phần khác nhau theo subtopic hoặc source type để giảm trùng lặp nghiên cứu.</p></section>
+              <section><h3>3. Refine lặp</h3><p>Đánh giá synthesis, phát hiện gap rồi giao targeted follow-up. Coordinator không phải dispatcher one-shot.</p></section>
+              <section><h3>4. Route tập trung</h3><p>Mọi dữ liệu, lỗi và handoff đều quay về coordinator trước khi đi tiếp.</p></section>
+            </div>
+            <aside className="exam-card"><span>Quy tắc thi</span><p>Thiếu breadth → sửa decomposition. Thiếu depth → sửa prompt/context của task đã có.</p></aside>
+          </div>
 
           <section className="mnemonic-section">
             <div className="section-heading"><span>Mnemonic</span><h2>Nhớ orchestration bằng 5S</h2></div>
-            <ol className="five-s">
-              {fiveS.map(([name, explanation], index) => <li key={name}><b>{index + 1}</b><div><strong>{name}</strong><p>{explanation}</p></div></li>)}
-            </ol>
+            <ol className="five-s">{fiveS.map(([name, explanation], index) => <li key={name}><b>{index + 1}</b><div><strong>{name}</strong><p>{explanation}</p></div></li>)}</ol>
           </section>
 
           <section className="diagnostic-section">
-            <div className="section-heading"><span>Exam diagnostic matrix</span><h2>Nhìn triệu chứng, tìm đúng tầng lỗi</h2></div>
-            <div className="diagnostic-table-wrap">
-              <table className="diagnostic-table">
-                <thead><tr><th>Triệu chứng</th><th>Chẩn đoán đúng</th></tr></thead>
-                <tbody>{diagnostics.map(([symptom, diagnosis]) => <tr key={symptom}><td>{symptom}</td><td>{diagnosis}</td></tr>)}</tbody>
-              </table>
-            </div>
+            <div className="section-heading"><span>Diagnostic matrix</span><h2>Nhìn triệu chứng, tìm đúng tầng lỗi</h2></div>
+            <div className="diagnostic-table-wrap"><table className="diagnostic-table"><thead><tr><th>Triệu chứng</th><th>Chẩn đoán</th></tr></thead><tbody>{diagnostics.map(([symptom, diagnosis]) => <tr key={symptom}><td>{symptom}</td><td>{diagnosis}</td></tr>)}</tbody></table></div>
           </section>
 
           <section className="trap-section">
-            <span>4 exam traps</span><h3>Đừng sửa sai tầng kiến trúc</h3>
+            <span>4 exam traps</span><h3>Nhận diện đáp án nghe hợp lý nhưng sai kiến trúc</h3>
             <ol>{examTraps.map((trap) => <li key={trap}>{trap}</li>)}</ol>
           </section>
 
           <section className="practice-card">
             <span>Practice scenario · Renewable energy</span>
-            <h2>Một report đã có thị trường, công nghệ, lưới điện, tài chính và môi trường — nhưng thiếu hoàn toàn chính sách/pháp lý. Nên sửa ở đâu?</h2>
+            <h2>Report chỉ có solar và wind. Mỗi agent đều nghiên cứu tốt phần được giao. Root cause là gì?</h2>
             <ol type="A">
-              <li>Viết prompt subagent dài hơn</li><li>Tăng context window</li><li>Cho agents trao đổi trực tiếp</li><li>Coordinator bổ sung category còn thiếu vào decomposition</li>
+              <li>Document agent thiếu nguồn</li>
+              <li>Synthesis agent không tự yêu cầu thêm dữ liệu</li>
+              <li>Web agent dùng query quá hẹp</li>
+              <li>Coordinator chưa giao geothermal, tidal, biomass và fusion</li>
             </ol>
-            <details><summary>Xem đáp án</summary><p><strong>D.</strong> Thiếu nguyên một category nghĩa là coordinator chưa chia đủ scope. Prompt specialist chỉ giúp tăng depth trong task đã được giao; nó không tự sinh ra phần việc mà coordinator bỏ sót.</p></details>
+            <details><summary>Xem đáp án và lý do</summary><p><strong>D.</strong> Các downstream agents đều hoàn thành đúng assignment. Phần bị thiếu chưa từng được giao, nên root cause nằm ở decomposition của coordinator. Sửa search, synthesis hoặc thêm agent đều không tạo lại scope đã bị bỏ quên.</p></details>
           </section>
 
           <section className="build-checklist">
-            <div className="section-heading"><span>Build exercise</span><h2>Definition of done</h2></div>
-            <ul>{buildChecklist.map((item, index) => <li key={item}><input id={`check-${index}`} type="checkbox" /><label htmlFor={`check-${index}`}>{item}</label></li>)}</ul>
+            <div className="section-heading"><span>Build exercise</span><h2>Tự kiểm tra implementation</h2></div>
+            <ul>{buildSteps.map((step, index) => <li key={step}><input id={`build-step-${index}`} type="checkbox" /><label htmlFor={`build-step-${index}`}>{step}</label></li>)}</ul>
           </section>
 
           <section className="application-note">
-            <span>Exam strictness vs product demo</span>
-            <p><strong>Trong bài thi:</strong> hub-and-spoke nghiêm ngặt — subagents không giao tiếp trực tiếp. <strong>Trong product hiện tại:</strong> prior findings vẫn chỉ được coordinator truyền explicit vào invocation kế tiếp, nên boundary này được giữ nguyên. Ví dụ cửa hàng nước ép bên dưới chỉ là topic mặc định dễ hiểu của UI, không phải logic hardcode trong <code>researchCoordinator(topic)</code>.</p>
+            <span>Exam model vs product hiện tại</span>
+            <p><strong>Trong bài thi:</strong> chọn strict hub-and-spoke; direct subagent-to-subagent communication là sai. Claude Code hiện có thể nested delegation, nhưng đó là khả năng product, không phải đáp án mà bài thi 1.2 kiểm tra. Build Exercise bên dưới giữ mọi context đi qua coordinator. <a href="https://claudecertificationguide.com/learn/1-agentic-architecture/1-2-orchestration-patterns" target="_blank" rel="noreferrer">Đọc bài nguồn ↗</a></p>
           </section>
 
+          {/* UI PHẦN 3 — BUILD EXERCISE: form chạy coordinator với topic và document context thật. */}
           <section className="live-lab research-lab">
-            <div className="lab-heading">
-              <div><span>Live orchestration lab</span><h2>Quan sát coordinator chia việc</h2></div>
-              <b>POST /api/research</b>
-            </div>
-            <p className="research-warning"><strong>Giới hạn thật:</strong> live web search chưa được bật. “Web agent” dùng kiến thức model và đánh dấu claim cần xác minh, không giả vờ đã duyệt web. Một lần chạy có thể gọi Claude nhiều lần.</p>
-
+            <div className="lab-heading"><div><span>Build Exercise · 60 phút</span><h2>Hub-and-Spoke Research Coordinator</h2></div><b>POST /api/research</b></div>
+            <p className="research-warning"><strong>Mục tiêu:</strong> tạo ≥5 subtopics, gọi web/document agents với context explicit, chấm coverage, refine phần còn thiếu rồi tổng hợp. Live web search chưa bật nên các claim hiện tại phải được đánh dấu cần xác minh.</p>
             <form className="research-form" onSubmit={runResearch} aria-busy={loading}>
               <div className="research-form-grid">
-                <div className="field">
-                  <label htmlFor="research-topic">Chủ đề nghiên cứu</label>
-                  <textarea id="research-topic" value={topic} onChange={(event) => setTopic(event.target.value)} maxLength={500} />
-                  <small>Đổi sang bất kỳ domain nào để thử tính tổng quát.</small>
-                </div>
-                <div className="field">
-                  <label htmlFor="document-context">Document context</label>
-                  <textarea id="document-context" value={documentContext} onChange={(event) => setDocumentContext(event.target.value)} maxLength={12000} />
-                  <small>Không bắt buộc. Document agent chỉ dùng nội dung tại đây.</small>
-                </div>
+                <div className="field"><label htmlFor="research-topic">Chủ đề nghiên cứu rộng</label><textarea id="research-topic" value={topic} onChange={(event) => setTopic(event.target.value)} maxLength={500} /><small>Case mặc định kiểm tra đủ solar, wind, geothermal, tidal, biomass và fusion.</small></div>
+                <div className="field"><label htmlFor="document-context">Document context</label><textarea id="document-context" value={documentContext} onChange={(event) => setDocumentContext(event.target.value)} maxLength={12000} /><small>Document agent chỉ biết đúng nội dung được coordinator truyền vào đây.</small></div>
               </div>
-              <div className="form-foot"><span>≥5 subtopics · tối đa 2 refinement rounds</span><button disabled={loading || !topic.trim()}>{loading ? "Đang điều phối…" : "Chạy research"}<b>→</b></button></div>
+              <div className="form-foot"><span>≥5 subtopics · 2 agent types · tối đa 2 refinement</span><button disabled={loading || !topic.trim()}>{loading ? "Coordinator đang điều phối…" : "Chạy Build Exercise"}<b>→</b></button></div>
             </form>
 
             {error && <div className="receipt receipt-error" role="alert"><span>Lỗi coordinator</span><p>{error}</p></div>}
-
-            {report && <section className="research-results" aria-live="polite">
+            {/* UI PHẦN 4 — KẾT QUẢ: hiển thị coverage, report cuối và kế hoạch coordinator đã tạo. */}
+            {plan && report && <section className="research-results" aria-live="polite">
               <div className="research-meta">
                 <div><span>Coverage</span><strong>{coverageScore}%</strong></div>
                 <div><span>Refinement</span><strong>{iterations} vòng</strong></div>
-                <div><span>Subtopics</span><strong>{coverage.length}</strong></div>
+                <div><span>Subtopics</span><strong>{plan.tasks.length}</strong></div>
               </div>
               <div className="coverage-meter" aria-label={`Coverage ${coverageScore}%`}><i style={{ width: `${coverageScore}%` }} /></div>
-              <div className="coverage-list">
-                {coverage.map((item) => <article key={item.subtopic}>
-                  <span className={`coverage-pill coverage-${item.status}`}>{item.status}</span>
-                  <h3>{item.subtopic}</h3><p>{item.reason}</p>
-                </article>)}
-              </div>
               <div className="research-report"><span>Final synthesis</span><p>{report}</p></div>
               {limitation && <p className="research-limit">{limitation}</p>}
+              <div className="section-heading research-subheading"><span>Coverage audit</span><h2>Phần nào đã đủ?</h2></div>
+              <div className="coverage-list">{coverage.map((item) => <article key={item.subtopic}><span className={`coverage-pill coverage-${item.status}`}>{item.status}</span><h3>{item.subtopic}</h3><p>{item.reason}</p></article>)}</div>
+              <div className="section-heading research-subheading"><span>Execution plan</span><h2>{plan.researchGoal}</h2></div>
+              <div className="coverage-list">{plan.tasks.map((task) => <article key={task.id}><span className="coverage-pill coverage-well-covered">{task.agent}</span><h3>{task.title}</h3><p>{task.goal}</p></article>)}</div>
             </section>}
 
+            {/* UI PHẦN 5 — DEBUG TRACE: xem request, raw Claude response và actor ở từng bước. */}
             <section className="trace-panel research-trace" aria-live="polite">
-              <div className="trace-heading"><div><span>Orchestration trace</span><h2>Plan → agents → coverage → synthesis</h2></div><b>{trace.length} events</b></div>
-              {trace.length === 0 && <div className="trace-empty">Chạy research để xem prompt, context, routing và response của từng agent.</div>}
-              {trace.map((event, index) => <details key={`${event.stage}-${index}`} open={event.stage === "error"}>
-                <summary><span>{index + 1}. {event.stage}</span><code>{event.agent ?? "coordinator"} · vòng {event.iteration ?? 0}</code></summary>
-                <div className="trace-content">
-                  {event.task && <><label>Assigned task</label><pre>{JSON.stringify(event.task, null, 2)}</pre></>}
-                  {event.note && <><label>Capability / decision</label><pre>{event.note}</pre></>}
-                  {event.request !== undefined && <><label>Request và explicit context</label><pre>{JSON.stringify(event.request, null, 2)}</pre></>}
-                  {event.response !== undefined && <><label>Full Claude response</label><pre>{JSON.stringify(event.response, null, 2)}</pre></>}
-                  {event.error && <><label>Error</label><pre>{event.error}</pre></>}
-                </div>
-              </details>)}
+              <div className="trace-heading"><div><span>Orchestration trace</span><h2>Decompose → agents → coverage → refine → synthesis</h2></div><b>{trace.length} events</b></div>
+              {trace.length === 0 && <div className="trace-empty">Chạy bài tập để xem request, context và toàn bộ Claude response ở từng bước.</div>}
+              {trace.map((event, index) => <details key={`${event.stage}-${index}`} open><summary><span>{index + 1}. {event.stage}</span><code>{event.actor}</code></summary><div className="trace-content"><label>Action</label><pre>{event.note}</pre>{event.detail && <><label>Data</label><pre>{JSON.stringify(event.detail, null, 2)}</pre></>}</div></details>)}
             </section>
           </section>
 
-          <footer className="lesson-footer">
-            <Link href="/lesson1">← Agentic Loops</Link><span>02 / 02</span>
-            <a href="https://claudecertificationguide.com/learn/1-agentic-architecture/1-2-orchestration-patterns" target="_blank" rel="noreferrer">Nguồn bài học ↗</a>
-          </footer>
+          <footer className="lesson-footer"><Link href="/lesson1">← Agentic Loops</Link><span>02 / 02</span><Link href="/seasonal-fruits">Thử ứng dụng chat →</Link></footer>
         </article>
       </div>
     </main>

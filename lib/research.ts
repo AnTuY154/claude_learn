@@ -29,7 +29,7 @@ export function routeAgent(requested: unknown, hasDocumentContext: boolean): Age
 }
 
 export function buildCoordinatorPrompt(topic: string, documentContext: string) {
-  return `ORIGINAL TOPIC\n${topic}\n\nAVAILABLE DOCUMENT CONTEXT\n${documentContext || "None"}\n\nCreate a broad research plan with at least 5 distinct subtopics. Choose agent \"document\" only when the supplied document can answer the task; otherwise choose \"web\". Return JSON only:\n{\"research_goal\":\"...\",\"tasks\":[{\"id\":\"task-1\",\"title\":\"...\",\"goal\":\"...\",\"agent\":\"web|document\"}]}`;
+  return `ORIGINAL TOPIC\n${topic}\n\nAVAILABLE DOCUMENT CONTEXT\n${documentContext || "None"}\n\nCreate a broad research plan with at least 5 distinct subtopics. For renewable energy topics, the plan must cover solar, wind, geothermal, tidal, biomass, and fusion. Choose agent \"document\" only when the supplied document can answer the task; otherwise choose \"web\". Keep every title and goal concise (under 20 words). Return complete JSON only:\n{\"research_goal\":\"...\",\"tasks\":[{\"id\":\"task-1\",\"title\":\"...\",\"goal\":\"...\",\"agent\":\"web|document\"}]}`;
 }
 
 export function normalizePlan(value: unknown, hasDocumentContext: boolean) {
