@@ -5,6 +5,9 @@ import { useState } from "react";
 // Quiz chạy hoàn toàn trên React client, KHÔNG tốn Claude API tokens.
 // correct là index đáp án, explanation giải thích vì sao đúng và chỉ ra exam trap.
 const questions = [
+  { q: "Hướng dẫn thi nói coordinator cần cấu hình gì để gọi subagent?", choices: ["tool_choice any", "allowedTools chứa Task/Agent trong scenario bài thi", "postprocess text", "Chỉ khai báo system prompt"], correct: 1, explanation: "Theo exam guide, Task/Agent phải được cấp phép. SDK hiện tại xem allowedTools là auto-approval, nên omission có thể dẫn tới permission check thay vì xóa hẳn tool." },
+  { q: "Một AgentDefinition cần ba thông tin nào?", choices: ["description, prompt, tools", "model, price, temperature", "URL, page, confidence", "resume, fork, maxTurns"], correct: 0, explanation: "Description để coordinator chọn, prompt để định hướng nhiệm vụ, tools để giới hạn quyền specialist." },
+  { q: "Một coordinator gọi hai researcher phụ thuộc nhau bằng hai Task calls cùng lượt. Có luôn phù hợp?", choices: ["Có, luôn tốt nhất", "Không; agent B cần kết quả A thì phải chờ rồi handoff", "Có nếu model lớn", "Có nếu source_url khác"], correct: 1, explanation: "Parallel spawning chỉ đúng khi independent; dependent task phải sequential." },
   { q: "Subagent có tự kế thừa conversation history của coordinator không?", choices: ["Có, luôn kế thừa", "Không, coordinator phải truyền context cần thiết", "Chỉ khi chạy song song", "Chỉ khi có WebSearch"], correct: 1, explanation: "Isolated context: không tự động chia sẻ history giữa các subagent." },
   { q: "Web Agent có URL nhưng báo cáo cuối thiếu citation. Kiểm tra điểm nào đầu tiên?", choices: ["Nâng cấp model synthesis", "Tăng số subagent", "Payload Coordinator → Synthesis có giữ source_url không", "Chạy lại search mà không dùng metadata"], correct: 2, explanation: "Attribution failure thường do coordinator bỏ metadata khi truyền context." },
   { q: "Web Agent và Document Agent độc lập. Cách điều phối phù hợp?", choices: ["Sequential", "Parallel", "Cho hai agent tự gọi nhau", "Chỉ dùng một agent"], correct: 1, explanation: "Independent → parallel. Chỉ synthesis phải chờ kết quả của cả hai." },
@@ -30,14 +33,14 @@ export function Lesson3Quiz() {
   return (
     <section id="lesson3-quiz" className="lesson3-quiz" aria-labelledby="quiz-title">
       <div className="section-heading">
-        <span>Certification practice · 10 questions</span>
+        <span>Certification practice · 13 questions</span>
         <h2 id="quiz-title">Kiểm tra độ hiểu bài học</h2>
       </div>
       <p className="lesson3-intro">Các câu hỏi kiểm tra khả năng phân biệt nguyên nhân gốc, dependency và context passing. Trả lời hết rồi chấm điểm để xem giải thích theo từng tình huống.</p>
       <div className="lesson3-quiz-progress">
         <div><span>YOUR PROGRESS</span><strong>{completed} / {questions.length}</strong></div>
         <div className="coverage-meter" aria-label={`Đã hoàn thành ${progress}%`}><i style={{ width: `${progress}%` }} /></div>
-        {submitted && <p role="status"><strong>{score}/{questions.length} đúng · {Math.round(score / questions.length * 100)}%</strong> — {score >= 8 ? "Đạt mục tiêu ôn tập." : "Đọc lại các giải thích và thử lần nữa."}</p>}
+        {submitted && <p role="status"><strong>{score}/{questions.length} đúng · {Math.round(score / questions.length * 100)}%</strong> — {score >= 11 ? "Đạt mục tiêu ôn tập." : "Đọc lại các giải thích và thử lần nữa."}</p>}
       </div>
       <div className="lesson3-questions">
         {questions.map((item, i) => (
