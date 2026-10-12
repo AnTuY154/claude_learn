@@ -41,3 +41,11 @@ test("Lab script parses and refuses to run without an API key", () => {
   assert.notEqual(noKey.status,0);
   assert.match(noKey.stderr,/Missing ANTHROPIC_API_KEY/);
 });
+
+
+test("Optional real Agent SDK hook/session examples pass JS syntax validation", () => {
+  for(const file of ["scripts/sdk-hooks-lab.mjs","scripts/sdk-sessions-lab.mjs"]) {
+    const result=spawnSync(process.execPath,["--check",file],{encoding:"utf8"});
+    assert.equal(result.status,0,file+": "+result.stderr);
+  }
+});
