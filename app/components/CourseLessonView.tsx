@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import type { CourseLesson } from "@/lib/agentic-course";
+import { runLessonSimulation, type SimulationResult } from "@/lib/agentic-exercises";
 
 function ExamQuiz({ lesson }: { lesson: CourseLesson }) {
   // Quiz chỉ dùng React state, không phát sinh token / Claude API.
@@ -53,6 +54,7 @@ function ExamQuiz({ lesson }: { lesson: CourseLesson }) {
 // Trên GitHub Pages không có Node server nên không giả vờ gọi SDK thật.
 function Exercise({ lesson }: { lesson: CourseLesson }) {
   const [checked, setChecked] = useState<number[]>([]);
+  const [simulation, setSimulation] = useState<SimulationResult | null>(null);
   return (
     <section className="live-lab course-exercise" id="exercise">
       <div className="lab-heading">
@@ -70,6 +72,16 @@ function Exercise({ lesson }: { lesson: CourseLesson }) {
         ))}
       </div>
       <div className="pattern-code course-exercise-code"><div><span>Code concept</span><h3>Đọc logic rồi tự mở rộng</h3></div><pre>{lesson.practiceCode}</pre></div>
+      <div className="course-simulation">
+        <div className="section-heading"><span>Local simulation · no API credits</span><h2>Quan sát logic bằng dữ liệu giả</h2></div>
+        <button type="button" onClick={() => setSimulation(runLessonSimulation(lesson.number))}>Chạy mô phỏng →</button>
+        {simulation && <div className="course-simulation-output" aria-live="polite">
+          <h3>{simulation.title}</h3>
+          <ol>{simulation.steps.map((step, index) => <li key={index}>
+            <b>{step.stage}</b><code>{step.outcome}</code><p>{step.explanation}</p>
+          </li>)}</ol>
+        </div>}
+      </div>
       <p className="research-limit">Hoàn thành {checked.length}/{lesson.exerciseSteps.length} mục · checklist lưu trong phiên trang hiện tại, không đồng bộ lên server.</p>
     </section>
   );
