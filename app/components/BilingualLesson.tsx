@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { course, type Locale } from "@/lib/bilingual-course";
 import { labExamples } from "@/lib/lab-examples";
+import { LessonGlossary, TermText } from "./CourseGlossary";
 
 const labels = {
   vi: {
@@ -75,21 +76,22 @@ export default function BilingualLesson({ number }: { number: number }) {
 
         {/* 1. CHI TIẾT BÀI HỌC đứng đầu, không phải summary. */}
         <header className="lesson-hero bilingual-hero">
-          <p>{t.overview}</p><h1>{content.title}</h1><h2>{content.intro}</h2>
+          <p>{t.overview}</p><h1>{content.title}</h1><h2><TermText text={content.intro} number={number} active={language==="vi"}/></h2>
         </header>
         <div className="application-note bilingual-bridge"><span>{t.bridge}</span><p>{content.bridge}</p></div>
         <nav className="bilingual-toc" aria-label="Lesson content">
           {content.topics.map((topic,i)=><a href={`#concept-${number}-${i}`} key={i}>
             <b>{String(i+1).padStart(2,"0")}</b><span>{topic.title}</span></a>)}
         </nav>
+        {language==="vi" && <LessonGlossary number={number}/>}
         <section className="bilingual-topics" aria-label="Detailed theory">
           {content.topics.map((topic,i)=><section id={`concept-${number}-${i}`} className="course-topic" key={i}>
             <div className="course-topic-heading"><span>{String(i+1).padStart(2,"0")}</span>
-              <div><small>{topic.keywords}</small><h3>{topic.title}</h3></div>
+              <div><small><TermText text={topic.keywords} number={number} active={language==="vi"}/></small><h3><TermText text={topic.title} number={number} active={language==="vi"}/></h3></div>
             </div>
-            <p>{topic.body}</p>
+            <p><TermText text={topic.body} number={number} active={language==="vi"}/></p>
             {topic.code && <div className="pattern-code"><div><span>JavaScript / TypeScript</span></div><pre>{topic.code}</pre></div>}
-            <div className="foundation-exam-key"><strong>{t.examNote}</strong><p>{topic.note}</p></div>
+            <div className="foundation-exam-key"><strong>{t.examNote}</strong><p><TermText text={topic.note} number={number} active={language==="vi"}/></p></div>
             {topic.warning && <p className="bilingual-warning">{topic.warning}</p>}
           </section>)}
         </section>
@@ -98,7 +100,7 @@ export default function BilingualLesson({ number }: { number: number }) {
         {/* 2. SUMMARY đặt SAU phần lý thuyết, trước quiz. */}
         <section className="lesson-summary bilingual-summary" id="summary">
           <span>{t.important}</span><h2>{t.sumTitle}</h2>
-          <ol>{content.summary.map((point,i)=><li key={i}>{point}</li>)}</ol>
+          <ol>{content.summary.map((point,i)=><li key={i}><TermText text={point} number={number} active={language==="vi"}/></li>)}</ol>
         </section>
 
         {/* 3. TRẮC NGHIỆM. Toàn bộ câu hỏi/đáp án/giải thích thay đổi VI/EN. */}
