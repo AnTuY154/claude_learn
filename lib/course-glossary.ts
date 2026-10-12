@@ -150,6 +150,17 @@ export const glossary: Term[] = [
   {term:"review",vi:"đánh giá / rà soát",explanation:"Quá trình xem xét mã, tài liệu hoặc kết quả để phát hiện lỗi, thiếu sót và điểm cần cải thiện."},
   {term:"tool input",vi:"tham số đầu vào của công cụ",explanation:"Dữ liệu Claude yêu cầu truyền vào tool; mã thực thi vẫn phải kiểm tra schema và quyền thao tác."},
   {term:"runtime",vi:"môi trường chạy chương trình",explanation:"Nơi code thực thi, ví dụ Node.js server hoặc trình duyệt; GitHub Pages không có Node.js backend."},
+  {term:"resumption",vi:"việc tiếp tục một phiên",explanation:"Khôi phục và tiếp tục session trước đó với lịch sử những message, tool calls và kết quả công cụ đã có."},
+  {term:"state",vi:"trạng thái đang được duy trì",explanation:"Những thông tin được giữ để tiếp tục công việc như tiến độ, kết quả phân tích và lịch sử cuộc hội thoại."},
+  {term:"summary injection",vi:"đưa bản tóm tắt vào ngữ cảnh mới",explanation:"Chiến lược đặt bản tóm tắt đã chọn lọc trong prompt của phiên mới để giữ kiến thức có ích mà không sao chép toàn bộ lịch sử cũ."},
+  {term:"fresh start",vi:"khởi tạo phiên mới",explanation:"Bắt đầu một conversation mới mà không dùng tùy chọn resume để nối tiếp session cũ."},
+  {term:"full re-exploration",vi:"khảo sát lại toàn bộ",explanation:"Mở lại và phân tích mọi phần của dự án từ đầu, thường không cần nếu chỉ có một số file thay đổi."},
+  {term:"divergent exploration",vi:"khám phá các hướng giải quyết khác nhau",explanation:"Phân nhánh từ một kết quả phân tích ban đầu để thử độc lập các phương án như JWT và cookie sessions."},
+  {term:"conversation history",vi:"lịch sử hội thoại",explanation:"Toàn bộ thông điệp và lượt sử dụng công cụ được lưu trong session và có thể được tiếp tục hoặc fork."},
+  {term:"contradictory advice",vi:"lời khuyên mâu thuẫn",explanation:"Các đề xuất không nhất quán, đôi khi do model đồng thời nhìn thấy kết quả đọc file cũ và file mới."},
+  {term:"tool results",vi:"các kết quả trả về từ công cụ",explanation:"Những đầu ra của các lần chạy tool đã được lưu vào history để agent tham chiếu về sau."},
+  {term:"changed files",vi:"các file đã thay đổi",explanation:"Những file đã được chỉnh sửa sau khi session phân tích ban đầu hoàn thành và có thể cần đọc lại."},
+  {term:"dependency analysis",vi:"phân tích các quan hệ phụ thuộc",explanation:"Xác định các module khác có thể bị ảnh hưởng khi một file hoặc API đã thay đổi."},
 ];
 
 export const lessonGlossary: Record<number,string[]> = {
@@ -159,6 +170,6 @@ export const lessonGlossary: Record<number,string[]> = {
   4:["programmatic enforcement","prerequisite","gate","fail closed","refund","side effect","human handoff","self-contained","escalation","scope","delegation","coordinator","PreToolUse","permission","workflow","execution","callback","tool handler","invariant","guard","approval","bypass","boundary","verification","policy","context","scenario","report"],
   5:["hook","PreToolUse","PostToolUse","updatedToolOutput","permissionDecision","normalization","timestamp","ISO 8601","status enum","side effect","PreCompact","PostCompact","compaction","workflow","lifecycle","callback","tool handler","guard","approval","boundary","execution","permission mode","policy","tool input","mock","context","runtime"],
   6:["decomposition","fixed pipeline","adaptive decomposition","prompt chaining","replan","attention dilution","single-pass","multi-pass","local pass","integration pass","cross-file","dependency","parallel","sequential","coverage","pipeline","workflow","evidence","retrieval","refactor","refactoring","codebase","review","context","scenario","report","execution"],
-  7:["session","session state","resume","fork","fork_session","forkSession","fresh session","stale context","stale tool results","curated summary","targeted re-analysis","baseline","dependency","history","session history","context window","codebase","refactor","refactoring","review","evidence","verification","execution","scenario","context","lifecycle"]
+  7:["session","session state","resume","fork","fork_session","forkSession","fresh session","stale context","stale tool results","curated summary","targeted re-analysis","baseline","dependency","history","session history","context window","codebase","refactor","refactoring","review","evidence","verification","execution","scenario","context","lifecycle","resumption","state","summary injection","fresh start","full re-exploration","divergent exploration","conversation history","contradictory advice","tool results","changed files","dependency analysis"]
 };
 export const glossaryMap = new Map(glossary.map(x=>[x.term.toLowerCase(),x]));
