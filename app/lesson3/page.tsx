@@ -310,7 +310,7 @@ export default function Lesson3Page() {
 
           <footer className="lesson-footer">
             <Link href="/lesson2">← Multi-Agent Orchestration</Link>
-            <span>03 / 03</span>
+            <span>03 / 07</span>
             <a href="https://claudecertificationguide.com/learn/1-agentic-architecture/1-3-subagent-invocation-context" target="_blank" rel="noreferrer">Nguồn bài học ↗</a>
           </footer>
         </article>
