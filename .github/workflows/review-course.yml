@@ -1,0 +1,33 @@
+name: Review Agentic Course (3 AI reviewers)
+
+# Trigger thủ công để không tốn Anthropic API credits cho mọi commit.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - name: Review in parallel and synthesize
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::error::Add ANTHROPIC_API_KEY in repository Settings > Secrets and variables > Actions to run 3 real reviewers."
+            exit 1
+          fi
+          npm run review:lessons
+      - uses: actions/upload-artifact@v4
+        with:
+          name: course-3-agent-review
+          path: artifacts/lesson-review.md
