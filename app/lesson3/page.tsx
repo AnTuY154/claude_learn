@@ -56,6 +56,7 @@ export default function Lesson3Page() {
       <Lesson3Theory />
       <h2 id="build-exercise">B. Build Exercise — Quan sát context passing</h2>
       <p>Chạy GOOD trước, rồi BAD để xem metadata bị mất ảnh hưởng đến citations như thế nào. Mỗi lần chạy sẽ gọi Claude API và có thể tốn phí.</p>
+      {process.env.NEXT_PUBLIC_STATIC_HOSTING === "true" && <p role="status"><strong>GitHub Pages là static hosting:</strong> Build Exercise cần API backend để chạy thật. Quiz bên dưới vẫn sử dụng được.</p>}
       <form onSubmit={submit} style={{ display: "grid", gap: 14 }}>
         <label>Research topic
           <input value={topic} maxLength={500} onChange={e => setTopic(e.target.value)} required
@@ -74,7 +75,7 @@ export default function Lesson3Page() {
           <label><input type="radio" checked={mode === "good"} onChange={() => setMode("good")} /> GOOD — Truyền đủ metadata</label>
           <div><label><input type="radio" checked={mode === "bad"} onChange={() => setMode("bad")} /> BAD — Cố tình xóa metadata (so sánh lỗi)</label></div>
         </fieldset>
-        <button type="submit" disabled={loading} style={{ padding: 12, cursor: "pointer" }}>
+        <button type="submit" disabled={loading || process.env.NEXT_PUBLIC_STATIC_HOSTING === "true"} style={{ padding: 12, cursor: "pointer" }}>
           {loading ? "Đang gọi Claude..." : "Run lesson 3"}
         </button>
       </form>

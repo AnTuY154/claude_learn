@@ -125,9 +125,9 @@ export default function SeasonalFruitsPage() {
               onChange={(event) => setInput(event.target.value)}
               placeholder="Ví dụ: Mùa hè ở Hà Nội có quả gì và ép thế nào ngon?"
               maxLength={800}
-              disabled={loading}
+              disabled={loading || process.env.NEXT_PUBLIC_STATIC_HOSTING === "true"}
             />
-            <div><small>{input.length}/800</small><button disabled={loading || !input.trim()}>{loading ? "Đang tìm…" : "Gửi câu hỏi"}<b>→</b></button></div>
+            <div><small>{input.length}/800</small><button disabled={loading || !input.trim() || process.env.NEXT_PUBLIC_STATIC_HOSTING === "true"}>{loading ? "Đang tìm…" : "Gửi câu hỏi"}<b>→</b></button></div>
           </form>
           {error && <p className={styles.error} role="alert">{error}</p>}
         </section>

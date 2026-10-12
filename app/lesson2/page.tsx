@@ -232,7 +232,7 @@ Gọi cùng một agent lần 2 = một invocation độc lập mới.`}</pre>
                 <div className="field"><label htmlFor="research-topic">Chủ đề nghiên cứu rộng</label><textarea id="research-topic" value={topic} onChange={(event) => setTopic(event.target.value)} maxLength={500} /><small>Case mặc định kiểm tra đủ solar, wind, geothermal, tidal, biomass và fusion.</small></div>
                 <div className="field"><label htmlFor="document-context">Document context</label><textarea id="document-context" value={documentContext} onChange={(event) => setDocumentContext(event.target.value)} maxLength={12000} /><small>Document agent chỉ biết đúng nội dung được coordinator truyền vào đây.</small></div>
               </div>
-              <div className="form-foot"><span>≥5 subtopics · 2 agent types · tối đa 2 refinement</span><button disabled={loading || !topic.trim()}>{loading ? "Coordinator đang điều phối…" : "Chạy Build Exercise"}<b>→</b></button></div>
+              <div className="form-foot"><span>≥5 subtopics · 2 agent types · tối đa 2 refinement</span><button disabled={loading || !topic.trim() || process.env.NEXT_PUBLIC_STATIC_HOSTING === "true"}>{loading ? "Coordinator đang điều phối…" : "Chạy Build Exercise"}<b>→</b></button></div>
             </form>
 
             {error && <div className="receipt receipt-error" role="alert"><span>Lỗi coordinator</span><p>{error}</p></div>}
