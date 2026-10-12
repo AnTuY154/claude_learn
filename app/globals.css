@@ -543,3 +543,15 @@ textarea::placeholder { color: #71819a; }
     border-radius:16px 16px 0 0;
   }
 }
+
+
+/* Lesson 1.7: comparison belongs in theory, before key takeaways and quiz. */
+.lesson7-comparison { margin:32px 0 28px; }
+.lesson7-table-wrap { width:100%; overflow-x:auto; border:1px solid var(--line); -webkit-overflow-scrolling:touch; }
+.lesson7-table-wrap table { width:100%; min-width:550px; border-collapse:collapse; background:#fff; font-size:13px; }
+.lesson7-table-wrap th,.lesson7-table-wrap td { padding:13px 12px; border-right:1px solid var(--line); border-bottom:1px solid var(--line); vertical-align:top; line-height:1.5; text-align:left; }
+.lesson7-table-wrap thead th { background:var(--ink); color:#fff; font-weight:800; white-space:nowrap; }
+.lesson7-table-wrap tbody th { width:28%; color:var(--blue); font-weight:750; }
+.lesson7-table-wrap tr > :last-child { border-right:0; }
+.lesson7-comparison .research-limit { margin-top:14px; line-height:1.6; }
+@media(max-width:720px){.lesson7-comparison {margin-top:22px}.lesson7-table-wrap table{font-size:12px}.lesson7-table-wrap th,.lesson7-table-wrap td{padding:10px}}
