@@ -69,7 +69,7 @@ export function Lesson3Theory() {
       <nav className="lesson3-topic-nav" aria-label="Đi đến chủ đề">
         {concepts.map((concept, i) => (
           <a key={concept.title} href={`#concept-${i + 1}`}>
-            {String(i + 1).padStart(2, "0")} <span>{concept.title.replace(/^\\d+\\. /, "")}</span>
+            {String(i + 1).padStart(2, "0")} <span>{concept.title.replace(/^\d+\. /, "")}</span>
           </a>
         ))}
       </nav>
@@ -78,7 +78,7 @@ export function Lesson3Theory() {
           <article key={concept.title} id={`concept-${i + 1}`} className="lesson3-concept">
             <div className="lesson3-concept-head">
               <span>{String(i + 1).padStart(2, "0")}</span>
-              <div><small>{concept.english}</small><h3>{concept.title.replace(/^\\d+\\. /, "")}</h3></div>
+              <div><small>{concept.english}</small><h3>{concept.title.replace(/^\d+\. /, "")}</h3></div>
             </div>
             <p>{concept.body}</p>
             <div className="lesson3-code"><span>Example / mental model</span><pre>{concept.example}</pre></div>
