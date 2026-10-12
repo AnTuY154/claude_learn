@@ -127,7 +127,7 @@ export default function SeasonalFruitsPage() {
               maxLength={800}
               disabled={loading || process.env.NEXT_PUBLIC_STATIC_HOSTING === "true"}
             />
-            <div><small>{input.length}/800</small><button disabled={loading || !input.trim()}>{loading ? "Đang tìm…" : "Gửi câu hỏi"}<b>→</b></button></div>
+            <div><small>{input.length}/800</small><button disabled={loading || !input.trim() || process.env.NEXT_PUBLIC_STATIC_HOSTING === "true"}>{loading ? "Đang tìm…" : "Gửi câu hỏi"}<b>→</b></button></div>
           </form>
           {error && <p className={styles.error} role="alert">{error}</p>}
         </section>
