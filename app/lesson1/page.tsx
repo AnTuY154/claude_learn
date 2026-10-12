@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ExamDecisionBoard } from "@/app/components/ExamDecisionBoard";
 import { FoundationTheory, FoundationQuiz } from "@/app/components/FoundationStudy";
 import { FormEvent, useState } from "react";
 
@@ -125,6 +126,8 @@ export default function Lesson1Page() {
             <span>Các bẫy thường gặp</span><h3>Bốn cách làm khiến agent loop sai</h3>
             <ol>{traps.map((trap) => <li key={trap}>{trap}</li>)}</ol>
           </section>
+
+          <ExamDecisionBoard number={1} />
 
           <FoundationQuiz lessonNumber={1} />
 
