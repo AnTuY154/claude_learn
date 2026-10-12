@@ -18,3 +18,7 @@ npm start
 ```
 
 Service worker chỉ tự đăng ký ở production. Chạy `npm run build` và `npm start`, sau đó dùng nút Install của trình duyệt để cài PWA.
+
+## Lesson 3 — Subagent Context Passing
+
+Mở `/lesson3` để học cách coordinator chạy hai independent research calls song song, giữ structured metadata và so sánh GOOD/BAD context passing. Xem [`docs/lesson3-context-passing.md`](docs/lesson3-context-passing.md) để hiểu các comment, giới hạn source-review (không live browsing) và hướng dẫn thực hành.
