@@ -555,3 +555,30 @@ textarea::placeholder { color: #71819a; }
 .lesson7-table-wrap tr > :last-child { border-right:0; }
 .lesson7-comparison .research-limit { margin-top:14px; line-height:1.6; }
 @media(max-width:720px){.lesson7-comparison {margin-top:22px}.lesson7-table-wrap table{font-size:12px}.lesson7-table-wrap th,.lesson7-table-wrap td{padding:10px}}
+
+
+/* 1.7 original user-provided full lesson; all seven sections before summary/quiz/lab. */
+.lesson7-original-lead { margin:0 0 24px; color:#40516a; line-height:1.7; }
+.lesson7-original-lead p { margin:0 0 12px; }
+.lesson7-original .course-topic { scroll-margin-top:20px; }
+.lesson7-original .course-topic h3 { font-size:clamp(23px,3vw,31px); line-height:1.25; letter-spacing:-.03em; }
+.lesson7-original .course-topic h4 { font-size:clamp(18px,2.3vw,24px); margin:28px 0 12px; letter-spacing:-.02em; }
+.lesson7-original .course-topic p,.lesson7-original .course-topic li { line-height:1.75; }
+.lesson7-original .course-topic ol { padding-left:23px; color:#40516a; }
+.lesson7-original .course-topic blockquote { margin:16px 0; padding:17px 20px; border-left:4px solid var(--blue); background:var(--sky); line-height:1.75; white-space:pre-line; overflow-wrap:anywhere; }
+.lesson7-original .course-topic code { overflow-wrap:anywhere; }
+.lesson7-verbatim-code pre { white-space:pre-wrap; overflow-wrap:anywhere; }
+.lesson7-methods { display:grid; gap:10px; margin:20px 0; }
+.lesson7-methods > div { border:1px solid var(--line); padding:16px; background:#f8fbff; }
+.lesson7-methods strong { color:var(--blue); }
+.lesson7-methods p { margin:7px 0 0!important; }
+.lesson7-branches { margin:22px 0; display:grid; gap:13px; justify-items:center; }
+.lesson7-branches > div:first-child,.lesson7-branch-pair > div { display:grid; gap:6px; border:1px solid var(--blue); padding:15px; text-align:center; min-width:0; background:#f0f6ff; }
+.lesson7-branches span { font-size:13px; }
+.lesson7-branch-pair { display:grid; grid-template-columns:1fr 1fr; gap:12px; width:100%; }
+.lesson7-branches > div:first-child { width:min(300px,100%); }
+.lesson7-files { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:9px; margin:18px 0 24px; }
+.lesson7-files > div { display:grid; gap:7px; align-content:start; padding:17px 12px; border:1px solid var(--line); background:white; text-align:center; }
+.lesson7-files strong { font-size:clamp(27px,5vw,44px); color:var(--blue); }
+.lesson7-files span,.lesson7-files small { font-size:12px; line-height:1.4; }
+@media(max-width:540px){.lesson7-files{grid-template-columns:1fr 1fr}.lesson7-files>div:first-child{grid-column:1/-1}.lesson7-branch-pair{gap:8px}.lesson7-branch-pair>div{padding:12px 8px}}
