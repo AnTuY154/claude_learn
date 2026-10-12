@@ -65,6 +65,8 @@ const tools = [
 ];
 
 async function loopDemo1(){
+  // Chỉ dùng giá từ catalog đã lookup, không tin unitPrice do model tự nhập.
+  let verifiedUnitPrice = null;
   const messages=[{role:"user",content:"Find the demo price of apple, then calculate the total for 3 apples. Use the tools. Answer in Vietnamese."}];
   for(let turn=1;turn<=8;turn++){
     log("LOOP turn",turn);
@@ -77,11 +79,11 @@ async function loopDemo1(){
       if(call.name==="lookup_demo_price"){
         const item=call.input?.product;
         if(!Object.hasOwn(mockPrices,item)) value={error:"Unknown demo product"};
-        else value={product:item,unitPrice:mockPrices[item],currency:"VND"};
+        else { verifiedUnitPrice=mockPrices[item]; value={product:item,unitPrice:verifiedUnitPrice,currency:"VND"}; }
       } else if(call.name==="calculate_demo_total") {
         const {unitPrice,quantity}=call.input??{};
-        value=Number.isFinite(unitPrice)&&Number.isInteger(quantity)&&quantity>0&&quantity<=100
-          ? {total:unitPrice*quantity,currency:"VND"} : {error:"Invalid numeric inputs"};
+        value=verifiedUnitPrice !== null && unitPrice===verifiedUnitPrice && Number.isInteger(quantity)&&quantity>0&&quantity<=100
+          ? {total:verifiedUnitPrice*quantity,currency:"VND"} : {error:"Run lookup_demo_price first and use its trusted unit price"};
       } else value={error:"Tool not supported"};
       log("TOOL RUN "+call.name,{tool_use_id:call.id,input:call.input,result:value});
       return {type:"tool_result",tool_use_id:call.id,content:JSON.stringify(value),...(value.error?{is_error:true}:{})};
@@ -143,7 +145,17 @@ async function lesson2(){
     ask("document-research","Discuss tidal, biomass and fusion at a high level. No external document is supplied; do not claim one was read. Scope: "+goal)
   ]);
   log("SPECIALISTS COMPLETE",{webLength:web.length,documentLength:doc.length});
-  const report=await ask("coordinator-synthesis",JSON.stringify({goal,assigned,web,document:doc})+"\nCombine without inventing sources. Say unverified where needed.");
+  // Đây là HEURISTIC COVERAGE CHECK theo keyword, KHÔNG chứng minh evidence đúng.
+  const combined=(web+" "+doc).toLowerCase();
+  const missing=assigned.filter(topic=>!combined.includes(topic));
+  log("COVERAGE KEYWORD AUDIT",{assigned,missing,verifiedSources:false});
+  let refinement=null;
+  if(missing.length) {
+    // Targeted refinement: chỉ hỏi về phần chưa được nhắc tới, không nghiên cứu lại hết.
+    refinement=await ask("targeted-refinement","Discuss these missing example categories without fabricating citations: "+missing.join(", "));
+    log("REFINEMENT COMPLETE",{requested:missing});
+  }
+  const report=await ask("coordinator-synthesis",JSON.stringify({goal,assigned,web,document:doc,refinement})+"\\nCombine without inventing sources. Say unverified where needed.");
   log("FINAL SYNTHESIS",report);
 }
 
