@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { course, type Locale } from "@/lib/bilingual-course";
 import { labExamples } from "@/lib/lab-examples";
+import { Lesson7Original } from "./Lesson7Original";
 import { LessonGlossary, TermText } from "./CourseGlossary";
 
 const labels = {
@@ -78,6 +79,7 @@ export default function BilingualLesson({ number }: { number: number }) {
         <header className="lesson-hero bilingual-hero">
           <p>{t.overview}</p><h1>{content.title}</h1><h2><TermText text={content.intro} number={number} active={language==="vi"}/></h2>
         </header>
+        {number===7 && language==="vi" ? <Lesson7Original /> : <>
         <div className="application-note bilingual-bridge"><span>{t.bridge}</span><p>{content.bridge}</p></div>
         <nav className="bilingual-toc" aria-label="Lesson content">
           {content.topics.map((topic,i)=><a href={`#concept-${number}-${i}`} key={i}>
@@ -117,6 +119,7 @@ export default function BilingualLesson({ number }: { number: number }) {
           </table></div>
           <p className="research-limit">{language==="vi"?"Lưu ý: Fork chỉ tách lịch sử hội thoại, không tách filesystem. Fresh + Summary là chiến lược, không phải một SDK option riêng.":"Note: Fork separates conversation history, not the filesystem. Fresh + Summary is a strategy, not a dedicated SDK option."}</p>
         </section>}
+        </>}
         <p className="bilingual-source">{t.source}: <a href={item.source} target="_blank" rel="noreferrer">{item.source} ↗</a></p>
 
         {/* 2. SUMMARY đặt SAU phần lý thuyết, trước quiz. */}
