@@ -197,8 +197,7 @@ npm run ${number===5?"lab:sdk-hooks":"lab:sdk-sessions"}`}</pre>
                 target="_blank" rel="noreferrer">{language==="vi"?"Mở code SDK có comment":"Open commented SDK source"} ↗</a>
             </div>}
           </div>
-        </section>
-        </>}
+        </section>}
         <footer className="lesson-footer">
           <Link href={number>1?`/lesson${number-1}`:"/"}>← {t.previous}</Link><span>{String(number).padStart(2,"0")} / 07</span>
           {number<7?<Link href={`/lesson${number+1}`}>{t.next} →</Link>:<Link href="/">Course →</Link>}
