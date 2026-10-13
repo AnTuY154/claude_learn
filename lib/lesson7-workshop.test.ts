@@ -54,8 +54,8 @@ test("Lesson 1.7 workshop: 10 baseline files, summary prerequisite and exactly 3
 
     const status=run(root,"status");
     assert.equal(status.status,0,status.stderr);
-    assert.equal((status.stdout.match(/ FIXED/g)??[]).length,3);
-    assert.equal((status.stdout.match(/ BASELINE/g)??[]).length,7);
+    assert.equal((status.stdout.match(/^\[FILE\].* FIXED$/gm)??[]).length,3);
+    assert.equal((status.stdout.match(/^\[FILE\].* BASELINE$/gm)??[]).length,7);
     assert.notEqual(run(root,"fix").status,0,"cannot silently apply patch twice");
   } finally {
     rmSync(root,{recursive:true,force:true});
