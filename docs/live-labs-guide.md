@@ -1,5 +1,8 @@
 # Hướng dẫn thực hành Lesson 1.1–1.7 (Windows PowerShell / Node.js)
 
+
+> **Lesson 1.7 — Build Exercise chuẩn:** Bài tập chính bám sát guide là **Claude Code CLI** trên 10 file thật, không phải Messages API history analogy hay bài demo Agent SDK ngắn. Chạy `npm run lab:session7:setup`, phân tích 10 file với `claude --name lesson7-code-review`, ghi findings, chạy `npm run lab:session7:fix` rồi so sánh `--resume` với fresh session nhận summary. Xem [docs/lesson7-build-exercise.md](lesson7-build-exercise.md). Ba lệnh npm setup/status/fix không gọi API.
+
 ## 1. Chạy các live lab bằng Messages API
 
 Yêu cầu Node.js 22+, `npm ci`, một Anthropic API key **có credits** và model hợp lệ mà API key được cấp quyền. Mặc định code sử dụng tên model đang được repo cấu hình; khi cần, chủ động đặt `ANTHROPIC_MODEL` thành model bạn có quyền gọi.
