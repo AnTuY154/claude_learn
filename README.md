@@ -35,6 +35,9 @@ Mở http://localhost:3001 và chọn bài. **GitHub Pages là static hosting**:
 
 ## Build Exercise Lesson 1.7 theo giáo trình (Claude Code CLI)
 
+**Trước khi bắt đầu:** chạy `claude --version` để xác nhận Claude Code CLI có sẵn. Chỉ bắt đầu lệnh `claude --name ...` khi đã đăng nhập bằng phương thức hợp lệ. Không dán API key vào source hay vào website.
+
+
 Bài tập 1.7 trên website sử dụng **Claude Code CLI** là phần thực hành chính: 10 source files → findings summary → sửa 3 file → resume → fresh session + summary → so sánh, đúng 6 bước của [guide gốc](https://claudecertificationguide.com/learn/1-agentic-architecture/1-7-session-state-resumption).
 
 ```powershell
