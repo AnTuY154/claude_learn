@@ -17,3 +17,6 @@ yarn-error.log*
 .DS_Store
 *.tsbuildinfo
 next-env.d.ts
+
+# Generated 10-file Lesson 1.7 workshop (local observations, never commit)
+/lesson7-session-workspace/
