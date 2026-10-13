@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { course, type Locale } from "@/lib/bilingual-course";
 import { labExamples } from "@/lib/lab-examples";
 import { Lesson7Original } from "./Lesson7Original";
+import { Lesson7BuildLab } from "./Lesson7BuildLab";
 import { LessonStory } from "./LessonStory";
 import { LessonGlossary, TermText } from "./CourseGlossary";
 
@@ -161,7 +162,7 @@ export default function BilingualLesson({ number }: { number: number }) {
         </section>
 
         {/* 4. BUILD EXERCISE: source runnable CLI, NO client API secret. */}
-        <section className="live-lab bilingual-lab" id="build">
+        {number===7 ? <Lesson7BuildLab language={language}/> : <section className="live-lab bilingual-lab" id="build">
           <div className="lab-heading"><div><span>{t.lab} · 1.{number}</span><h2>{content.labTitle}</h2></div><b>Node.js + Anthropic API</b></div>
           <p className="course-lede">{t.labDetail}</p>
           <div className="research-warning"><strong>{t.sdk}:</strong> {t.sdkText}</div>
@@ -197,6 +198,7 @@ npm run ${number===5?"lab:sdk-hooks":"lab:sdk-sessions"}`}</pre>
             </div>}
           </div>
         </section>
+        </>}
         <footer className="lesson-footer">
           <Link href={number>1?`/lesson${number-1}`:"/"}>← {t.previous}</Link><span>{String(number).padStart(2,"0")} / 07</span>
           {number<7?<Link href={`/lesson${number+1}`}>{t.next} →</Link>:<Link href="/">Course →</Link>}
