@@ -32,6 +32,27 @@ npm run dev
 
 Mở http://localhost:3001 và chọn bài. **GitHub Pages là static hosting**: nội dung bài, quiz, hướng dẫn code hoạt động; không thể tự giữ ANTHROPIC_API_KEY hay chạy Next.js API route. Key chỉ được sử dụng ở Node local/hosting backend có kiểm soát.
 
+
+## Build Exercise Lesson 1.7 theo giáo trình (Claude Code CLI)
+
+Bài tập 1.7 trên website sử dụng **Claude Code CLI** là phần thực hành chính: 10 source files → findings summary → sửa 3 file → resume → fresh session + summary → so sánh, đúng 6 bước của [guide gốc](https://claudecertificationguide.com/learn/1-agentic-architecture/1-7-session-state-resumption).
+
+```powershell
+npm run lab:session7:setup
+npm run lab:session7:status
+cd lesson7-session-workspace
+claude --name lesson7-code-review
+# Dán nội dung 01-baseline-prompt.md; ghi findings-summary.md; thoát Claude
+cd ..
+npm run lab:session7:fix
+cd lesson7-session-workspace
+claude --resume lesson7-code-review
+# Sau đó thoát phiên cũ và mở phiên fresh:
+claude --name lesson7-fresh-review
+```
+
+Chi tiết sáu bước, chú thích từng lý do, prompt và bảng so sánh tại [docs/lesson7-build-exercise.md](docs/lesson7-build-exercise.md). Script được comment đầy đủ: [scripts/lesson7-workshop.mjs](scripts/lesson7-workshop.mjs). **Không cần API key để tạo/sửa workspace**; các phiên Claude Code có thể phát sinh chi phí theo phương thức đăng nhập. `npm run lab -- 7` và `npm run lab:sdk-sessions` là ví dụ bổ trợ, **không phải bài tập chính**.
+
 ## Chạy API Labs (có chi phí token)
 
 ```powershell
