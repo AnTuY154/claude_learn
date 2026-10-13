@@ -10,7 +10,10 @@
     "review:lessons": "node --experimental-strip-types scripts/review-lessons.mjs",
     "lab": "node scripts/live-labs.mjs",
     "lab:sdk-hooks": "node scripts/sdk-hooks-lab.mjs",
-    "lab:sdk-sessions": "node scripts/sdk-sessions-lab.mjs"
+    "lab:sdk-sessions": "node scripts/sdk-sessions-lab.mjs",
+    "lab:session7:setup": "node scripts/lesson7-workshop.mjs setup",
+    "lab:session7:status": "node scripts/lesson7-workshop.mjs status",
+    "lab:session7:fix": "node scripts/lesson7-workshop.mjs fix"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "latest",
