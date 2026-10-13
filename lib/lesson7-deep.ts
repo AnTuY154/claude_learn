@@ -61,15 +61,8 @@ export const lesson7Deep: Record<"vi"|"en",LearningContent> = {
       {question:"Nguồn lấy session ID đáng tin trong query()?",choices:["Tự tạo ID bằng Math.random()","message.session_id từ init/result","Tên repository","Tên tool Read"],correct:1,explanation:"SDK cung cấp session ID trong các sự kiện thực tế."},
       {question:"Nếu ba file sửa làm thay đổi API của 12 file còn lại thì sao?",choices:["Chỉ đọc đúng ba file","Kiểm tra thêm các dependency chịu ảnh hưởng","Bỏ qua vì có summary","Resume mà không đọc"],correct:1,explanation:"Targeted re-analysis phải tính phạm vi tác động; số file được đọc tùy dependency thực tế."}
     ],
-    labTitle:"Claude Agent SDK — Resume, Fork và Fresh Summary",
-    steps:[
-      "Tạo session phân tích Authentication bằng query(), lấy và log session_id từ SDK.",
-      "Resume bằng ID đó để tiếp tục cùng lịch sử; log result và usage/cost khi có.",
-      "Fork bằng resume + forkSession: true để thử OAuth2; so sánh session IDs.",
-      "Giả lập code đã thay đổi và tạo fresh session với curated summary, không có resume.",
-      "So sánh kết quả, nhận diện stale context và xác định changed files + dependencies cần đọc lại.",
-      "Nhớ rằng fork conversation không fork filesystem; không thực hiện edit dữ liệu thật trong bài demo."
-    ]
+    labTitle:"Claude Code CLI — 10 file, 3 thay đổi, Resume và Fresh Summary",
+    steps:["Tạo named Claude Code session bằng --name để đọc và phân tích đủ 10 source files của workspace mẫu.","Lưu findings theo từng file, severity, evidence và recommendation vào findings-summary.md trước khi sửa code.","Chạy npm run lab:session7:fix để sửa chính xác 3 file và kiểm tra trạng thái 3 FIXED / 7 BASELINE.","Resume phiên cũ với --resume, kiểm tra nhận định nào xuất phát từ tool results cũ và lưu quan sát thật.","Bắt đầu fresh session KHÔNG resume, truyền curated summary và đọc lại 3 file đã sửa cùng dependencies liên quan.","So sánh chất lượng Resume và Fresh bằng compare-results.md; không giả định Claude chắc chắn bị stale context."]
   },
   en: {
     title:"Session State and Resumption",
@@ -98,7 +91,7 @@ export const lesson7Deep: Record<"vi"|"en",LearningContent> = {
       {question:"Where should a query session ID come from?",choices:["Math.random()","An init/result message's session_id","Repository name","Tool name"],correct:1,explanation:"The SDK provides actual session IDs in its event messages."},
       {question:"Three changed files affect 12 importers. What next?",choices:["Ignore importers","Inspect affected dependencies","Ignore the change","Only resume"],correct:1,explanation:"Targeted re-analysis must include relevant dependency impact."}
     ],
-    labTitle:"Agent SDK — Resume, Fork, Fresh Summary",
-    steps:["Create a real session with query() and capture its session_id.","Resume by ID and log results and usage/cost when provided.","Fork from the baseline with resume plus forkSession: true; compare IDs.","Simulate a source change and open a fresh session with a curated summary.","Compare response quality and identify changed or impacted files that need new reads.","Remember a fork branches conversation history, not the filesystem."]
+    labTitle:"Claude Code CLI — 10 files, 3 changes, Resume vs Fresh",
+    steps:["Create a named Claude Code session with --name and actually inspect all 10 sample files.","Record actual findings per file, severity, evidence and recommendations in findings-summary.md before changing code.","Run npm run lab:session7:fix to modify exactly 3 files and check 3 FIXED / 7 BASELINE.","Resume the saved session with --resume, inspect stale tool results and record actual observations.","Open a fresh session without --resume, inject the curated summary and re-read changed and impacted files.","Compare Resume and Fresh objectively using compare-results.md; stale-context mistakes are possible, not guaranteed."]
   }
 };
