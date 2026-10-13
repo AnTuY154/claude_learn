@@ -616,3 +616,28 @@ textarea::placeholder { color: #71819a; }
  .lesson-story-code-grid pre { font-size:11px; }
  .lesson-story-traps { padding:16px; }
 }
+
+
+/* Lesson 1.7 — exact six-step CLI exercise, with mobile-first command examples. */
+.lesson7-build-lab { overflow-wrap:anywhere; }
+.lesson7-build-steps { list-style:none; padding:0; margin:20px 0 32px; display:grid; gap:12px; }
+.lesson7-build-steps li { background:white; border:1px solid var(--line); padding:17px 20px; }
+.lesson7-build-steps h3 { font-size:18px; color:var(--blue); margin:0 0 10px; }
+.lesson7-build-steps p { color:var(--ink); margin:0 0 10px; line-height:1.7; font-size:14px; }
+.lesson7-build-steps small { display:block; padding:10px 12px; border-left:3px solid var(--blue); background:var(--sky); font-size:13px; line-height:1.6; }
+.lesson7-command-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin:20px 0 30px; }
+.lesson7-command-list > div { border:1px solid var(--line); min-width:0; padding:14px; }
+.lesson7-command-list strong,.lesson7-build-code strong { display:block; margin-bottom:9px; font-size:14px; }
+.lesson7-command-list pre,.lesson7-build-code pre,.lesson7-optional-sdk pre { margin:0; padding:14px; background:var(--ink); color:#e7edff; white-space:pre-wrap; overflow-wrap:anywhere; font:12px/1.75 Consolas,monospace; border-radius:4px; }
+.lesson7-build-code { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin:20px 0; }
+.lesson7-build-code > div { min-width:0; padding:14px; border:1px solid var(--line); }
+.lesson7-build-result { margin:22px 0; font-size:15px; line-height:1.7; }
+.lesson7-optional-sdk { margin-top:20px; border:1px solid var(--line); padding:14px 17px; }
+.lesson7-optional-sdk summary { cursor:pointer; font-weight:800; }
+.lesson7-optional-sdk p { line-height:1.65; }
+.lesson7-optional-sdk a { display:inline-block; margin-top:14px; color:var(--blue); font-weight:750; }
+@media(max-width:740px){
+ .lesson7-command-list,.lesson7-build-code { grid-template-columns:1fr; }
+ .lesson7-build-steps li { padding:14px; }
+ .lesson7-command-list pre,.lesson7-build-code pre { font-size:11px; }
+}
