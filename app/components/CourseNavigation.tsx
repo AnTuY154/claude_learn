@@ -13,6 +13,11 @@ const items = [
   ["1.5", "SDK Hooks", "/lesson5"],
   ["1.6", "Decomposition", "/lesson6"],
   ["1.7", "Sessions", "/lesson7"],
+  ["2.1", "Tool Interface", "/domain2/lesson1"],
+  ["2.2", "Error Responses", "/domain2/lesson2"],
+  ["2.3", "Tool Choice", "/domain2/lesson3"],
+  ["2.4", "MCP Integration", "/domain2/lesson4"],
+  ["2.5", "Built-in Tools", "/domain2/lesson5"],
 ] as const;
 
 export default function CourseNavigation() {
@@ -23,7 +28,7 @@ export default function CourseNavigation() {
         <Link href="/" className="course-logo" aria-label="Claude Learning Lab — Trang chủ">
           <span>CL</span><strong>Claude Learning Lab</strong>
         </Link>
-        <nav className="course-nav" aria-label="Điều hướng bài học Agentic Architecture">
+        <nav className="course-nav" aria-label="Điều hướng Claude Certification Domains 1 và 2">
           {items.map(([number, title, href]) => (
             <Link key={number} href={href} className={pathname === href || pathname?.startsWith(href + "/") ? "active" : ""}
               aria-current={pathname === href || pathname?.startsWith(href + "/") ? "page" : undefined}
