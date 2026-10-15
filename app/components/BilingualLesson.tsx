@@ -62,7 +62,7 @@ export default function BilingualLesson({ number }: { number: number }) {
     <nav className="lesson-nav" aria-label="Lesson navigation">
       {number>1 ? <Link href={`/lesson${number-1}`}>← {t.previous} {number-1}</Link> : <Link href="/">← Home</Link>}
       <span>Agentic Architecture · 1.{number}</span>
-      {number<7 ? <Link href={`/lesson${number+1}`}>{t.next} {number+1} →</Link> : <Link href="/">Course →</Link>}
+      {number<7 ? <Link href={`/lesson${number+1}`}>{t.next} {number+1} →</Link> : <Link href="/domain2/lesson1">2.1 →</Link>}
     </nav>
     <div className="lesson-shell">
       <aside className="lesson-index" aria-label="Lesson number">
