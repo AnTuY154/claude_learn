@@ -1,6 +1,6 @@
-# Claude Learning Lab — Agentic Architecture (1.1–1.7)
+# Claude Learning Lab — Agentic Architecture (1.1–1.7) + Tool Design & MCP (2.1–2.5)
 
-Ứng dụng ôn tập theo 7 bài của [Claude Certification Guide](https://claudecertificationguide.com/learn/1-agentic-architecture/1-1-agentic-loops), xây dựng bằng Next.js App Router + TypeScript.
+Ứng dụng ôn tập theo 12 bài thuộc hai domain đầu của [Claude Certification Guide](https://claudecertificationguide.com/learn/1-agentic-architecture/1-1-agentic-loops), xây dựng bằng Next.js App Router + TypeScript.
 
 ## Cấu trúc tất cả các bài (VI / EN)
 
@@ -9,7 +9,7 @@
 3. **Knowledge Quiz**: trắc nghiệm có giải thích đúng/sai; câu hỏi và đáp án theo ngôn ngữ đã chọn.
 4. **Build Exercise**: comment code, các bước tự làm, lệnh Node.js chạy thật và log từng request/tool/usage.
 
-Nút **VI/EN** ở đầu mỗi bài nhớ lựa chọn trong browser. Thanh header cho phép chuyển giữa 1.1–1.7. Website: https://antuy154.github.io/claude_learn/
+Nút **VI/EN** ở đầu mỗi bài nhớ lựa chọn trong browser. Thanh header cho phép chuyển giữa 1.1–1.7 và 2.1–2.5. Website: https://antuy154.github.io/claude_learn/
 
 | Bài | Nội dung |
 |---|---|
@@ -20,6 +20,39 @@ Nút **VI/EN** ở đầu mỗi bài nhớ lựa chọn trong browser. Thanh hea
 | 1.5 | Agent SDK Hooks · PreToolUse / PostToolUse |
 | 1.6 | Task Decomposition · fixed/adaptive, attention dilution, integration |
 | 1.7 | Session State & Resumption · resume / fork / fresh context |
+| 2.1 | Tool Interface Design · descriptions, JSON Schema, misrouting |
+| 2.2 | Structured Error Responses · errors, retry policy, valid empty |
+| 2.3 | Tool Distribution & Choice · role scope, tool_choice, least privilege |
+| 2.4 | MCP Server Integration · .mcp.json, env, resources |
+| 2.5 | Built-in Tools · Grep, Glob, Read, Edit, Write, Bash |
+
+## Domain 2: Tool Design & MCP (mới)
+
+Nội dung 2.1–2.5 được biên soạn lại theo phương pháp Lesson 1.7: mỗi bài có **tình huống xuyên suốt**, 6–7 phần giải thích chi tiết, code JavaScript được comment, bảng so sánh, glossary VI/EN, **8 câu quiz/bài**, và Build Exercise theo task gốc.
+
+**Mở website:**
+- [2.1 Tool Interface Design](https://antuy154.github.io/claude_learn/domain2/lesson1/)
+- [2.2 Structured Error Responses](https://antuy154.github.io/claude_learn/domain2/lesson2/)
+- [2.3 Tool Distribution & Choice](https://antuy154.github.io/claude_learn/domain2/lesson3/)
+- [2.4 MCP Server Integration](https://antuy154.github.io/claude_learn/domain2/lesson4/)
+- [2.5 Built-in Tools](https://antuy154.github.io/claude_learn/domain2/lesson5/)
+
+**Hướng dẫn thực hành đầy đủ:** [docs/domain2-build-exercises.md](docs/domain2-build-exercises.md).
+
+```powershell
+npm run lab:domain2 -- 1  # Thật: 20 Claude API calls, cần key + model
+npm run lab:domain2 -- 2  # Mock recovery deterministic, không dùng AI
+npm run lab:domain2 -- 3  # Local tool scoping demo
+npm run lab:domain2 -- 4  # Kiểm tra MCP config template
+npm run lab:domain2 -- 5  # Tạo fixture Grep/Glob/Edit (không ghi đè)
+```
+
+MCP v2 server + client **thật qua stdio** (không gọi Claude model):
+
+```powershell
+npm install --no-save --package-lock=false @modelcontextprotocol/server @modelcontextprotocol/client zod
+npm run lab:domain2:mcp:client
+```
 
 ## Website local và kiểm thử
 
