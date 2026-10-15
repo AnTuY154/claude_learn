@@ -326,7 +326,7 @@ export const lesson24:Record<"vi"|"en",Domain2Content> = {
           "Claude Code uses MCP connections but the MCP server itself is not an AI model. A server executes allowed operations on external systems."
         ],
         "code": "// Sơ đồ trách nhiệm: Claude Code (client) ⇄ MCP server ⇄ hệ thống bên ngoài\n// MCP tools: thao tác (search_issues, create_ticket, ...)\n// MCP resources: dữ liệu đọc (schema, document tree, ...)\n// MCP prompts: mẫu prompt được server cung cấp.",
-        "keyPoint": "MCP is a connector protocol, not a model."
+        "keyPoint": "MCP connects agents and applications to external capabilities; it does not replace Claude or the model API."
       },
       {
         "title": "2. Project, user and local scope",
