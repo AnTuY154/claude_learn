@@ -283,9 +283,9 @@ export const lesson22:Record<"vi"|"en",Domain2Content> = {
           "expected": "5 trường hợp được test; không gọi Anthropic API để chạy logic local."
         }
       ],
-      "commands": "npm run lab:domain2 -- 2\n# Tùy chọn chạy MCP server thật:\nnpm install --no-save --package-lock=false @modelcontextprotocol/sdk zod\nnpm run lab:domain2:mcp",
+      "commands": "npm run lab:domain2 -- 2\n# Tùy chọn chạy MCP server thật:\nnpm install --no-save --package-lock=false @modelcontextprotocol/server @modelcontextprotocol/client zod\nnpm run lab:domain2:mcp",
       "source": "scripts/domain2-mcp-server.mjs",
-      "disclaimer": "Lab local có thể chạy không dùng Claude API. MCP server thật cần cài thêm SDK; script local demo không có quyền tự cấp credential."
+      "disclaimer": "Lab local không cần Claude API. Bản MCP server/client sử dụng MCP SDK v2 qua stdio, gọi tool thật nhưng KHÔNG gọi Claude model và không tự cấp quyền."
     }
   },
   "en": {
@@ -571,9 +571,9 @@ export const lesson22:Record<"vi"|"en",Domain2Content> = {
           "expected": "Five exercised response paths."
         }
       ],
-      "commands": "npm run lab:domain2 -- 2\n# Tùy chọn chạy MCP server thật:\nnpm install --no-save --package-lock=false @modelcontextprotocol/sdk zod\nnpm run lab:domain2:mcp",
+      "commands": "npm run lab:domain2 -- 2\n# Tùy chọn chạy MCP server thật:\nnpm install --no-save --package-lock=false @modelcontextprotocol/server @modelcontextprotocol/client zod\nnpm run lab:domain2:mcp",
       "source": "scripts/domain2-mcp-server.mjs",
-      "disclaimer": "The local logic does not need an Anthropic key. Registering the real MCP server requires optional SDK packages."
+      "disclaimer": "No Anthropic key is needed. The optional v2 MCP server/client really exchanges JSON-RPC over stdio, but does not invoke a Claude model."
     }
   }
 };
