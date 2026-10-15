@@ -38,7 +38,7 @@ export const lesson23:Record<"vi"|"en",Domain2Content> = {
         "title": "4. tool_choice: auto, any và forced tool",
         "explanation": [
           "tool_choice:auto (mặc định) cho model quyết định trả text hay gọi tool. tool_choice:any ép model gọi ít nhất một tool nhưng cho chọn tool nào. tool_choice:{type:'tool',name:'extract_metadata'} ép gọi một công cụ cụ thể ở lượt đó.",
-          "Với document pipeline phải extract_metadata đầu tiên, forced selection bảo đảm model phát ra lời gọi đó trong lượt API có cấu hình tương ứng; tuy nhiên backend vẫn phải xử lý tool call và kiểm soát quyền. Lượt tiếp theo có thể chuyển auto. Kiểm tra khả năng tương thích theo model/API mới."
+          "Với document pipeline phải extract_metadata đầu tiên, forced selection bảo đảm model phát ra lời gọi đó trong lượt API có cấu hình tương ứng; tuy nhiên backend vẫn phải xử lý tool call và kiểm soát quyền. Lượt tiếp theo có thể chuyển auto. Quan trọng: một số model Claude đời mới (ví dụ Opus/Sonnet 5.5) từ chối tool_choice:any hoặc forced named tool bằng HTTP 400. Khi học đề thi cần hiểu ý nghĩa cấu hình, nhưng lúc chạy phải xem model compatibility; có thể dùng prompt và strict tool schema thay thế."
         ],
         "code": "// Request 1: bắt đầu bằng metadata extraction\nconst firstChoice={type:'tool',name:'extract_metadata'};\n\n// Request tiếp theo: model quyết định các bước còn lại\nconst laterChoice={type:'auto'};\n\n// Bắt buộc CÓ tool nhưng cho model tự chọn tool\nconst structuredChoice={type:'any'};",
         "keyPoint": "auto = may call; any = must call one; named tool = must select a specified tool. Không đồng nhất forced choice với an toàn thực thi."
@@ -265,7 +265,7 @@ export const lesson23:Record<"vi"|"en",Domain2Content> = {
         },
         {
           "title": "Bắt buộc extract_metadata",
-          "instruction": "Đặt tool_choice:{type:'tool',name:'extract_metadata'} ở lượt đầu; sau đó auto.",
+          "instruction": "Đặt tool_choice:{type:'tool',name:'extract_metadata'} ở lượt đầu NẾU MODEL HỖ TRỢ; sau đó auto. Với model mới không hỗ trợ forced tool_choice, giải thích giới hạn và dùng strategy thay thế.",
           "why": "Bảo đảm model chọn đúng công cụ khởi đầu.",
           "expected": "Config forced rồi auto được in rõ."
         },
@@ -325,7 +325,7 @@ export const lesson23:Record<"vi"|"en",Domain2Content> = {
         "title": "4. tool_choice auto, any, and named forced tool",
         "explanation": [
           "auto allows a normal text answer or tool use. any requires a tool call but leaves the choice to the model. A named tool choice requires a specific tool to be selected.",
-          "A forced initial extract_metadata call is useful for a known workflow stage. Backend authorization remains necessary even with forced selection."
+          "A forced initial extract_metadata call is useful for a known workflow stage. Backend authorization remains necessary even with forced selection. Important 2026 compatibility nuance: some newer Claude models (including Opus/Sonnet 5.5) reject forced any/named tool_choice with HTTP 400. Learn the conceptual exam distinction, but check your model before using it; prompting plus strict schema may be needed."
         ],
         "code": "// Request 1: bắt đầu bằng metadata extraction\nconst firstChoice={type:'tool',name:'extract_metadata'};\n\n// Request tiếp theo: model quyết định các bước còn lại\nconst laterChoice={type:'auto'};\n\n// Bắt buộc CÓ tool nhưng cho model tự chọn tool\nconst structuredChoice={type:'any'};",
         "keyPoint": "Tool selection policy is not execution authorization."
@@ -552,7 +552,7 @@ export const lesson23:Record<"vi"|"en",Domain2Content> = {
         },
         {
           "title": "Force extract_metadata first",
-          "instruction": "Set named tool_choice initially and auto later.",
+          "instruction": "Set named tool_choice initially and auto later, if supported by the selected model; otherwise document the compatibility limit.",
           "why": "Match workflow ordering.",
           "expected": "Visible configuration."
         },
