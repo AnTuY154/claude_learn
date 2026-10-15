@@ -641,3 +641,39 @@ textarea::placeholder { color: #71819a; }
  .lesson7-build-steps li { padding:14px; }
  .lesson7-command-list pre,.lesson7-build-code pre { font-size:11px; }
 }
+
+
+/* Domain 02 — standalone deep lessons, visually consistent with Lesson 1.7. */
+.domain2-home-heading { margin-top:52px; }
+.domain2-page .lesson-hero h1 { max-width:860px; font-size:clamp(28px,5vw,50px); overflow-wrap:anywhere; }
+.domain2-page .lesson-hero h2 { font-size:clamp(16px,2.6vw,21px); line-height:1.6; font-weight:500; }
+.domain2-scenario { padding:24px 26px; border:1px solid var(--line); border-left:5px solid var(--blue); background:#f3f7ff; margin:26px 0; }
+.domain2-scenario>span { font-size:11px; font-weight:850; color:var(--blue); letter-spacing:.12em; }
+.domain2-scenario h2 { font-size:clamp(22px,3vw,29px); margin:11px 0; line-height:1.25; letter-spacing:-.02em; }
+.domain2-scenario p { font-size:16px; margin:0; line-height:1.8; }
+.domain2-topic { scroll-margin-top:24px; }
+.domain2-topic .course-topic-heading { margin-bottom:22px; }
+.domain2-topic .course-topic-heading h3 { font-size:clamp(22px,3vw,30px); }
+.domain2-topic>p { line-height:1.85; margin:0 0 15px; font-size:15.5px; }
+.domain2-topic .pattern-code { margin-top:21px; }
+.domain2-topic .pattern-code pre { white-space:pre-wrap; overflow-wrap:anywhere; font:12px/1.8 Consolas,monospace; }
+.domain2-page .lesson7-comparison { margin-top:42px; scroll-margin-top:24px; }
+.domain2-vocabulary { margin:42px 0; }
+.domain2-vocabulary .lesson7-table-wrap td { vertical-align:top; line-height:1.6; }
+.domain2-page .bilingual-source { overflow-wrap:anywhere; }
+.domain2-page .course-quiz { scroll-margin-top:20px; }
+.domain2-build { scroll-margin-top:20px; }
+.domain2-lab-steps { list-style:none; padding:0; display:grid; gap:12px; margin:22px 0 28px; }
+.domain2-lab-steps>li { display:grid; grid-template-columns:45px minmax(0,1fr); gap:14px; padding:19px; background:white; border:1px solid var(--line); }
+.domain2-lab-step-index { font-size:13px; font-weight:900; color:var(--blue); }
+.domain2-lab-steps h3 { font-size:20px; margin:0 0 10px; line-height:1.25; }
+.domain2-lab-steps p { margin:0 0 10px; line-height:1.75; color:#40516a; }
+.domain2-lab-steps small { font-size:13px; display:block; padding:10px 14px; background:var(--sky); border-left:3px solid var(--blue); line-height:1.6; margin-bottom:10px; }
+.domain2-build .pattern-code pre { white-space:pre-wrap; overflow-wrap:anywhere; }
+@media(max-width:600px) {
+ .domain2-scenario { padding:17px; }
+ .domain2-lab-steps>li { padding:14px; grid-template-columns:26px minmax(0,1fr); gap:8px; }
+ .domain2-topic .pattern-code pre { font-size:11px; }
+ .domain2-page .lesson7-table-wrap { overflow-x:auto; }
+ .domain2-page .lesson7-table-wrap table { min-width:560px; }
+}
