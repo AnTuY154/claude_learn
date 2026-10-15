@@ -1,0 +1,18 @@
+{
+  "_comment": "TEMPLATE ONLY. Copy into .mcp.json in your own test project; never insert actual credentials here.",
+  "mcpServers": {
+    "team_demo_http": {
+      "type": "http",
+      "url": "https://mcp.example.test/mcp",
+      "headers": {
+        "Authorization": "Bearer ${TEAM_MCP_TOKEN}"
+      }
+    },
+    "domain2_customer_local": {
+      "command": "node",
+      "args": [
+        "scripts/domain2-mcp-server.mjs"
+      ]
+    }
+  }
+}
