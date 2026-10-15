@@ -1,3 +1,4 @@
+import { domain2 } from "./domain2-course.ts";
 // Thuật ngữ chuẩn dùng nhất quán cho 7 bài. Không dịch tên trường API thành tên khác.
 // Mỗi definition giải thích đúng ngữ cảnh của Claude agents, không phải từ điển chung.
 export type Term = { term: string; vi: string; explanation: string };
@@ -172,4 +173,15 @@ export const lessonGlossary: Record<number,string[]> = {
   6:["decomposition","fixed pipeline","adaptive decomposition","prompt chaining","replan","attention dilution","single-pass","multi-pass","local pass","integration pass","cross-file","dependency","parallel","sequential","coverage","pipeline","workflow","evidence","retrieval","refactor","refactoring","codebase","review","context","scenario","report","execution"],
   7:["session","session state","resume","fork","fork_session","forkSession","fresh session","stale context","stale tool results","curated summary","targeted re-analysis","baseline","dependency","history","session history","context window","codebase","refactor","refactoring","review","evidence","verification","execution","scenario","context","lifecycle","resumption","state","summary injection","fresh start","full re-exploration","divergent exploration","conversation history","contradictory advice","tool results","changed files","dependency analysis"]
 };
+// Domain 2 reuses the mobile glossary/inline-term system from Domain 1.
+// New terms are generated from the actual bilingual lesson vocabulary: no duplicated definitions.
+for(const lesson of Object.values(domain2)){
+  const words=lesson.vi.vocabulary.map(([term])=>term);
+  lessonGlossary[20+lesson.number]=words;
+  for(const [term,vi,description] of lesson.vi.vocabulary){
+    if(!glossary.some(item=>item.term.toLowerCase()===term.toLowerCase())){
+      glossary.push({term,vi,explanation:description+" Trong bài học Domain 2, thuật ngữ này giúp hiểu và lựa chọn đúng công cụ, hành động và quyền thực thi."});
+    }
+  }
+}
 export const glossaryMap = new Map(glossary.map(x=>[x.term.toLowerCase(),x]));
