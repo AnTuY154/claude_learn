@@ -201,7 +201,7 @@ export const lesson25:Record<"vi"|"en",Domain2Content> = {
           "Edit"
         ],
         "correct": 1,
-        "explanation": "Pattern đường dẫn thuộc Glob."
+        "explanation": "Glob khớp tên file và đường dẫn theo pattern, không tìm nội dung bên trong file."
       },
       {
         "question": "Tại sao Grep processLegacyOrder có thể bỏ sót caller sử dụng submitOrder?",
@@ -283,7 +283,7 @@ export const lesson25:Record<"vi"|"en",Domain2Content> = {
         },
         {
           "title": "Glob tests của callers",
-          "instruction": "Dùng Glob patterns **/*.test.tsx và các sibling names.",
+          "instruction": "Dùng Glob patterns **/*.test.js cho fixture Node của bài tập (hoặc **/*.test.tsx với dự án React) cùng các sibling names.",
           "why": "Tìm test theo path không nhất thiết chứa tên hàm.",
           "expected": "Test files của callers được phát hiện."
         },
@@ -512,7 +512,7 @@ export const lesson25:Record<"vi"|"en",Domain2Content> = {
           "Edit"
         ],
         "correct": 1,
-        "explanation": "Filename patterns belong to Glob."
+        "explanation": "Glob matches filenames and path patterns, rather than searching content within files."
       },
       {
         "question": "Why can searching processLegacyOrder miss consumers of submitOrder?",
@@ -594,7 +594,7 @@ export const lesson25:Record<"vi"|"en",Domain2Content> = {
         },
         {
           "title": "Glob relevant test paths",
-          "instruction": "Match sibling test filenames via path patterns.",
+          "instruction": "Match sibling test filenames via path patterns, using **/*.test.js in this Node fixture or **/*.test.tsx in a React project.",
           "why": "Tests may not mention the deprecated function.",
           "expected": "Related tests located."
         },
