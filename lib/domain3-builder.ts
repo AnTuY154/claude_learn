@@ -25,7 +25,7 @@ export function buildDomain3(number:number,slug:string,data:RawLesson):Domain3En
       rows:data.matrix.rows.map(row=>row.map(cell=>l(cell,i)) as [string,string,string])},
     vocabulary:data.words,
     summary:data.sections.map(s=>l(s.takeaway,i)),
-    quiz:data.questions.map(q):Domain2Quiz=>({question:l(q.question,i),choices:q.options.map(o=>l(o,i)) as [string,string,string,string],correct:q.answer,explanation:l(q.because,i)})),
+    quiz:data.questions.map((q):Domain2Quiz=>({question:l(q.question,i),choices:q.options.map(o=>l(o,i)) as [string,string,string,string],correct:q.answer,explanation:l(q.because,i)})),
     lab:{title:l(data.lab.title,i),duration:data.lab.duration,goal:l(data.lab.goal,i),
       steps:data.lab.steps.map(s=>({title:l(s.title,i),instruction:l(s.instruction,i),why:l(s.why,i),expected:l(s.expected,i)})),
       commands:data.lab.commands,source:data.lab.source,disclaimer:l(data.lab.disclaimer,i)}
