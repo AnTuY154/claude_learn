@@ -31,7 +31,7 @@ export default function Domain2Lesson({number}:{number:number}){
     <nav className="lesson-nav" aria-label="Domain 2 lesson navigation">
       <Link href={number>1?`/domain2/lesson${number-1}`:"/lesson7"}>← {vi?"Bài trước":"Previous"} {number>1?`2.${number-1}`:"1.7"}</Link>
       <span>Tool Design &amp; MCP · 2.{number}</span>
-      {number<5?<Link href={`/domain2/lesson${number+1}`}>{vi?"Bài tiếp":"Next"} 2.{number+1} →</Link>:<Link href="/">Course →</Link>}
+      {number<5?<Link href={`/domain2/lesson${number+1}`}>{vi?"Bài tiếp":"Next"} 2.{number+1} →</Link>:<Link href="/domain3/lesson1">3.1 →</Link>}
     </nav>
     <div className="lesson-shell">
       <aside className="lesson-index" aria-label="Lesson number">
@@ -140,7 +140,7 @@ export default function Domain2Lesson({number}:{number:number}){
         <footer className="lesson-footer">
           <Link href={number>1?`/domain2/lesson${number-1}`:"/lesson7"}>← {vi?"Bài trước":"Previous"}</Link>
           <span>2.{number} / 2.5</span>
-          <Link href={number<5?`/domain2/lesson${number+1}`:"/"}>{vi?"Bài tiếp":"Next"} →</Link>
+          <Link href={number<5?`/domain2/lesson${number+1}`:"/domain3/lesson1"}>{vi?"Bài tiếp":"Next"} →</Link>
         </footer>
       </article>
     </div>
