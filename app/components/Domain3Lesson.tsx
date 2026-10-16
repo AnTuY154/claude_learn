@@ -30,16 +30,16 @@ export default function Domain3Lesson({number}:{number:number}){
   return <main className="lesson-page bilingual-lesson domain2-page domain3-page">
     <nav className="lesson-nav" aria-label="Domain 2 lesson navigation">
       <Link href={number>1?`/domain3/lesson${number-1}`:"/domain2/lesson5"}>← {vi?"Bài trước":"Previous"} {number>1?`3.${number-1}`:"1.7"}</Link>
-      <span>Claude Code Configuration · 2.{number}</span>
-      {number<6?<Link href={`/domain3/lesson${number+1}`}>{vi?"Bài tiếp":"Next"} 2.{number+1} →</Link>:<Link href="/">Course →</Link>}
+      <span>Claude Code Configuration · 3.{number}</span>
+      {number<6?<Link href={`/domain3/lesson${number+1}`}>{vi?"Bài tiếp":"Next"} 3.{number+1} →</Link>:<Link href="/">Course →</Link>}
     </nav>
     <div className="lesson-shell">
       <aside className="lesson-index" aria-label="Lesson number">
-        <span>Domain</span><strong>02</strong><i/><small>2.{number}</small>
+        <span>Domain</span><strong>02</strong><i/><small>3.{number}</small>
       </aside>
       <article className="lesson-body">
         <div className="course-language-row">
-          <span>{vi?"BÀI HỌC CHI TIẾT":"DETAILED LESSON"} · 2.{number}</span>
+          <span>{vi?"BÀI HỌC CHI TIẾT":"DETAILED LESSON"} · 3.{number}</span>
           <div role="group" aria-label="Content language">
             <button type="button" aria-pressed={vi} className={vi?"active":""} onClick={()=>switchLang("vi")}>VI</button>
             <button type="button" aria-pressed={!vi} className={!vi?"active":""} onClick={()=>switchLang("en")}>EN</button>
@@ -47,7 +47,7 @@ export default function Domain3Lesson({number}:{number:number}){
         </div>
 
         <header className="lesson-hero bilingual-hero">
-          <p>Claude Certified Architect · Domain 03 · Lesson 2.{number}</p>
+          <p>Claude Certified Architect · Domain 03 · Lesson 3.{number}</p>
           <h1>{t.title}</h1>
           <h2>{display(t.subtitle)}</h2>
         </header>
@@ -63,16 +63,16 @@ export default function Domain3Lesson({number}:{number:number}){
         <nav className="bilingual-toc" aria-label="Lesson 2 table of contents">
           {t.sections.map((sec,i)=><a key={sec.title} href={`#d3-topic-${number}-${i}`}>
             <b>{String(i+1).padStart(2,"0")}</b><span>{sec.title}</span></a>)}
-          <a href="#domain2-decision"><b>↔</b><span>{vi?"Bảng so sánh":"Decision table"}</span></a>
-          <a href="#domain2-quiz"><b>?</b><span>{vi?"Trắc nghiệm":"Quiz"}</span></a>
-          <a href="#domain2-build"><b>JS</b><span>Build Exercise</span></a>
+          <a href="#domain3-decision"><b>↔</b><span>{vi?"Bảng so sánh":"Decision table"}</span></a>
+          <a href="#domain3-quiz"><b>?</b><span>{vi?"Trắc nghiệm":"Quiz"}</span></a>
+          <a href="#domain3-build"><b>JS</b><span>Build Exercise</span></a>
         </nav>
 
         {vi&&<LessonGlossary number={glossaryId}/>}
         <section className="bilingual-topics" aria-label="Complete detailed explanation">
           {t.sections.map((sec,i)=><section className="course-topic domain2-topic" id={`d3-topic-${number}-${i}`} key={sec.title}>
             <div className="course-topic-heading"><span>{String(i+1).padStart(2,"0")}</span><div>
-              <small>DOMAIN 03 · 2.{number}</small><h3>{sec.title}</h3>
+              <small>DOMAIN 03 · 3.{number}</small><h3>{sec.title}</h3>
             </div></div>
             {sec.explanation.map((paragraph,j)=><p key={j}>{display(paragraph)}</p>)}
             {sec.code&&<div className="pattern-code"><div><span>{sec.codeLabel??"JavaScript / TypeScript — annotated example"}</span></div><pre>{sec.code}</pre></div>}
@@ -98,7 +98,7 @@ export default function Domain3Lesson({number}:{number:number}){
         </section>
 
         <p className="bilingual-source">{vi?"Nguồn bài học gốc (nội dung được biên soạn lại)":"Original reference (independently paraphrased)"}: <a href={lesson.source} target="_blank" rel="noreferrer">{lesson.source} ↗</a></p>
-        <section className="lesson-summary bilingual-summary" id="domain2-summary">
+        <section className="lesson-summary bilingual-summary" id="domain3-summary">
           <span>{vi?"TÓM TẮT TRỌNG TÂM":"KEY TAKEAWAYS"}</span>
           <h2>{vi?"Ôn lại trước khi làm bài":"Review before the quiz"}</h2>
           <ol>{t.summary.map((s,i)=><li key={i}>{display(s)}</li>)}</ol>
@@ -125,7 +125,7 @@ export default function Domain3Lesson({number}:{number:number}){
         </section>
 
         <section className="live-lab bilingual-lab domain2-build" id="domain2-build">
-          <div className="lab-heading"><div><span>BUILD EXERCISE · 2.{number} · {t.lab.duration}</span><h2>{t.lab.title}</h2></div><b>JavaScript / Node.js</b></div>
+          <div className="lab-heading"><div><span>BUILD EXERCISE · 3.{number} · {t.lab.duration}</span><h2>{t.lab.title}</h2></div><b>JavaScript / Node.js</b></div>
           <p className="course-lede">{display(t.lab.goal)}</p>
           <div className="research-warning">{t.lab.disclaimer}</div>
           <ol className="domain2-lab-steps">{t.lab.steps.map((st,i)=><li key={i}>
@@ -139,7 +139,7 @@ export default function Domain3Lesson({number}:{number:number}){
 
         <footer className="lesson-footer">
           <Link href={number>1?`/domain3/lesson${number-1}`:"/domain2/lesson5"}>← {vi?"Bài trước":"Previous"}</Link>
-          <span>2.{number} / 3.6</span>
+          <span>3.{number} / 3.6</span>
           <Link href={number<6?`/domain3/lesson${number+1}`:"/"}>{vi?"Bài tiếp":"Next"} →</Link>
         </footer>
       </article>
