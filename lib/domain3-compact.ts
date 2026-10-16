@@ -29,7 +29,7 @@ export function compactLesson(number:number,d:Compact):Domain3Entry{
     explanation:(en?"Correct choice: ":"Đáp án đúng: ")+good+". "+topics[k%topics.length].keyPoint};
   });
   return {
-    title:d.title[i],intro:d.subtitle[i],subtitle:d.subtitle[i],bridge:d.bridge[i],
+    title:d.title[i],subtitle:d.subtitle[i],bridge:d.bridge[i],
     scenarioTitle:en?"Practical Next.js scenario":"Tình huống Next.js thực tế",scenario:d.scenario[i],
     sections:topics,summary:topics.map(t=>t.keyPoint),quiz:quizzes,
     vocabulary:d.words,
