@@ -18,12 +18,21 @@ const domain2Topics = [
   ["2.5","Built-in Tools","Grep, Glob, Read, Edit, Bash"],
 ];
 
+const domain3Topics = [
+  ["3.1","CLAUDE.md Hierarchy","user / project / directory / imports"],
+  ["3.2","Slash Commands & Skills","SKILL.md, context: fork, frontmatter"],
+  ["3.3","Path-Specific Rules","YAML paths, glob patterns, /context"],
+  ["3.4","Plan Mode & Direct Execution","ambiguity, hybrid, Explore"],
+  ["3.5","Iterative Refinement","examples, tests, interview feedback"],
+  ["3.6","CI/CD Integration","claude -p, JSON, separate review"]
+];
+
 export default function Home() {
   return <main className="lesson-page course-home">
     <div className="lesson-hero">
-      <p>Claude Certified Architect · Domains 01 + 02</p>
-      <h1>Agentic Architecture<br/>+ Tool Design &amp; MCP</h1>
-      <h2>12 bài học song ngữ: kiến thức nền tảng, ví dụ JavaScript thực tế, từ vựng, trắc nghiệm và Build Exercise theo giáo trình.</h2>
+      <p>Claude Certified Architect · Domains 01 + 02 + 03</p>
+      <h1>Claude Certified Architect<br/>Domains 1–3</h1>
+      <h2>18 bài học song ngữ: kiến thức nền tảng, ví dụ JavaScript thực tế, từ vựng, trắc nghiệm và Build Exercise theo giáo trình.</h2>
     </div>
     <div className="section-heading"><span>Curriculum</span><h2>Chọn bài học</h2></div>
     <div className="course-home-grid">
@@ -37,6 +46,14 @@ export default function Home() {
     <div className="course-home-grid">
       {domain2Topics.map(([label,title,subtitle],index)=>(
         <Link href={`/domain2/lesson${index+1}`} key={label} className="course-home-item">
+          <span>{label}</span><h3>{title}</h3><p>{subtitle}</p><b>Đọc bài →</b>
+        </Link>
+      ))}
+    </div>
+    <div className="section-heading domain2-home-heading"><span>Domain 03 · Claude Code Configuration &amp; Workflows</span><h2>Claude Code Configuration — Chọn bài học</h2></div>
+    <div className="course-home-grid">
+      {domain3Topics.map(([label,title,subtitle],index)=>(
+        <Link href={`/domain3/lesson${index+1}`} key={label} className="course-home-item">
           <span>{label}</span><h3>{title}</h3><p>{subtitle}</p><b>Đọc bài →</b>
         </Link>
       ))}
