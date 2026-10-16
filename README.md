@@ -1,6 +1,6 @@
-# Claude Learning Lab — Agentic Architecture (1.1–1.7) + Tool Design & MCP (2.1–2.5)
+# Claude Learning Lab — Claude Certified Architect, Domains 1–3 (18 bài)
 
-Ứng dụng ôn tập theo 12 bài thuộc hai domain đầu của [Claude Certification Guide](https://claudecertificationguide.com/learn/1-agentic-architecture/1-1-agentic-loops), xây dựng bằng Next.js App Router + TypeScript.
+Ứng dụng ôn tập theo 18 bài thuộc ba domain đầu của [Claude Certification Guide](https://claudecertificationguide.com/learn/1-agentic-architecture/1-1-agentic-loops), xây dựng bằng Next.js App Router + TypeScript.
 
 ## Cấu trúc tất cả các bài (VI / EN)
 
@@ -9,7 +9,7 @@
 3. **Knowledge Quiz**: trắc nghiệm có giải thích đúng/sai; câu hỏi và đáp án theo ngôn ngữ đã chọn.
 4. **Build Exercise**: comment code, các bước tự làm, lệnh Node.js chạy thật và log từng request/tool/usage.
 
-Nút **VI/EN** ở đầu mỗi bài nhớ lựa chọn trong browser. Thanh header cho phép chuyển giữa 1.1–1.7 và 2.1–2.5. Website: https://antuy154.github.io/claude_learn/
+Nút **VI/EN** ở đầu mỗi bài nhớ lựa chọn trong browser. Thanh header cho phép chuyển giữa 1.1–1.7, 2.1–2.5 và 3.1–3.6. Website: https://antuy154.github.io/claude_learn/
 
 | Bài | Nội dung |
 |---|---|
@@ -53,6 +53,37 @@ MCP v2 server + client **thật qua stdio** (không gọi Claude model):
 npm install --no-save --package-lock=false @modelcontextprotocol/server @modelcontextprotocol/client zod
 npm run lab:domain2:mcp:client
 ```
+
+
+## Domain 3 — Claude Code Configuration & Workflows (3.1–3.6)
+
+6 bài học chi tiết (VI/EN) viết lại theo phương pháp Lesson 1.7, có case thực tế Next.js, 6–7 chủ đề đi từ cơ chế tới tình huống, ví dụ cấu hình/JS, bảng quyết định, glossary, 8 câu quiz/bài và Build Exercise riêng.
+
+| Bài | Chủ đề | Trang |
+|---|---|---|
+| 3.1 | CLAUDE.md Hierarchy, Scope & Imports | [3.1](https://antuy154.github.io/claude_learn/domain3/lesson1/) |
+| 3.2 | Custom Commands & Skills | [3.2](https://antuy154.github.io/claude_learn/domain3/lesson2/) |
+| 3.3 | Path-Specific Rules | [3.3](https://antuy154.github.io/claude_learn/domain3/lesson3/) |
+| 3.4 | Plan Mode vs Direct Execution | [3.4](https://antuy154.github.io/claude_learn/domain3/lesson4/) |
+| 3.5 | Iterative Refinement | [3.5](https://antuy154.github.io/claude_learn/domain3/lesson5/) |
+| 3.6 | CI/CD Integration | [3.6](https://antuy154.github.io/claude_learn/domain3/lesson6/) |
+
+**Hướng dẫn chính:** [docs/domain3-build-exercises.md](docs/domain3-build-exercises.md).
+
+```powershell
+npm ci
+npm test
+
+# Tạo đúng 1 workspace practice; không gọi AI, không sửa home config
+npm run lab:domain3 -- 1
+npm run lab:domain3 -- 2
+npm run lab:domain3 -- 3
+npm run lab:domain3 -- 4
+npm run lab:domain3 -- 5
+npm run lab:domain3 -- 6
+```
+
+Các workspace nằm trong `domain3-workspaces/` (gitignored) và **không ghi đè dữ liệu**. Với 3.5, `npm test` trong fixture có một failing test cố ý. Với 3.6, workflow mẫu ở trong sandbox, không kích hoạt pipeline hoặc tự gọi Claude có phí. Để tương tác thực với Claude Code, chạy `claude` trong workspace với credentials/quota hợp lệ.
 
 ## Website local và kiểm thử
 
