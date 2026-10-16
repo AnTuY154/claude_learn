@@ -54,7 +54,7 @@ if(id===5){
   add("CLAUDE.md","# Test-driven lab\nShow concrete before/after transformations and preserve null.");
   add("src/normalise.js","// INTENTIONAL BUG for failing test\nexport const normalise=x=>x==null?'':x;");
   add("src/normalise.test.js","import test from 'node:test';\nimport assert from 'node:assert/strict';\nimport {normalise} from './normalise.js';\ntest('null preserved',()=>assert.equal(normalise(null),null));\ntest('strings unchanged',()=>assert.equal(normalise('ok'),'ok'));");
-  add("package.json",JSON.stringify({type:"module",scripts:{test:"node --test"}},null,2));
+  add("package.json",JSON.stringify({type:"module",scripts:{test:"node --test src/normalise.test.js"}},null,2));
   add("examples.md","Before: getUser(id): Promise<User>\nAfter: getUser(id): Promise<Result<User,ApiError>>\nBefore: fetchOrders(id): Promise<Order[]>\nAfter: fetchOrders(id): Promise<Result<Order[],ApiError>>");
   steps.push("Run npm test: one assertion intentionally FAILS before refinement.","Give Claude the actual failure; correct null behaviour.","Give two before/after Result examples then test unseen cases.","Use interview pattern for unfamiliar caching requirements.","Batch interdependent feedback, sequence unrelated changes.");
 }
