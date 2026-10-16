@@ -21,7 +21,7 @@ test("Domain 3: all six lessons have detailed matching VI/EN content",()=>{
    assert.ok(c.vocabulary.length>=8);
    assert.ok(c.lab.steps.length>=5);
    assert.ok(c.lab.commands.includes("lab:domain3"));
-   for(const s of c.sections){assert.ok(s.explanation.join(" ").length>130,s.title);assert.ok(s.code.length>40);}
+   for(const s of c.sections){assert.ok(s.explanation.join(" ").length>130,s.title);assert.ok((s.code??"").length>40);}
    for(const q of c.quiz){assert.equal(q.choices.length,4);assert.ok(q.correct>=0&&q.correct<4);assert.ok(q.explanation.length>30);}
   }
   assert.equal(lesson.vi.sections.length,lesson.en.sections.length);
