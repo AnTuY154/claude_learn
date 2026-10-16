@@ -29,7 +29,7 @@ export default function Domain3Lesson({number}:{number:number}){
   };
   return <main className="lesson-page bilingual-lesson domain2-page domain3-page">
     <nav className="lesson-nav" aria-label="Domain 2 lesson navigation">
-      <Link href={number>1?`/domain3/lesson${number-1}`:"/domain2/lesson5"}>← {vi?"Bài trước":"Previous"} {number>1?`3.${number-1}`:"1.7"}</Link>
+      <Link href={number>1?`/domain3/lesson${number-1}`:"/domain2/lesson5"}>← {vi?"Bài trước":"Previous"} {number>1?`3.${number-1}`:"2.5"}</Link>
       <span>Claude Code Configuration · 3.{number}</span>
       {number<6?<Link href={`/domain3/lesson${number+1}`}>{vi?"Bài tiếp":"Next"} 3.{number+1} →</Link>:<Link href="/">Course →</Link>}
     </nav>
@@ -60,7 +60,7 @@ export default function Domain3Lesson({number}:{number:number}){
           <p>{display(t.scenario)}</p>
         </section>
 
-        <nav className="bilingual-toc" aria-label="Lesson 2 table of contents">
+        <nav className="bilingual-toc" aria-label="Lesson 3 table of contents">
           {t.sections.map((sec,i)=><a key={sec.title} href={`#d3-topic-${number}-${i}`}>
             <b>{String(i+1).padStart(2,"0")}</b><span>{sec.title}</span></a>)}
           <a href="#domain3-decision"><b>↔</b><span>{vi?"Bảng so sánh":"Decision table"}</span></a>
@@ -83,7 +83,7 @@ export default function Domain3Lesson({number}:{number:number}){
           </section>)}
         </section>
 
-        <section id="domain2-decision" className="lesson7-comparison">
+        <section id="domain3-decision" className="lesson7-comparison">
           <div className="section-heading"><span>DECISION MATRIX</span><h2>{vi?"So sánh để chọn đúng giải pháp":"Choose by scenario"}</h2></div>
           <div className="lesson7-table-wrap">
             <table><thead><tr>{t.table.headers.map((h,i)=><th key={i}>{h}</th>)}</tr></thead>
@@ -104,7 +104,7 @@ export default function Domain3Lesson({number}:{number:number}){
           <ol>{t.summary.map((s,i)=><li key={i}>{display(s)}</li>)}</ol>
         </section>
 
-        <section className="course-quiz bilingual-quiz" id="domain2-quiz">
+        <section className="course-quiz bilingual-quiz" id="domain3-quiz">
           <div className="section-heading"><span>QUIZ · {t.quiz.length} {vi?"câu hỏi":"questions"}</span><h2>{vi?"Tự kiểm tra kiến thức":"Check your understanding"}</h2></div>
           <div className="course-quiz-meter" aria-live="polite">
             <strong>{graded?`${vi?"Điểm":"Score"}: ${score}/${t.quiz.length} (${Math.round(score/t.quiz.length*100)}%)`:`${vi?"Đã trả lời":"Answered"}: ${totalAnswered}/${t.quiz.length}`}</strong>
@@ -114,7 +114,7 @@ export default function Domain3Lesson({number}:{number:number}){
           <div className="course-questions">{t.quiz.map((q,i)=><fieldset key={i} className="course-question">
             <legend><b>{String(i+1).padStart(2,"0")}</b>{q.question}</legend>
             <div className="course-choices">{q.choices.map((choice,j)=><label key={j} className={graded&&j===q.correct?"correct":graded&&answers[i]===j?"wrong":""}>
-              <input type="radio" name={`domain2-${number}-${i}`} checked={answers[i]===j} disabled={graded} onChange={()=>setAnswers(a=>({...a,[i]:j}))}/>
+              <input type="radio" name={`domain3-${number}-${i}`} checked={answers[i]===j} disabled={graded} onChange={()=>setAnswers(a=>({...a,[i]:j}))}/>
               <b>{String.fromCharCode(65+j)}</b>{choice}</label>)}</div>
             {graded&&<div className="course-answer" role="status"><strong>{answers[i]===q.correct?(vi?"Chính xác":"Correct"):(vi?"Chưa đúng":"Incorrect")+" — "+String.fromCharCode(65+q.correct)}</strong><p>{q.explanation}</p></div>}
           </fieldset>)}</div>
@@ -124,7 +124,7 @@ export default function Domain3Lesson({number}:{number:number}){
           </div>
         </section>
 
-        <section className="live-lab bilingual-lab domain2-build" id="domain2-build">
+        <section className="live-lab bilingual-lab domain2-build" id="domain3-build">
           <div className="lab-heading"><div><span>BUILD EXERCISE · 3.{number} · {t.lab.duration}</span><h2>{t.lab.title}</h2></div><b>JavaScript / Node.js</b></div>
           <p className="course-lede">{display(t.lab.goal)}</p>
           <div className="research-warning">{t.lab.disclaimer}</div>
