@@ -6,7 +6,7 @@
     "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start -p 3001",
-    "test": "node --experimental-strip-types --test lib/tools.test.ts lib/research.test.ts lib/seasonal-fruits.test.ts lib/context-passing.test.ts lib/agentic-course.test.ts lib/agentic-exercises.test.ts lib/certification-audit.test.ts lib/bilingual-course.test.ts lib/course-glossary.test.ts lib/lesson7-workshop.test.ts lib/domain2-course.test.ts",
+    "test": "node --experimental-strip-types --test lib/tools.test.ts lib/research.test.ts lib/seasonal-fruits.test.ts lib/context-passing.test.ts lib/agentic-course.test.ts lib/agentic-exercises.test.ts lib/certification-audit.test.ts lib/bilingual-course.test.ts lib/course-glossary.test.ts lib/lesson7-workshop.test.ts lib/domain2-course.test.ts lib/domain3-course.test.ts",
     "review:lessons": "node --experimental-strip-types scripts/review-lessons.mjs",
     "lab": "node scripts/live-labs.mjs",
     "lab:sdk-hooks": "node scripts/sdk-hooks-lab.mjs",
@@ -16,7 +16,8 @@
     "lab:session7:fix": "node scripts/lesson7-workshop.mjs fix",
     "lab:domain2": "node scripts/domain2-labs.mjs",
     "lab:domain2:mcp": "node scripts/domain2-mcp-server.mjs",
-    "lab:domain2:mcp:client": "node scripts/domain2-mcp-client.mjs"
+    "lab:domain2:mcp:client": "node scripts/domain2-mcp-client.mjs",
+    "lab:domain3": "node scripts/domain3-labs.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "latest",
