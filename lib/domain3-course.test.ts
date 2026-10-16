@@ -60,7 +60,7 @@ test("Domain 3 lab is valid JavaScript and scaffolds each sandbox without API",(
   assert.match(redTest,/assert\.equal\(normalise\(null\),null\)/);
   const red=spawnSync(process.execPath,["src/normalise.test.js"],{cwd:l5,encoding:"utf8"});
   assert.notEqual(red.status,0,"TDD fixture should start red. stdout="+red.stdout+" stderr="+red.stderr+" source="+buggy);
-  assert.match(red.stdout,/not ok/);
+  // Child node:test under a parent test worker may output binary test IPC, not TAP; nonzero exit is authoritative.
   const l6=path.join(temp,"domain3-workspaces","lesson36");
   const output=spawnSync(process.execPath,["scripts/check-review.mjs"],{cwd:l6,encoding:"utf8"});
   assert.equal(output.status,0,output.stderr);
