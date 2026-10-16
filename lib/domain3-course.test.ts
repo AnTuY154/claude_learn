@@ -54,7 +54,7 @@ test("Domain 3 lab is valid JavaScript and scaffolds each sandbox without API",(
   const l3=path.join(temp,"domain3-workspaces","lesson33");
   assert.match(readFileSync(path.join(l3,".claude/rules/testing.md"),"utf8"),/\*\*\/\*\.test\.tsx/);
   const l5=path.join(temp,"domain3-workspaces","lesson35");
-  const red=spawnSync(process.execPath,["--test"],{cwd:l5,encoding:"utf8"});
+  const red=spawnSync(process.execPath,["--test","src/normalise.test.js"],{cwd:l5,encoding:"utf8"});
   assert.notEqual(red.status,0,"TDD fixture intentionally starts red");
   assert.match(red.stdout,/not ok/);
   const l6=path.join(temp,"domain3-workspaces","lesson36");
