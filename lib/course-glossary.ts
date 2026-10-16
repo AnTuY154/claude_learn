@@ -1,4 +1,5 @@
 import { domain2 } from "./domain2-course.ts";
+import { domain3 } from "./domain3-course.ts";
 // Thuật ngữ chuẩn dùng nhất quán cho 7 bài. Không dịch tên trường API thành tên khác.
 // Mỗi definition giải thích đúng ngữ cảnh của Claude agents, không phải từ điển chung.
 export type Term = { term: string; vi: string; explanation: string };
@@ -181,6 +182,15 @@ for(const lesson of Object.values(domain2)){
   for(const [term,vi,description] of lesson.vi.vocabulary){
     if(!glossary.some(item=>item.term.toLowerCase()===term.toLowerCase())){
       glossary.push({term,vi,explanation:description+" Trong bài học Domain 2, thuật ngữ này giúp hiểu và lựa chọn đúng công cụ, hành động và quyền thực thi."});
+    }
+  }
+}
+// Domain 3 reuses inline contextual vocabulary in VI paragraphs and mobile bottom-sheet explanations.
+for(const lesson of Object.values(domain3)){
+  lessonGlossary[30+lesson.number]=lesson.vi.vocabulary.map(([term])=>term);
+  for(const [term,vi,explanation] of lesson.vi.vocabulary){
+    if(!glossary.some(item=>item.term.toLowerCase()===term.toLowerCase())){
+      glossary.push({term,vi,explanation:explanation+" Trong Claude Code, thuật ngữ này mô tả quy tắc, cấu hình hoặc bước vận hành cụ thể cần phân biệt khi thi."});
     }
   }
 }
