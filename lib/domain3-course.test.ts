@@ -58,7 +58,7 @@ test("Domain 3 lab is valid JavaScript and scaffolds each sandbox without API",(
   const redTest=readFileSync(path.join(l5,"src/normalise.test.js"),"utf8");
   assert.match(buggy,/normalise=x=>x==null/);
   assert.match(redTest,/assert\.equal\(normalise\(null\),null\)/);
-  const red=spawnSync(process.execPath,["--test","src/normalise.test.js"],{cwd:l5,encoding:"utf8"});
+  const red=spawnSync(process.execPath,["src/normalise.test.js"],{cwd:l5,encoding:"utf8"});
   assert.notEqual(red.status,0,"TDD fixture should start red. stdout="+red.stdout+" stderr="+red.stderr+" source="+buggy);
   assert.match(red.stdout,/not ok/);
   const l6=path.join(temp,"domain3-workspaces","lesson36");
