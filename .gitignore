@@ -23,3 +23,6 @@ next-env.d.ts
 
 # Generated local Lesson 2.5 repo fixture (never overwrite/commit personal work)
 /domain2-builtins-workspace/
+
+# Claude Code configuration learning fixtures (local, never publish personal edits)
+/domain3-workspaces/
