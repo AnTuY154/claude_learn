@@ -27,11 +27,11 @@ export default function Domain4Lesson({number}:{number:number}){
     setLanguage(next);setAnswers({});setGraded(false);
     try{localStorage.setItem("claude-course-language",next);}catch{}
   };
-  return <main className="lesson-page bilingual-lesson domain2-page domain4-page">
+  return <main className="lesson-page bilingual-lesson domain2-page domain3-page domain4-page">
     <nav className="lesson-nav" aria-label="Domain 4 lesson navigation">
       <Link href={number>1?`/domain4/lesson${number-1}`:"/domain3/lesson6"}>← {vi?"Bài trước":"Previous"} {number>1?`4.${number-1}`:"3.6"}</Link>
       <span>Prompt Engineering · 4.{number}</span>
-      {number<6?<Link href={`/domain4/lesson${number+1}`}>{vi?"Bài tiếp":"Next"} 3.{number+1} →</Link>:<Link href="/">Course →</Link>}
+      {number<6?<Link href={`/domain4/lesson${number+1}`}>{vi?"Bài tiếp":"Next"} 4.{number+1} →</Link>:<Link href="/">Course →</Link>}
     </nav>
     <div className="lesson-shell">
       <aside className="lesson-index" aria-label="Lesson number">
@@ -61,7 +61,7 @@ export default function Domain4Lesson({number}:{number:number}){
         </section>
 
         <nav className="bilingual-toc" aria-label="Lesson 4 table of contents">
-          {t.sections.map((sec,i)=><a key={sec.title} href={`#d3-topic-${number}-${i}`}>
+          {t.sections.map((sec,i)=><a key={sec.title} href={`#d4-topic-${number}-${i}`}>
             <b>{String(i+1).padStart(2,"0")}</b><span>{sec.title}</span></a>)}
           <a href="#domain4-decision"><b>↔</b><span>{vi?"Bảng so sánh":"Decision table"}</span></a>
           <a href="#domain4-quiz"><b>?</b><span>{vi?"Trắc nghiệm":"Quiz"}</span></a>
@@ -70,7 +70,7 @@ export default function Domain4Lesson({number}:{number:number}){
 
         {vi&&<LessonGlossary number={glossaryId}/>}
         <section className="bilingual-topics" aria-label="Complete detailed explanation">
-          {t.sections.map((sec,i)=><section className="course-topic domain2-topic" id={`d3-topic-${number}-${i}`} key={sec.title}>
+          {t.sections.map((sec,i)=><section className="course-topic domain2-topic" id={`d4-topic-${number}-${i}`} key={sec.title}>
             <div className="course-topic-heading"><span>{String(i+1).padStart(2,"0")}</span><div>
               <small>DOMAIN 04 · 4.{number}</small><h3>{sec.title}</h3>
             </div></div>

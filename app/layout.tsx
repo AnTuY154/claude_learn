@@ -3,8 +3,8 @@ import "./globals.css";
 import CourseNavigation from "./components/CourseNavigation";
 
 export const metadata: Metadata = {
-  title: "Claude Learning Lab · Claude Architect Domains 1–3",
-  description: "Claude Certified Architect: Agentic Architecture, Tool Design, MCP và Claude Code Configuration, ví dụ JavaScript, quiz và Build Exercise.",
+  title: "Claude Learning Lab · Claude Architect Domains 1–4",
+  description: "Claude Certified Architect: Agentic Architecture, Tool Design, MCP và Claude Code Configuration và Prompt Engineering, ví dụ JavaScript, quiz và Build Exercise.",
   applicationName: "Claude Learning Lab",
   icons: { icon: `${process.env.GITHUB_PAGES_EXPORT === "true" ? "/claude_learn" : ""}/icon.svg`, apple: `${process.env.GITHUB_PAGES_EXPORT === "true" ? "/claude_learn" : ""}/icon.svg` },
 };

@@ -8,7 +8,7 @@ export function promptEngineeringLesson(number:number,data:Compact):Domain3Entry
  for(const language of ["vi","en"] as const){
   const content=entry[language];
   content.scenarioTitle=language==="vi"?"Tình huống thực tế xuyên suốt":"Practical running scenario";
-  content.sections.forEach(section=>{section.codeLabel="Annotated JavaScript / Claude API concept";});
+  content.sections.forEach(section=>{section.codeLabel="Annotated JavaScript / Claude API concept";section.code=section.code?.replaceAll("\\n","\n");});
   content.lab.source="scripts/domain4-labs.mjs";
   content.lab.title=language==="vi"?"Bài tập thực hành Domain 4":"Domain 4 hands-on build exercise";
   content.lab.disclaimer=language==="vi"

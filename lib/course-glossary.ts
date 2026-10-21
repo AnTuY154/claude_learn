@@ -1,5 +1,6 @@
 import { domain2 } from "./domain2-course.ts";
 import { domain3 } from "./domain3-course.ts";
+import { domain4 } from "./domain4-course.ts";
 // Thuật ngữ chuẩn dùng nhất quán cho 7 bài. Không dịch tên trường API thành tên khác.
 // Mỗi definition giải thích đúng ngữ cảnh của Claude agents, không phải từ điển chung.
 export type Term = { term: string; vi: string; explanation: string };
@@ -193,5 +194,14 @@ for(const lesson of Object.values(domain3)){
       glossary.push({term,vi,explanation:explanation+" Trong Claude Code, thuật ngữ này mô tả quy tắc, cấu hình hoặc bước vận hành cụ thể cần phân biệt khi thi."});
     }
   }
+}
+// Domain 4 terms power the existing VI inline glossary and mobile popup.
+for(const lesson of Object.values(domain4)){
+ lessonGlossary[40+lesson.number]=lesson.vi.vocabulary.map(([term])=>term);
+ for(const [term,vi,explanation] of lesson.vi.vocabulary){
+  if(!glossary.some(item=>item.term.toLowerCase()===term.toLowerCase())){
+   glossary.push({term,vi,explanation:explanation+" Thuật ngữ thuộc Prompt Engineering và Structured Output."});
+  }
+ }
 }
 export const glossaryMap = new Map(glossary.map(x=>[x.term.toLowerCase(),x]));
