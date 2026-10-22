@@ -1,6 +1,6 @@
-# Claude Learning Lab — Claude Certified Architect, Domains 1–3 (18 bài)
+# Claude Learning Lab — Claude Certified Architect, Domains 1–4 (24 bài)
 
-Ứng dụng ôn tập theo 18 bài thuộc ba domain đầu của [Claude Certification Guide](https://claudecertificationguide.com/learn/1-agentic-architecture/1-1-agentic-loops), xây dựng bằng Next.js App Router + TypeScript.
+Ứng dụng ôn tập theo 24 bài thuộc bốn domain đầu của [Claude Certification Guide](https://claudecertificationguide.com/learn/1-agentic-architecture/1-1-agentic-loops), xây dựng bằng Next.js App Router + TypeScript.
 
 ## Cấu trúc tất cả các bài (VI / EN)
 
@@ -9,7 +9,7 @@
 3. **Knowledge Quiz**: trắc nghiệm có giải thích đúng/sai; câu hỏi và đáp án theo ngôn ngữ đã chọn.
 4. **Build Exercise**: comment code, các bước tự làm, lệnh Node.js chạy thật và log từng request/tool/usage.
 
-Nút **VI/EN** ở đầu mỗi bài nhớ lựa chọn trong browser. Thanh header cho phép chuyển giữa 1.1–1.7, 2.1–2.5 và 3.1–3.6. Website: https://antuy154.github.io/claude_learn/
+Nút **VI/EN** ở đầu mỗi bài nhớ lựa chọn trong browser. Thanh header cho phép chuyển giữa 1.1–1.7, 2.1–2.5, 3.1–3.6 và 4.1–4.6. Website: https://antuy154.github.io/claude_learn/
 
 | Bài | Nội dung |
 |---|---|
@@ -164,3 +164,27 @@ Mọi commit `main` tự chạy unit tests → TypeScript → Next.js static exp
 `npm run review:lessons` có thể chạy **3 lượt gọi model song song** rồi một synthesis khi có key/credit. Đây là tùy chọn, không phải điều đã được chạy tự động để xác minh khóa học. Việc model tự đánh giá không thay thế kiểm tra nguồn chính thức.
 
 [docs/github-pages.md](docs/github-pages.md) · [Anthropic TypeScript SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/sdks/typescript) · [Claude Agent SDK Docs](https://code.claude.com/docs/en/agent-sdk/overview)
+
+## Domain 4 — Prompt Engineering & Structured Output (4.1–4.6)
+
+Sáu bài **VI/EN** theo cấu trúc các domain trước: câu chuyện thực tế, lý thuyết chi tiết có annotated JavaScript, decision matrix, từ vựng tương tác, **8 quiz mỗi bài**, và Build Exercise có lệnh tạo fixture local.
+
+| Bài | Trọng tâm | Trang |
+|---|---|---|
+| 4.1 | Explicit Criteria, Severity, False Positives | [4.1](https://antuy154.github.io/claude_learn/domain4/lesson1/) |
+| 4.2 | Few-Shot Prompting and Decision Rationales | [4.2](https://antuy154.github.io/claude_learn/domain4/lesson2/) |
+| 4.3 | Tool Use, JSON Schema, Nullability | [4.3](https://antuy154.github.io/claude_learn/domain4/lesson3/) |
+| 4.4 | Validation, Retry with Error Feedback | [4.4](https://antuy154.github.io/claude_learn/domain4/lesson4/) |
+| 4.5 | Batch Workloads, custom_id, SLA | [4.5](https://antuy154.github.io/claude_learn/domain4/lesson5/) |
+| 4.6 | Independent Reviewer, Local + Integration Passes | [4.6](https://antuy154.github.io/claude_learn/domain4/lesson6/) |
+
+```powershell
+npm ci
+npm test
+npm run lab:domain4 -- 1
+# Replace 1 with 2...6 to generate separate exercises.
+cd domain4-workspaces/lesson41
+node check.mjs
+```
+
+Local exercises use deterministic mock files, never call Claude, refuse to overwrite a previous workspace and do not require an API key. For detailed walkthroughs see [docs/domain4-build-exercises.md](docs/domain4-build-exercises.md). The exam-guide decisions and deployment-specific October 2026 API caveats are labelled separately in lessons 4.3 and 4.5.

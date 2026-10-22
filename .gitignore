@@ -26,3 +26,6 @@ next-env.d.ts
 
 # Claude Code configuration learning fixtures (local, never publish personal edits)
 /domain3-workspaces/
+
+# Deterministic Domain 4 local exercises (never commit personal changes)
+/domain4-workspaces/

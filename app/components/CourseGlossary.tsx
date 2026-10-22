@@ -65,7 +65,7 @@ function TermTrigger({term}:{term:Term}){
 export function LessonGlossary({number}:{number:number}){
   const terms=(lessonGlossary[number]??[]).map(t=>glossaryMap.get(t.toLowerCase())).filter((x):x is Term=>!!x);
   return <details className="course-glossary" id="terminology">
-    <summary><strong>Từ điển thuật ngữ Lesson {number>=31?"3."+(number-30):number>=21?"2."+(number-20):"1."+number}</strong><span>{terms.length} thuật ngữ · Nhấn để xem ý nghĩa tiếng Việt</span></summary>
+    <summary><strong>Từ điển thuật ngữ Lesson {number>=41?"4."+(number-40):number>=31?"3."+(number-30):number>=21?"2."+(number-20):"1."+number}</strong><span>{terms.length} thuật ngữ · Nhấn để xem ý nghĩa tiếng Việt</span></summary>
     <dl>{terms.map(term=><div key={term.term}>
       <dt>{term.term}<small>{term.vi}</small></dt><dd>{term.explanation}</dd>
     </div>)}</dl>
