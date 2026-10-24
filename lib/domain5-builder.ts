@@ -11,7 +11,7 @@ export function reliabilityLesson(number:number,data:Compact):Domain3Entry{
   content.scenarioTitle=language==="vi"?"Tình huống thực tế xuyên suốt":"Running architecture scenario";
   content.sections.forEach(section=>{
    section.codeLabel="JavaScript / TypeScript — conceptual teaching example";
-   section.code=section.code?.replaceAll("\\n","\n");
+   // Preserve literal escaped newlines inside sample code strings.
   });
   content.lab.title=language==="vi"?"Build Exercise — Context & Reliability":"Build Exercise — Context & Reliability";
   content.lab.source="scripts/domain5-labs.mjs";
