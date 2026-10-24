@@ -1,6 +1,7 @@
 import { domain2 } from "./domain2-course.ts";
 import { domain3 } from "./domain3-course.ts";
 import { domain4 } from "./domain4-course.ts";
+import { domain5 } from "./domain5-course.ts";
 // Thuật ngữ chuẩn dùng nhất quán cho 7 bài. Không dịch tên trường API thành tên khác.
 // Mỗi definition giải thích đúng ngữ cảnh của Claude agents, không phải từ điển chung.
 export type Term = { term: string; vi: string; explanation: string };
@@ -201,6 +202,15 @@ for(const lesson of Object.values(domain4)){
  for(const [term,vi,explanation] of lesson.vi.vocabulary){
   if(!glossary.some(item=>item.term.toLowerCase()===term.toLowerCase())){
    glossary.push({term,vi,explanation:explanation+" Thuật ngữ thuộc Prompt Engineering và Structured Output."});
+  }
+ }
+}
+// Domain 5 terms remain scoped to each bilingual lesson.
+for(const lesson of Object.values(domain5)){
+ lessonGlossary[50+lesson.number]=lesson.vi.vocabulary.map(([term])=>term);
+ for(const [term,vi,explanation] of lesson.vi.vocabulary){
+  if(!glossary.some(item=>item.term.toLowerCase()===term.toLowerCase())){
+   glossary.push({term,vi,explanation:explanation+" Domain 5: Context Management & Reliability."});
   }
  }
 }

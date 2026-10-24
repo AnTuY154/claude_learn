@@ -2,9 +2,10 @@ import {domain12Editorial,type EditorialLesson} from "@/lib/editorial-domain12";
 import {sourceLearningObjectives} from "@/lib/source-learning-objectives";
 import {domain3Editorial} from "@/lib/editorial-domain3";
 import {domain4Editorial} from "@/lib/editorial-domain4";
+import {domain5Editorial} from "@/lib/editorial-domain5";
 
 const reviewed = new Map<string,EditorialLesson>(
- [...domain12Editorial,...domain3Editorial,...domain4Editorial].map(entry=>[entry.id,entry])
+ [...domain12Editorial,...domain3Editorial,...domain4Editorial,...domain5Editorial].map(entry=>[entry.id,entry])
 );
 
 /**

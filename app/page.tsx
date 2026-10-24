@@ -27,6 +27,39 @@ const domain4Topics = [
   ["4.6","Multi-Pass Review","independent reviewer, cross-file checks"],
 ];
 
+const domain5Topics = [
+  [
+    "5.1",
+    "Context Window Management",
+    "case facts, trimming, lost in the middle"
+  ],
+  [
+    "5.2",
+    "Escalation & Ambiguity",
+    "human request, policy gaps, identifiers"
+  ],
+  [
+    "5.3",
+    "Error Propagation",
+    "structured failures, partial results, retry"
+  ],
+  [
+    "5.4",
+    "Codebase Exploration",
+    "scratchpad, subagents, state manifest"
+  ],
+  [
+    "5.5",
+    "Human Review & Calibration",
+    "field accuracy, sampling, reviewer queues"
+  ],
+  [
+    "5.6",
+    "Information Provenance",
+    "claim-source mappings, conflicts, dates"
+  ]
+];
+
 const domain3Topics = [
   ["3.1","CLAUDE.md Hierarchy","user / project / directory / imports"],
   ["3.2","Slash Commands & Skills","SKILL.md, context: fork, frontmatter"],
@@ -39,9 +72,9 @@ const domain3Topics = [
 export default function Home() {
   return <main className="lesson-page course-home">
     <div className="lesson-hero">
-      <p>Claude Certified Architect · Domains 01 + 02 + 03 + 04</p>
-      <h1>Claude Certified Architect<br/>Domains 1–4</h1>
-      <h2>24 bài học song ngữ: kiến thức nền tảng, ví dụ JavaScript thực tế, từ vựng, trắc nghiệm và Build Exercise theo giáo trình.</h2>
+      <p>Claude Certified Architect · Domains 01 + 02 + 03 + 04 + 05</p>
+      <h1>Claude Certified Architect<br/>Domains 1–5</h1>
+      <h2>30 bài học song ngữ: kiến thức nền tảng, ví dụ JavaScript thực tế, từ vựng, trắc nghiệm và Build Exercise theo giáo trình.</h2>
     </div>
     <div className="section-heading"><span>Curriculum</span><h2>Chọn bài học</h2></div>
     <div className="course-home-grid">
@@ -71,6 +104,14 @@ export default function Home() {
     <div className="course-home-grid">
       {domain4Topics.map(([label,title,subtitle],index)=>(
         <Link href={`/domain4/lesson${index+1}`} key={label} className="course-home-item">
+          <span>{label}</span><h3>{title}</h3><p>{subtitle}</p><b>Đọc bài →</b>
+        </Link>
+      ))}
+    </div>
+    <div className="section-heading domain2-home-heading"><span>Domain 05 · Context Management &amp; Reliability</span><h2>Context &amp; Reliability — Chọn bài học</h2></div>
+    <div className="course-home-grid">
+      {domain5Topics.map(([label,title,subtitle],index)=>(
+        <Link href={`/domain5/lesson${index+1}`} key={label} className="course-home-item">
           <span>{label}</span><h3>{title}</h3><p>{subtitle}</p><b>Đọc bài →</b>
         </Link>
       ))}

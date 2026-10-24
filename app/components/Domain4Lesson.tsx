@@ -32,7 +32,7 @@ export default function Domain4Lesson({number}:{number:number}){
     <nav className="lesson-nav" aria-label="Domain 4 lesson navigation">
       <Link href={number>1?`/domain4/lesson${number-1}`:"/domain3/lesson6"}>← {vi?"Bài trước":"Previous"} {number>1?`4.${number-1}`:"3.6"}</Link>
       <span>Prompt Engineering · 4.{number}</span>
-      {number<6?<Link href={`/domain4/lesson${number+1}`}>{vi?"Bài tiếp":"Next"} 4.{number+1} →</Link>:<Link href="/">Course →</Link>}
+      {number<6?<Link href={`/domain4/lesson${number+1}`}>{vi?"Bài tiếp":"Next"} 4.{number+1} →</Link>:<Link href="/domain5/lesson1">5.1 →</Link>}
     </nav>
     <div className="lesson-shell">
       <aside className="lesson-index" aria-label="Lesson number">
@@ -143,7 +143,7 @@ export default function Domain4Lesson({number}:{number:number}){
         <footer className="lesson-footer">
           <Link href={number>1?`/domain4/lesson${number-1}`:"/domain3/lesson6"}>← {vi?"Bài trước":"Previous"}</Link>
           <span>4.{number} / 4.6</span>
-          <Link href={number<6?`/domain4/lesson${number+1}`:"/"}>{vi?"Bài tiếp":"Next"} →</Link>
+          <Link href={number<6?`/domain4/lesson${number+1}`:"/domain5/lesson1"}>{vi?"Bài tiếp":"Next"} →</Link>
         </footer>
       </article>
     </div>
