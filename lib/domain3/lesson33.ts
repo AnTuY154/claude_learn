@@ -22,7 +22,7 @@ export const lesson33=compactLesson(3,{
     [
       "1. .claude/rules/ và frontmatter paths",
       "1. Path-scoped rule files and frontmatter",
-      "Mỗi file rule có thể đặt dưới .claude/rules/testing.md, phần đầu YAML có paths: ['**/*.test.tsx', '**/*.test.ts']. Khi Claude Code đọc hoặc chỉnh file match pattern, rules được nạp vào context; khi làm file khác không cần mang rule test vào.",
+      "Mỗi file rule có thể đặt dưới .claude/rules/testing.md, phần đầu YAML có paths: ['**/*.test.tsx', '**/*.test.ts']. Khi Claude Code chỉnh file match pattern, rules có điều kiện được nạp vào context theo mô tả trong giáo trình; khi làm file khác không cần mang rule test vào.",
       "Rules files use YAML paths frontmatter to constrain when instructions apply. Matching .test.tsx or .test.ts files trigger test conventions, keeping unrelated tasks free of these rules.",
       "---\npaths:\n  - '**/*.test.ts'\n  - '**/*.test.tsx'\n---\n# Test rules\n- Cover happy path and error path\n- Mock external modules at boundaries",
       "Rule nằm trong .claude/rules và YAML paths điều khiển conditional inclusion.",

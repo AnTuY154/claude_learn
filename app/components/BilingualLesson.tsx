@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import SourceVerifiedLecture from "./SourceVerifiedLecture";
 import { useEffect, useState } from "react";
 import { course, type Locale } from "@/lib/bilingual-course";
 import { labExamples } from "@/lib/lab-examples";
@@ -81,6 +82,7 @@ export default function BilingualLesson({ number }: { number: number }) {
         <header className="lesson-hero bilingual-hero">
           <p>{t.overview}</p><h1>{content.title}</h1><h2><TermText text={content.intro} number={number} active={language==="vi"}/></h2>
         </header>
+        <SourceVerifiedLecture id={`1.${number}`} language={language}/>
         {number===7 && language==="vi" ? <Lesson7Original /> : <>
         <div className="application-note bilingual-bridge"><span>{t.bridge}</span><p>{content.bridge}</p></div>
         <nav className="bilingual-toc" aria-label="Lesson content">
