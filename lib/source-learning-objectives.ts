@@ -529,5 +529,137 @@ export const sourceLearningObjectives: SourceChecklist = {
       "Confidence phải calibrated trước auto routing",
       "Confidence must be calibrated before automatic routing"
     ]
+  ],
+  "5.1": [
+  [
+    "Context budget là chất lượng lựa chọn dữ liệu; không chỉ kích cỡ token. — 1. Context window chứa những gì?",
+    "Context quality depends on selective input, not only token capacity. — 1. What consumes the context window?"
+  ],
+  [
+    "Tóm tắt phù hợp narrative, không phải nơi cất duy nhất của giao dịch. — 2. Progressive summarisation làm rơi dữ kiện",
+    "Summarise narrative, but do not store transactional details only in the summary. — 2. Progressive summaries can erase exact facts"
+  ],
+  [
+    "Dữ kiện giao dịch không được đưa vào quá trình summarise narrative. — 3. Persistent case facts block",
+    "Never let a narrative summariser become the sole keeper of transactional facts. — 3. A persistent case facts block"
+  ],
+  [
+    "Di chuyển key findings lên đầu thay vì nhắc model chú ý. — 4. Lost in the middle",
+    "Move key findings to the front rather than merely requesting more attention. — 4. Structural mitigation for lost-in-the-middle"
+  ],
+  [
+    "Chỉ giữ fields cần thiết trước khi context bị phình. — 5. Trim tool results trước khi vào history",
+    "Keep task-relevant fields before the verbose result enters context. — 5. Trim tool results before they enter history"
   ]
+],
+  "5.2": [
+  [
+    "Không thay trigger bằng cảm xúc hoặc điểm tự tin. — 1. Ba điều kiện escalation hợp lệ",
+    "Do not replace explicit triggers with emotion or uncalibrated confidence. — 1. Three valid human-escalation triggers"
+  ],
+  [
+    "Yêu cầu con người là escalation ngay, khác giận dữ thông thường. — 2. Explicit human request phải được tôn trọng ngay",
+    "An explicit human request triggers immediate handoff, unlike frustration alone. — 2. Honour explicit human requests immediately"
+  ],
+  [
+    "Policy silence => escalate; policy says no => agent có thể từ chối. — 3. Policy gap khác policy violation",
+    "Escalate on policy silence; decline autonomously when the policy already answers. — 3. A policy gap is not a policy violation"
+  ],
+  [
+    "Lỗi thực tế chưa sửa được mới là trigger, không phải dự cảm. — 4. Không thể tiến triển sau genuine attempt",
+    "Escalate demonstrated lack of progress, not anticipated difficulty. — 4. Escalate inability to progress after a genuine attempt"
+  ],
+  [
+    "Frustrated but resolvable => hỗ trợ; explicit human => chuyển. — 5. Frustration không phải trigger",
+    "Resolve a frustrated-but-routine case; transfer on explicit human preference. — 5. Sentiment and frustration are not escalation criteria"
+  ]
+],
+  "5.3": [
+  [
+    "Access failure khác empty success cả về ý nghĩa lẫn hành động. — 1. Error propagation trong multi-agent",
+    "Access failure and successful emptiness require different decisions. — 1. What error propagation enables"
+  ],
+  [
+    "Nêu rõ đã thử gì và tìm được gì trước khi hỏng. — 2. Bốn trường thông tin bắt buộc",
+    "Preserve attempted parameters, partial findings and fallback strategies. — 2. Four required error-context elements"
+  ],
+  [
+    "Failure class chứ không chỉ text message quyết định next step. — 3. Phân loại failures để chọn recovery",
+    "The failure class and actual attempt determine recovery, not a generic message. — 3. Distinguish failure classes"
+  ],
+  [
+    "Không tô lỗi thành thành công và không xóa partial work. — 4. Hai anti-pattern: silent suppression/termination",
+    "Do not disguise failure as success or discard unrelated successes. — 4. Silent suppression and pipeline termination"
+  ],
+  [
+    "Retry cục bộ trước; propagate khi không phục hồi được. — 5. Local recovery cho transient failures",
+    "Recover locally where appropriate, then propagate unresolved failure context. — 5. Local recovery for transient failures"
+  ]
+],
+  "5.4": [
+  [
+    "Đừng đánh đồng attention degradation với tràn token. — 1. Triệu chứng suy giảm context",
+    "Context degradation is loss of specificity, not necessarily token exhaustion. — 1. What context degradation looks like"
+  ],
+  [
+    "Ghi exact findings ra file, đừng chỉ giữ trong chat dài. — 2. Scratchpad files là cách chính",
+    "Externalise verified details before they are buried by further exploration. — 2. Scratchpad files are the primary remedy"
+  ],
+  [
+    "Subagents giảm pollution cho coordinator; không mặc nhiên share history. — 3. Subagents để cách ly context",
+    "Subagents isolate discovery context; their histories are not automatically shared. — 3. Delegate to isolate verbose work"
+  ],
+  [
+    "Chuyển findings có chọn lọc sang phase sau; không giả có shared memory. — 4. Summary injection giữa các phases",
+    "Inject concise, source-grounded phase summaries rather than whole transcripts. — 4. Inject phase summaries into later work"
+  ],
+  [
+    "Compact bảo vệ chất lượng context, nhưng không thay scratchpad. — 5. /compact dùng chủ động",
+    "Proactive compaction helps context quality but does not replace durable exact findings. — 5. Use /compact proactively"
+  ]
+],
+  "5.5": [
+  [
+    "Độ chính xác tổng thể không thể đại diện cho từng dạng dữ liệu. — 1. Aggregate accuracy che giấu rủi ro",
+    "Aggregate accuracy is not evidence that every field and document format is reliable. — 1. Aggregate metrics hide weak segments"
+  ],
+  [
+    "Lấy mẫu high-confidence là điều kiện quan trọng của kiểm tra liên tục. — 2. Stratified random sampling",
+    "Audit automated high-confidence outputs, not only cases already sent to humans. — 2. Sample every stratum, including high confidence"
+  ],
+  [
+    "Raw confidence chỉ là tín hiệu, không phải xác suất đã kiểm chứng. — 3. Field-level confidence không tự hiệu chuẩn",
+    "A confidence score needs empirical calibration to become a trustworthy routing signal. — 3. Raw confidence is not calibrated probability"
+  ],
+  [
+    "Hiệu chuẩn theo đúng field/segment thay vì dùng score của model làm sự thật. — 4. Calibrate trên labelled validation set",
+    "Calibrate scores per relevant segment on labelled examples. — 4. Use labelled ground truth and calibration curves"
+  ],
+  [
+    "Routing phải dựa calibrated evidence và mức độ mơ hồ nguồn. — 5. Routing theo ngưỡng đã hiệu chuẩn",
+    "Route based on labelled evidence and ambiguity, not an arbitrary one-size-fits-all score. — 5. Calibrated routing and uncertain cases"
+  ]
+],
+  "5.6": [
+  [
+    "Claim cần evidence gắn riêng và đủ 5 metadata fields. — 1. Provenance là đường dẫn chứng cứ của từng claim",
+    "Attach five provenance fields to each distinct claim. — 1. Provenance traces each claim to evidence"
+  ],
+  [
+    "Nguồn được giữ từ đầu pipeline đến output cuối. — 2. Attribution dễ mất ở synthesis",
+    "Preserve original claim-source mappings through every stage. — 2. Attribution often disappears during synthesis"
+  ],
+  [
+    "Không giải quyết mâu thuẫn bằng cách tạo con số thứ ba. — 3. Conflicts: đừng chọn, đừng trung bình",
+    "Annotate both published values rather than inventing an average. — 3. Report conflicts rather than picking a number"
+  ],
+  [
+    "Thiếu ngày có thể khiến cùng xu hướng bị hiểu sai thành conflict. — 4. Publication date và temporal context",
+    "Retain temporal context before deciding whether two numbers conflict. — 4. Dates distinguish trends from contradictions"
+  ],
+  [
+    "Tạo record conflict có bằng chứng, không ép một giá trị duy nhất. — 5. Hoàn thành phân tích với conflict intact",
+    "Carry discrepancies to the coordinator without fabricating resolution. — 5. Complete analysis with disagreements intact"
+  ]
+]
 };

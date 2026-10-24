@@ -30,7 +30,7 @@ export default function Domain5Lesson({number}:{number:number}){
   };
   return <main className="lesson-page bilingual-lesson domain2-page domain3-page domain5-page">
     <nav className="lesson-nav" aria-label="Domain 5 lesson navigation">
-      <Link href={number>1?`/domain5/lesson${number-1}`:"/domain4/lesson6"}>← {vi?"Bài trước":"Previous"} {number>1?`4.${number-1}`:"4.6"}</Link>
+      <Link href={number>1?`/domain5/lesson${number-1}`:"/domain4/lesson6"}>← {vi?"Bài trước":"Previous"} {number>1?`5.${number-1}`:"4.6"}</Link>
       <span>Context Management & Reliability · 5.{number}</span>
       {number<6?<Link href={`/domain5/lesson${number+1}`}>{vi?"Bài tiếp":"Next"} 4.{number+1} →</Link>:<Link href="/">Course →</Link>}
     </nav>
@@ -61,7 +61,7 @@ export default function Domain5Lesson({number}:{number:number}){
           <p>{display(t.scenario)}</p>
         </section>
 
-        <SourceVerifiedLecture id={`4.${number}`} language={language}/>
+        <SourceVerifiedLecture id={`5.${number}`} language={language}/>
 
         <nav className="bilingual-toc" aria-label="Lesson 4 table of contents">
           {t.sections.map((sec,i)=><a key={sec.title} href={`#d4-topic-${number}-${i}`}>
