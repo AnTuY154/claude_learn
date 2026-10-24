@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import SourceVerifiedLecture from "./SourceVerifiedLecture";
 import { useEffect, useState } from "react";
 import { domain2 } from "@/lib/domain2-course";
 import type { Domain2Language } from "@/lib/domain2-types";
@@ -59,6 +60,8 @@ export default function Domain2Lesson({number}:{number:number}){
           <h2>{t.scenarioTitle}</h2>
           <p>{display(t.scenario)}</p>
         </section>
+
+        <SourceVerifiedLecture id={`2.${number}`} language={language}/>
 
         <nav className="bilingual-toc" aria-label="Lesson 2 table of contents">
           {t.sections.map((sec,i)=><a key={sec.title} href={`#d2-topic-${number}-${i}`}>

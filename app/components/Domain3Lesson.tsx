@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import SourceVerifiedLecture from "./SourceVerifiedLecture";
 import { useEffect, useState } from "react";
 import { domain3 } from "@/lib/domain3-course";
 import type { Domain2Language } from "@/lib/domain2-types";
@@ -28,14 +29,14 @@ export default function Domain3Lesson({number}:{number:number}){
     try{localStorage.setItem("claude-course-language",next);}catch{}
   };
   return <main className="lesson-page bilingual-lesson domain2-page domain3-page">
-    <nav className="lesson-nav" aria-label="Domain 2 lesson navigation">
+    <nav className="lesson-nav" aria-label="Domain 3 lesson navigation">
       <Link href={number>1?`/domain3/lesson${number-1}`:"/domain2/lesson5"}>← {vi?"Bài trước":"Previous"} {number>1?`3.${number-1}`:"2.5"}</Link>
       <span>Claude Code Configuration · 3.{number}</span>
       {number<6?<Link href={`/domain3/lesson${number+1}`}>{vi?"Bài tiếp":"Next"} 3.{number+1} →</Link>:<Link href="/">Course →</Link>}
     </nav>
     <div className="lesson-shell">
       <aside className="lesson-index" aria-label="Lesson number">
-        <span>Domain</span><strong>02</strong><i/><small>3.{number}</small>
+        <span>Domain</span><strong>03</strong><i/><small>3.{number}</small>
       </aside>
       <article className="lesson-body">
         <div className="course-language-row">
@@ -59,6 +60,8 @@ export default function Domain3Lesson({number}:{number:number}){
           <h2>{t.scenarioTitle}</h2>
           <p>{display(t.scenario)}</p>
         </section>
+
+        <SourceVerifiedLecture id={`3.${number}`} language={language}/>
 
         <nav className="bilingual-toc" aria-label="Lesson 3 table of contents">
           {t.sections.map((sec,i)=><a key={sec.title} href={`#d3-topic-${number}-${i}`}>
