@@ -197,3 +197,7 @@ node check.mjs
 ```
 
 Local exercises use deterministic mock files, never call Claude, refuse to overwrite a previous workspace and do not require an API key. For detailed walkthroughs see [docs/domain4-build-exercises.md](docs/domain4-build-exercises.md). The exam-guide decisions and deployment-specific October 2026 API caveats are labelled separately in lessons 4.3 and 4.5.
+
+## CCAR-F content QA agent (nguồn duy nhất)
+
+Agent mới đối chiếu **24 bài Domain 1–4** với đúng trang nguồn tại https://claudecertificationguide.com/learn, kiểm tra nội dung VI/EN, kiến thức, quiz và labs có bằng chứng trích dẫn. Chạy thủ công trong **Actions → CCAR-F Source-Only Curriculum Review** (cần API key/model) hoặc dùng `npm run review:ccarf -- --lesson all --check-only` để kiểm tra cấu trúc local **không xác minh nguồn**. Xem [docs/ccarf-source-review-agent.md](docs/ccarf-source-review-agent.md). Agent không tự sửa hoặc công bố kết quả chính xác tuyệt đối.

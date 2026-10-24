@@ -1,0 +1,53 @@
+name: CCAR-F Source-Only Curriculum Review
+
+# Paid model calls are NEVER triggered on push or PR.
+on:
+  workflow_dispatch:
+    inputs:
+      lesson:
+        description: 'all (24 lessons) or one Task Statement, e.g. 3.3'
+        required: true
+        type: string
+        default: "all"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ccarf-manual-review
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Check review credentials before external calls
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ] || [ -z "$ANTHROPIC_MODEL" ]; then
+            echo "::error::Set ANTHROPIC_API_KEY in Actions Secrets and ANTHROPIC_MODEL in Actions Variables."
+            exit 1
+          fi
+      - name: Compare trusted curriculum source to the website
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_MODEL: ${{ vars.ANTHROPIC_MODEL }}
+          LESSON: ${{ inputs.lesson }}
+        run: npm run review:ccarf -- --lesson "$LESSON"
+      - name: Upload read-only findings
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ccarf-source-only-review
+          path: artifacts/ccarf-source-review/
+          if-no-files-found: warn
+          retention-days: 30
