@@ -1,4 +1,5 @@
 import {domain12Editorial,type EditorialLesson} from "@/lib/editorial-domain12";
+import {sourceLearningObjectives} from "@/lib/source-learning-objectives";
 import {domain3Editorial} from "@/lib/editorial-domain3";
 import {domain4Editorial} from "@/lib/editorial-domain4";
 
@@ -16,6 +17,7 @@ export default function SourceVerifiedLecture({id,language}:{id:string;language:
  const entry=reviewed.get(id);
  if(!entry) return null;
  const vi=language==="vi",i=vi?0:1;
+ const objectives=sourceLearningObjectives[id]??[];
  const parts=[
   {title:vi?"Bản chất và cơ chế":"Definition and mechanism",body:entry.mechanism[i]},
   {title:vi?"Tình huống ứng dụng (minh hoạ)":"Worked scenario (illustrative)",body:entry.example[i]},
@@ -30,6 +32,10 @@ export default function SourceVerifiedLecture({id,language}:{id:string;language:
   <p>{vi
    ?"Phần này được diễn giải lại theo đúng Task Statement của bài tại Claude Certification Guide. Ví dụ là tình huống minh hoạ, không phải số liệu kiểm chứng. Những khác biệt 'Exam Guide' và 'Current state' chỉ được trình bày khi trang nguồn nêu rõ."
    :"This independent explanation follows the matching Task Statement on Claude Certification Guide. Scenarios are illustrative, not measured results. Exam Guide versus Current state differences are included only where that curriculum page explicitly distinguishes them."}</p>
+  <section className="lesson-summary bilingual-summary">
+   <strong>{vi?"5 MỤC TIÊU KIẾN THỨC CẦN NẮM":"FIVE LESSON OBJECTIVES"}</strong>
+   <ol>{objectives.map((objective,index)=><li key={index}>{objective[i]}</li>)}</ol>
+  </section>
   {parts.map((part,index)=><section className="course-topic domain2-topic" key={part.title}>
    <div className="course-topic-heading"><span>{String(index+1).padStart(2,"0")}</span><div><small>{id} · {vi?"KIẾN THỨC TRỌNG TÂM":"CORE CONCEPT"}</small><h3>{part.title}</h3></div></div>
    <p>{part.body}</p>

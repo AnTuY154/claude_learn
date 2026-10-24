@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import {domain12Editorial} from "./editorial-domain12.ts";
 import {domain3Editorial} from "./editorial-domain3.ts";
 import {domain4Editorial} from "./editorial-domain4.ts";
+import {sourceLearningObjectives} from "./source-learning-objectives.ts";
 import {course} from "./bilingual-course.ts";
 import {domain2} from "./domain2-course.ts";
 import {domain3} from "./domain3-course.ts";
@@ -13,9 +14,13 @@ test("24 source-aligned bilingual lectures link exclusively to the matching curr
  assert.equal(all.length,24);
  const expected=[...Array.from({length:7},(_,i)=>`1.${i+1}`),...Array.from({length:5},(_,i)=>`2.${i+1}`),...Array.from({length:6},(_,i)=>`3.${i+1}`),...Array.from({length:6},(_,i)=>`4.${i+1}`)];
  assert.deepEqual(all.map(x=>x.id),expected);
+ assert.deepEqual(Object.keys(sourceLearningObjectives),expected);
  const guidePrefix="https://claudecertificationguide.com/learn/";
  for(const item of all){
   assert.ok(item.source.startsWith(guidePrefix),item.id);
+  const objectives=sourceLearningObjectives[item.id];
+  assert.equal(objectives.length,5,item.id);
+  for(const [vi,en] of objectives){assert.ok(vi.length>=25,item.id+" objective VI");assert.ok(en.length>=20,item.id+" objective EN");}
   assert.ok(item.source.includes("/"+item.id.replace(".","-")+"-"),item.id);
   for(const field of ["mechanism","example","distinction","examTrap"] as const){
    assert.equal(item[field].length,2,item.id+field);

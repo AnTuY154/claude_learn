@@ -85,6 +85,15 @@ npm run lab:domain3 -- 6
 
 Các workspace nằm trong `domain3-workspaces/` (gitignored) và **không ghi đè dữ liệu**. Với 3.5, `npm test` trong fixture có một failing test cố ý. Với 3.6, workflow mẫu ở trong sandbox, không kích hoạt pipeline hoặc tự gọi Claude có phí. Để tương tác thực với Claude Code, chạy `claude` trong workspace với credentials/quota hợp lệ.
 
+
+## Chính sách nguồn duy nhất / Source-of-truth policy (Domains 1–4)
+
+**Nguồn tin cậy duy nhất khi biên soạn nội dung 24 bài: [Claude Certification Guide — Curriculum](https://claudecertificationguide.com/learn)** và đường dẫn Task Statement tương ứng trên cùng website. Không dùng blog, Reddit, mock đề hay suy luận hành vi API bên ngoài website làm bằng chứng cho đáp án. Mỗi bài giờ có phần **Bài giảng biên soạn theo nguồn** trước các chương chi tiết, gồm 5 mục tiêu kiến thức, định nghĩa/cơ chế, ví dụ giả định, phân biệt/giới hạn và bẫy thi; song ngữ VI/EN, dẫn link gốc.
+
+Đặc biệt, một số bài trên trang nguồn phân biệt **Exam Guide v1.0** và **Current state** (ví dụ Task/Agent, /memory//context, batch server tools). Website học cũng ghi rõ phân biệt theo chính trang nguồn, không tự kiểm chứng hoặc thay đổi kết luận bằng tài liệu bên ngoài. Ví dụ bài giảng là tình huống tự dựng để minh họa cơ chế, không phải kết quả đo thực nghiệm. Các câu hỏi website vẫn là câu gốc tự biên soạn, không phải câu thi thật hay đáp án bị lộ.
+
+**Kiểm tra:** `npm test` bao gồm `editorial-coverage.test.ts` kiểm đủ 24 nguồn chính xác, 120 learning objectives, song ngữ đầy đủ và khớp chính URL của từng bài. `npm run build` xác nhận xuất trang tĩnh. Xem [PR kiểm toán](https://github.com/AnTuY154/claude_learn/pull/6) để theo dõi lịch sử chỉnh sửa.
+
 ## Website local và kiểm thử
 
 ```powershell
