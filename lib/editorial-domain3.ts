@@ -76,7 +76,7 @@ export const domain3Editorial:EditorialLesson[] = [
       "The guide lists claude --permission-mode plan, Shift+Tab and a /plan prefix as actual entry mechanisms. Writing 'in plan mode' inside prompt prose does not switch mode. Planning first and executing after approval is a sensible hybrid."
     ],
     "examTrap": [
-      "Bẫy: plan mọi thay đổi nhỏ, hoặc bắt đầu refactor rộng bằng direct execution vì mỗi edit nhìn có vẻ đơn giản.",
+      "Bẫy: plan mọi thay đổi nhỏ, hoặc bắt đầu refactor rộng bằng direct execution vì mỗi edit nhìn có vẻ đơn giản. Chọn chiến lược dựa trên mức độ mơ hồ và ảnh hưởng toàn hệ thống, không chỉ số file.",
       "Traps: using plan mode for a trivial known fix or skipping exploration for a broad refactor because each local edit appears simple."
     ]
   },
