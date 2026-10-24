@@ -1,10 +1,10 @@
-// Editorial review: authored as paraphrased, cross-checked teaching notes, not copied guide text.
-// Each lesson remains constrained to its Task Statement and links to directly applicable official documentation.
-export type EditorialLesson = {id:string; official:string; mechanism:[string,string]; example:[string,string]; distinction:[string,string]; examTrap:[string,string]};
+// Editorial review: authored as paraphrased, source-aligned teaching notes, not copied guide text.
+// Each lesson remains constrained to its Task Statement and links to the sole curriculum source at claudecertificationguide.com/learn.
+export type EditorialLesson = {id:string; source:string; mechanism:[string,string]; example:[string,string]; distinction:[string,string]; examTrap:[string,string]};
 export const domain12Editorial: EditorialLesson[] = [
   {
     "id": "1.1",
-    "official": "https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons",
+    "source": "https://claudecertificationguide.com/learn/1-agentic-architecture/1-1-agentic-loops",
     "mechanism": [
       "Vòng lặp agent bắt đầu bằng Messages API request, đọc stop_reason, thực thi mọi client tool_use được yêu cầu, rồi gửi lại assistant tool_use cùng user tool_result có tool_use_id khớp. end_turn nghĩa là xong lượt; tool_use nghĩa là ứng dụng cần chạy tool. Đây là luồng điều khiển do code sở hữu, không phải Claude tự chạy hàm JavaScript của bạn.",
       "An agent loop sends a Messages API request, inspects stop_reason, executes requested client tools, then returns the assistant tool_use blocks followed by matching user tool_result blocks using tool_use_id. end_turn closes the turn; tool_use hands control to your application. Claude does not directly execute the JavaScript functions you define."
@@ -24,7 +24,7 @@ export const domain12Editorial: EditorialLesson[] = [
   },
   {
     "id": "1.2",
-    "official": "https://code.claude.com/docs/en/agent-sdk/subagents",
+    "source": "https://claudecertificationguide.com/learn/1-agentic-architecture/1-2-orchestration-patterns",
     "mechanism": [
       "Coordinator nhận goal, chia scope rõ cho specialist, cấp context và tools vừa đủ, tổng hợp findings sau khi từng agent hoàn tất. Hub-and-spoke không đồng nghĩa với chia mọi công việc; một nhiệm vụ nhỏ có thể tốt hơn với một agent.",
       "A coordinator receives the goal, partitions responsibilities, passes the necessary context and tools, then synthesises specialist findings. Hub-and-spoke does not mean every task deserves multiple agents; a narrow problem may be better served by one."
@@ -44,7 +44,7 @@ export const domain12Editorial: EditorialLesson[] = [
   },
   {
     "id": "1.3",
-    "official": "https://code.claude.com/docs/en/agent-sdk/subagents",
+    "source": "https://claudecertificationguide.com/learn/1-agentic-architecture/1-3-subagent-invocation-context",
     "mechanism": [
       "AgentDefinition định nghĩa description (khi nào giao việc), prompt (hướng dẫn), tools (công cụ được phép). Subagent thường có context riêng; coordinator phải chủ động truyền goal, evidence, URL và metadata cần thiết. Cách cấu hình tool delegation phụ thuộc phiên bản SDK/CLI đang dùng.",
       "An AgentDefinition describes when to delegate, what the subagent must do and which tools it may use. Subagents have separate context: the coordinator must pass goals, relevant findings and source metadata explicitly. Delegation permissions and tool names are SDK/CLI-version specific."
@@ -64,7 +64,7 @@ export const domain12Editorial: EditorialLesson[] = [
   },
   {
     "id": "1.4",
-    "official": "https://code.claude.com/docs/en/agent-sdk/hooks",
+    "source": "https://claudecertificationguide.com/learn/1-agentic-architecture/1-4-workflow-enforcement-handoff",
     "mechanism": [
       "Prompt chỉ định hành vi mong muốn; điều kiện bắt buộc như xác minh khách trước refund phải do backend/permission gate kiểm tra tại điểm thực thi. Gate fail-closed nếu thiếu session authorization, đúng customer ID hoặc amount validation.",
       "Prompts steer intended behaviour; mandatory prerequisites such as verifying a customer before refund need application-side or permission checks at the execution boundary. Fail closed when the authorised identity, matching customer ID or valid amount is missing."
@@ -84,7 +84,7 @@ export const domain12Editorial: EditorialLesson[] = [
   },
   {
     "id": "1.5",
-    "official": "https://code.claude.com/docs/en/agent-sdk/hooks",
+    "source": "https://claudecertificationguide.com/learn/1-agentic-architecture/1-5-agent-sdk-hooks",
     "mechanism": [
       "PreToolUse chạy trước khi tool được thực thi và có thể deny/ask/allow hoặc chỉnh tool input theo contract hỗ trợ; PostToolUse chạy sau, có thể chuẩn hóa kết quả trước khi model đọc. Hooks áp dụng ở runtime được cấu hình, không phải lời hứa ngôn ngữ.",
       "PreToolUse runs before tool execution and can deny, request approval, allow or modify inputs through supported contracts; PostToolUse runs afterwards and can normalise outputs before Claude processes them. Hooks are runtime enforcement, not prose instructions."
@@ -104,7 +104,7 @@ export const domain12Editorial: EditorialLesson[] = [
   },
   {
     "id": "1.6",
-    "official": "https://code.claude.com/docs/en/best-practices",
+    "source": "https://claudecertificationguide.com/learn/1-agentic-architecture/1-6-task-decomposition",
     "mechanism": [
       "Fixed pipeline (prompt chaining) có các bước xác định trước, thích hợp kiểm định hồ sơ lặp lại. Adaptive decomposition khảo sát, phát hiện dependency và thay đổi kế hoạch sau mỗi bằng chứng mới, phù hợp điều tra bug chưa biết nguyên nhân.",
       "A fixed pipeline follows predetermined stages for predictable repeated work. Adaptive decomposition discovers dependencies and revises subtasks as evidence arrives, suitable for investigations whose cause is initially unknown."
@@ -124,7 +124,7 @@ export const domain12Editorial: EditorialLesson[] = [
   },
   {
     "id": "1.7",
-    "official": "https://code.claude.com/docs/en/agent-sdk/sessions",
+    "source": "https://claudecertificationguide.com/learn/1-agentic-architecture/1-7-session-state-resumption",
     "mechanism": [
       "Resume tiếp tục một session cùng history. Fork tạo nhánh độc lập từ history gốc nhưng vẫn giữ thông tin đã đọc trước khi tách. Fresh session + curated summary tạo context mới có chọn lọc. Session history không đồng nghĩa trạng thái file hiện tại.",
       "Resume continues a session with its previous history. Fork creates an independent branch from that history but retains information present before the fork. A fresh session with a curated summary starts with selected context. Session history is not the current filesystem state."
@@ -144,7 +144,7 @@ export const domain12Editorial: EditorialLesson[] = [
   },
   {
     "id": "2.1",
-    "official": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview",
+    "source": "https://claudecertificationguide.com/learn/2-tool-design-mcp/2-1-tool-schema-design",
     "mechanism": [
       "Tool name, description và input_schema phối hợp định hướng lựa chọn và tham số. Description phải nói chức năng, input/format, examples, limitations và khi nào KHÔNG dùng tool để tránh misrouting với công cụ gần nghĩa.",
       "Tool names, descriptions and input_schema jointly shape selection and parameter generation. A reliable description gives purpose, input formats, examples, limitations and boundaries against similar tools."
@@ -164,7 +164,7 @@ export const domain12Editorial: EditorialLesson[] = [
   },
   {
     "id": "2.2",
-    "official": "https://modelcontextprotocol.io/specification/2025-06-18/server/tools",
+    "source": "https://claudecertificationguide.com/learn/2-tool-design-mcp/2-2-structured-error-responses",
     "mechanism": [
       "Lỗi MCP tool execution dùng result với isError:true để model có cơ hội đọc và sửa tham số nếu cần. Đây khác với lỗi protocol/transport JSON-RPC. Trả structured details rõ category, code, message và retry guidance; không cần giả định một trường isRetryable là bắt buộc của MCP.",
       "An MCP tool execution failure can return a tool result with isError:true so the model receives actionable details. This differs from JSON-RPC protocol or transport errors. Include explicit error category, code, message and retry guidance; isRetryable is a useful application convention, not a universally required MCP field."
@@ -184,7 +184,7 @@ export const domain12Editorial: EditorialLesson[] = [
   },
   {
     "id": "2.3",
-    "official": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview",
+    "source": "https://claudecertificationguide.com/learn/2-tool-design-mcp/2-3-tool-distribution-choice",
     "mechanism": [
       "Giới hạn mỗi agent ở bộ tools thực sự phục vụ vai trò để giảm nhầm lẫn và quyền thừa; chọn tool theo description và available inputs. tool_choice auto cho phép trả text, any muốn một tool, named tool muốn tên cụ thể trên model hỗ trợ chế độ đó.",
       "Limit each agent to a coherent toolset to reduce misrouting and unnecessary permissions. auto can produce a direct answer; any and named tool modes request forced selection where the chosen model supports them."
@@ -204,7 +204,7 @@ export const domain12Editorial: EditorialLesson[] = [
   },
   {
     "id": "2.4",
-    "official": "https://code.claude.com/docs/en/mcp",
+    "source": "https://claudecertificationguide.com/learn/2-tool-design-mcp/2-4-mcp-server-integration",
     "mechanism": [
       "MCP cung cấp tools (thao tác), resources (ngữ cảnh có thể đọc) và prompts (mẫu). Claude Code có nhiều scope: project .mcp.json để chia sẻ, user config cho cá nhân, local scope cho repo hiện tại. Các scope tồn tại cùng nhau; lựa chọn scope quyết định chia sẻ và mức trust.",
       "MCP exposes tools for operations, resources for readable context and prompts for reusable templates. Claude Code supports project-level .mcp.json and personal user/local scoping. These can coexist; scope affects sharing and trust."
@@ -224,7 +224,7 @@ export const domain12Editorial: EditorialLesson[] = [
   },
   {
     "id": "2.5",
-    "official": "https://code.claude.com/docs/en/cli-reference",
+    "source": "https://claudecertificationguide.com/learn/2-tool-design-mcp/2-5-built-in-tools",
     "mechanism": [
       "Glob tìm đường dẫn/tên file theo pattern; Grep tìm nội dung trong file; Read xem đầy đủ ngữ cảnh. Edit patch một đoạn khi đoạn old_string đủ duy nhất; Write tạo hoặc thay nội dung, vì vậy cần đọc lại và kiểm diff trước ghi đè.",
       "Glob discovers file paths by glob pattern; Grep searches file contents. Read inspects context; Edit changes a uniquely identified span; Write creates or replaces content and demands caution against accidental overwrite."
