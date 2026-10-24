@@ -30,6 +30,12 @@ const items = [
   ["4.4", "Validation & Retry", "/domain4/lesson4"],
   ["4.5", "Batch Processing", "/domain4/lesson5"],
   ["4.6", "Multi-Pass Review", "/domain4/lesson6"],
+  ["5.1", "Context Window", "/domain5/lesson1"],
+  ["5.2", "Escalation", "/domain5/lesson2"],
+  ["5.3", "Error Propagation", "/domain5/lesson3"],
+  ["5.4", "Codebase Exploration", "/domain5/lesson4"],
+  ["5.5", "Human Calibration", "/domain5/lesson5"],
+  ["5.6", "Provenance", "/domain5/lesson6"],
 ] as const;
 
 export default function CourseNavigation() {

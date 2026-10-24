@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Read-only CCAR-F content audit over all 24 website lessons.
+ * Read-only CCAR-F content audit over all 30 website lessons.
  * Sole curriculum source: claudecertificationguide.com/learn.
  * npm run review:ccarf -- --lesson 3.3
  * npm run review:ccarf -- --lesson all
@@ -13,20 +13,22 @@ import {course} from "../lib/bilingual-course.ts";
 import {domain2} from "../lib/domain2-course.ts";
 import {domain3} from "../lib/domain3-course.ts";
 import {domain4} from "../lib/domain4-course.ts";
+import {domain5} from "../lib/domain5-course.ts";
 import {domain12Editorial} from "../lib/editorial-domain12.ts";
 import {domain3Editorial} from "../lib/editorial-domain3.ts";
 import {domain4Editorial} from "../lib/editorial-domain4.ts";
+import {domain5Editorial} from "../lib/editorial-domain5.ts";
 import {sourceLearningObjectives} from "../lib/source-learning-objectives.ts";
 import {sourceUrlAllowed,readableSource,parseLessonSelection,inspectLesson,
   snapshotText,checkModelAssessment,markdownReport} from "../lib/course-review-core.mjs";
 
-const allEditorial=new Map([...domain12Editorial,...domain3Editorial,...domain4Editorial].map(x=>[x.id,x]));
+const allEditorial=new Map([...domain12Editorial,...domain3Editorial,...domain4Editorial,...domain5Editorial].map(x=>[x.id,x]));
 const digest=x=>createHash("sha256").update(x).digest("hex");
 const args=process.argv.slice(2);
 const checkOnly=args.includes("--check-only");
 const lessonFlag=args.indexOf("--lesson");
 if(args.some((a,i)=>!["--check-only","--lesson"].includes(a)&&i!==lessonFlag+1)) {
- console.error("Usage: npm run review:ccarf -- [--lesson all|1.1..4.6] [--check-only]");
+ console.error("Usage: npm run review:ccarf -- [--lesson all|1.1..5.6] [--check-only]");
  process.exit(2);
 }
 const requested=lessonFlag<0?"all":args[lessonFlag+1];
@@ -39,7 +41,7 @@ if(!checkOnly&&(!process.env.ANTHROPIC_API_KEY||!process.env.ANTHROPIC_MODEL)){
 
 function websiteLesson(id){
  const [domain,n]=id.split(".").map(Number);
- const item=domain===1?course[n]:domain===2?domain2[n]:domain===3?domain3[n]:domain4[n];
+ const item=domain===1?course[n]:domain===2?domain2[n]:domain===3?domain3[n]:domain===4?domain4[n]:domain5[n];
  const editorial=allEditorial.get(id);
  if(!item||!editorial)throw Error("Missing curriculum lesson "+id);
  return {id,source:item.source,vi:item.vi,en:item.en,editorial,objectives:sourceLearningObjectives[id]};

@@ -1,7 +1,7 @@
 # CCAR-F Single-Source Review Agent
 
 ## Nguồn tin cậy duy nhất
-Một agent kiểm tra 24 bài Domain 1–4. Nguồn nội dung DUY NHẤT là https://claudecertificationguide.com/learn và các trang Task Statement thuộc cùng /learn/.
+Một agent kiểm tra 30 bài Domain 1–5. Nguồn nội dung DUY NHẤT là https://claudecertificationguide.com/learn và các trang Task Statement thuộc cùng /learn/.
 Không dùng các trang Anthropic, mạng xã hội, blog, nguồn ngoài hoặc kiến thức thuộc bộ nhớ model để kết luận đúng/sai.
 Agent chỉ đọc source và bản snapshot website, không tự sửa code, không đăng PR hoặc merge.
 
@@ -18,10 +18,10 @@ Agent chỉ đọc source và bản snapshot website, không tự sửa code, kh
 1. Trong repository, mở Settings → Secrets and variables → Actions.
 2. Thêm Secret ANTHROPIC_API_KEY; thêm Variable ANTHROPIC_MODEL (tên model mà account sử dụng được).
 3. Mở Actions → CCAR-F Source-Only Curriculum Review → Run workflow.
-4. Nhập all để soát 24 bài hoặc nhập mã riêng như 3.3 để chạy 1 bài.
+4. Nhập all để soát 30 bài hoặc nhập mã riêng như 3.3 để chạy 1 bài.
 5. Tải artifact ccarf-source-only-review để đọc report.md và report.json.
 
-Chạy all sẽ gửi tối đa 24 model requests, có thể tốn API tokens; chỉ chạy thủ công, KHÔNG chạy khi push/PR.
+Chạy all sẽ gửi tối đa 30 model requests, có thể tốn API tokens; chỉ chạy thủ công, KHÔNG chạy khi push/PR.
 Workflow chỉ có contents: read, không ghi website hay in API key ra báo cáo.
 
 ## Chạy local

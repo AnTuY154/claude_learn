@@ -1,6 +1,6 @@
-# Claude Learning Lab — Claude Certified Architect, Domains 1–4 (24 bài)
+# Claude Learning Lab — Claude Certified Architect, Domains 1–5 (30 bài)
 
-Ứng dụng ôn tập theo 24 bài thuộc bốn domain đầu của [Claude Certification Guide](https://claudecertificationguide.com/learn/1-agentic-architecture/1-1-agentic-loops), xây dựng bằng Next.js App Router + TypeScript.
+Ứng dụng ôn tập theo 30 bài thuộc cả năm domain của [Claude Certification Guide](https://claudecertificationguide.com/learn/1-agentic-architecture/1-1-agentic-loops), xây dựng bằng Next.js App Router + TypeScript.
 
 ## Cấu trúc tất cả các bài (VI / EN)
 
@@ -9,7 +9,7 @@
 3. **Knowledge Quiz**: trắc nghiệm có giải thích đúng/sai; câu hỏi và đáp án theo ngôn ngữ đã chọn.
 4. **Build Exercise**: comment code, các bước tự làm, lệnh Node.js chạy thật và log từng request/tool/usage.
 
-Nút **VI/EN** ở đầu mỗi bài nhớ lựa chọn trong browser. Thanh header cho phép chuyển giữa 1.1–1.7, 2.1–2.5, 3.1–3.6 và 4.1–4.6. Website: https://antuy154.github.io/claude_learn/
+Nút **VI/EN** ở đầu mỗi bài nhớ lựa chọn trong browser. Thanh header cho phép chuyển giữa 1.1–1.7, 2.1–2.5, 3.1–3.6, 4.1–4.6 và 5.1–5.6. Website: https://antuy154.github.io/claude_learn/
 
 | Bài | Nội dung |
 |---|---|
@@ -201,3 +201,20 @@ Local exercises use deterministic mock files, never call Claude, refuse to overw
 ## CCAR-F content QA agent (nguồn duy nhất)
 
 Agent mới đối chiếu **24 bài Domain 1–4** với đúng trang nguồn tại https://claudecertificationguide.com/learn, kiểm tra nội dung VI/EN, kiến thức, quiz và labs có bằng chứng trích dẫn. Chạy thủ công trong **Actions → CCAR-F Source-Only Curriculum Review** (cần API key/model) hoặc dùng `npm run review:ccarf -- --lesson all --check-only` để kiểm tra cấu trúc local **không xác minh nguồn**. Xem [docs/ccarf-source-review-agent.md](docs/ccarf-source-review-agent.md). Agent không tự sửa hoặc công bố kết quả chính xác tuyệt đối.
+
+## Domain 5 — Context Management & Reliability (5.1–5.6)
+
+Nguồn duy nhất: https://claudecertificationguide.com/learn/5-context-management. Sáu bài giảng song ngữ VI/EN, mỗi bài 7 chương phân tích bản chất/ứng dụng/giới hạn, 8 câu hỏi trắc nghiệm A–D, thuật ngữ, bảng ra quyết định và 5 bước Build Exercise.
+
+| Bài | Task Statement |
+| --- | --- |
+| 5.1 | Context Window Management — facts, trimming, lost in the middle, caching scope |
+| 5.2 | Escalation & Ambiguity Resolution — 3 triggers, 2 anti-patterns, identifiers |
+| 5.3 | Error Propagation — failure context, partial results, recovery |
+| 5.4 | Codebase Exploration — scratchpads, subagents, phase injection, manifests |
+| 5.5 | Human Review — stratified sampling, field calibration, prioritised queues |
+| 5.6 | Provenance — claim/source mapping, conflicts, dates and rendering |
+
+Chạy lab không cần API key: `npm run lab:domain5 -- 1` (thay 1 bằng 2–6). Script không ghi đè workspace hiện có. Sau đó vào thư mục tương ứng trong `domain5-workspaces/` và chạy `node check.mjs`. Hướng dẫn [docs/domain5-build-exercises.md](docs/domain5-build-exercises.md).
+
+Agent review duy nhất `npm run review:ccarf -- --lesson all` được mở rộng lên 30 bài; trong workflow Actions vẫn cần API credentials và phải chọn thủ công. `--check-only` chỉ kiểm cấu trúc, không được tuyên bố đã đối chiếu nguồn.
