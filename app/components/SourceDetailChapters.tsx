@@ -1,7 +1,8 @@
 import {sourceDetailAdditions} from "@/lib/source-detail-additions";
+import {sourceDetailMore} from "@/lib/source-detail-more";
 
 export default function SourceDetailChapters({id,language}:{id:string;language:"vi"|"en"}){
- const entries=sourceDetailAdditions[id];
+ const entries=[...(sourceDetailAdditions[id]??[]),...(sourceDetailMore[id]??[])];
  if(!entries?.length)return null;
  const vi=language==="vi",i=vi?0:1;
  return <section className="bilingual-topics source-detail-chapters" aria-label={vi?"Giải thích bổ sung các mục trong nguồn":"Additional source-scoped explanations"}>

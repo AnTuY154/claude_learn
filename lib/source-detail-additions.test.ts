@@ -2,6 +2,7 @@ import {test} from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import {sourceDetailAdditions} from "./source-detail-additions.ts";
+import {sourceDetailMore} from "./source-detail-more.ts";
 test("Additional chapters are bilingual, source-scoped and clearly distinguish beyond-guide material",()=>{
  assert.deepEqual(Object.keys(sourceDetailAdditions),["1.5","3.1","3.6"]);
  assert.equal(sourceDetailAdditions["1.5"].length,2);
@@ -26,4 +27,20 @@ test("Deep source material appears inside the lecture, before labs and questions
   const quiz=content.indexOf("course-quiz bilingual-quiz");
   assert.ok(source>0&&source<exercise&&exercise<quiz,filename);
  }
+});
+
+test("The four smaller source-outline gaps are explicit and remain inside the lecture",()=>{
+ assert.deepEqual(Object.keys(sourceDetailMore),["1.4","3.2","3.3","3.4"]);
+ for(const [id,items] of Object.entries(sourceDetailMore)){
+  assert.equal(items.length,1,id);
+  for(const item of items){
+   for(const key of ["title","detail","example","trap"] as const){
+    assert.equal(item[key].length,2,id);
+    assert.ok(item[key][0].length>25,id+" "+key+" VI");
+    assert.ok(item[key][1].length>25,id+" "+key+" EN");
+   }
+  }
+ }
+ const component=readFileSync("app/components/SourceDetailChapters.tsx","utf8");
+ assert.match(component,/sourceDetailMore/);
 });
