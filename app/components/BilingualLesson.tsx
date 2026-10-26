@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import SourceVerifiedLecture from "./SourceVerifiedLecture";
+import SourceDetailChapters from "./SourceDetailChapters";
 import LessonStageNav from "./LessonStageNav";
 import { useEffect, useState } from "react";
 import { course, type Locale } from "@/lib/bilingual-course";
@@ -127,6 +128,7 @@ export default function BilingualLesson({ number }: { number: number }) {
           <p className="research-limit">{language==="vi"?"Lưu ý: Fork chỉ tách lịch sử hội thoại, không tách filesystem. Fresh + Summary là chiến lược, không phải một SDK option riêng.":"Note: Fork separates conversation history, not the filesystem. Fresh + Summary is a strategy, not a dedicated SDK option."}</p>
         </section>}
         </>}
+        <SourceDetailChapters id={`1.${number}`} language={language}/>
         <SourceVerifiedLecture id={`1.${number}`} language={language}/>
         <p className="bilingual-source">{t.source}: <a href={item.source} target="_blank" rel="noreferrer">{item.source} ↗</a></p>
 

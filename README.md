@@ -219,3 +219,7 @@ Nguồn duy nhất: https://claudecertificationguide.com/learn/5-context-managem
 Chạy lab không cần API key: `npm run lab:domain5 -- 1` (thay 1 bằng 2–6). Script không ghi đè workspace hiện có. Sau đó vào thư mục tương ứng trong `domain5-workspaces/` và chạy `node check.mjs`. Hướng dẫn [docs/domain5-build-exercises.md](docs/domain5-build-exercises.md).
 
 Agent review duy nhất `npm run review:ccarf -- --lesson all` được mở rộng lên 30 bài; trong workflow Actions vẫn cần API credentials và phải chọn thủ công. `--check-only` chỉ kiểm cấu trúc, không được tuyên bố đã đối chiếu nguồn.
+
+### Bổ sung chiều sâu sau khi đối chiếu nguồn ngày 26/10/2026
+
+Báo cáo đề mục gốc gồm **30/30 trang truy cập được**. Những bài có các mục bị gộp quá ngắn đã được làm rõ thêm trong phần Bài giảng (trước Build Exercise): 1.5 Agent SDK Hooks (callback contracts, extra lifecycle hooks), 3.1 CLAUDE.md (permissions vs memory, compaction diagnostics), 3.6 CI/CD (headless JSON contract, flags, GitHub Actions, worktrees, Batch vs realtime). Các mục *Beyond the guide* được gắn nhãn riêng và không được coi là mục tiêu kiểm tra theo Task Statement. Đây là phần kiến thức được biên soạn lại từ trang nguồn, **không phải bản dịch nguyên văn**.
