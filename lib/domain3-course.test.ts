@@ -54,11 +54,13 @@ test("Domain 3 lab is valid JavaScript and scaffolds each sandbox without API",(
   const l3=path.join(temp,"domain3-workspaces","lesson33");
   assert.match(readFileSync(path.join(l3,".claude/rules/testing.md"),"utf8"),/\*\*\/\*\.test\.tsx/);
   const l5=path.join(temp,"domain3-workspaces","lesson35");
-  const buggy=readFileSync(path.join(l5,"src/normalise.js"),"utf8");
-  const redTest=readFileSync(path.join(l5,"src/normalise.test.js"),"utf8");
-  assert.match(buggy,/normalise=x=>x==null/);
-  assert.match(redTest,/assert\.equal\(normalise\(null\),null\)/);
-  const red=spawnSync(process.execPath,["src/normalise.test.js"],{cwd:l5,encoding:"utf8"});
+  const buggy=readFileSync(path.join(l5,"src/migrate.js"),"utf8");
+  const redTest=readFileSync(path.join(l5,"src/migrate.test.js"),"utf8");
+  assert.match(buggy,/INTENTIONALLY INCORRECT/);
+  assert.match(redTest,/normalise\(null\),null/);
+  assert.match(redTest,/rejected fetch/);
+  assert.match(redTest,/empty list/);
+  const red=spawnSync(process.execPath,["src/migrate.test.js"],{cwd:l5,encoding:"utf8"});
   assert.notEqual(red.status,0,"TDD fixture should start red. stdout="+red.stdout+" stderr="+red.stderr+" source="+buggy);
   // Child node:test under a parent test worker may output binary test IPC, not TAP; nonzero exit is authoritative.
   const l6=path.join(temp,"domain3-workspaces","lesson36");
