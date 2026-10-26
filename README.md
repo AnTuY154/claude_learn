@@ -223,3 +223,5 @@ Agent review duy nhất `npm run review:ccarf -- --lesson all` được mở r�
 ### Bổ sung chiều sâu sau khi đối chiếu nguồn ngày 26/10/2026
 
 Báo cáo đề mục gốc gồm **30/30 trang truy cập được**. Những bài có các mục bị gộp quá ngắn đã được làm rõ thêm trong phần Bài giảng (trước Build Exercise): 1.5 Agent SDK Hooks (callback contracts, extra lifecycle hooks), 3.1 CLAUDE.md (permissions vs memory, compaction diagnostics), 3.6 CI/CD (headless JSON contract, flags, GitHub Actions, worktrees, Batch vs realtime). Các mục *Beyond the guide* được gắn nhãn riêng và không được coi là mục tiêu kiểm tra theo Task Statement. Đây là phần kiến thức được biên soạn lại từ trang nguồn, **không phải bản dịch nguyên văn**.
+
+Bổ sung tiếp source-outline 1.4 và 3.2–3.4 với bốn chương đối chiếu: lifecycle hooks ngoài exam scope; hai cách diễn đạt frontmatter theo Exam Guide/Current state; đối chứng glob rules trên file match và không match; phát hiện ambiguity trước khi sửa code và phân việc khám phá cho Explore. Mục tiêu là bổ sung bản giải thích, **không phải sao chép nguyên văn** giáo trình.

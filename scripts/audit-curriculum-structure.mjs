@@ -17,6 +17,7 @@ import {domain3} from "../lib/domain3-course.ts";
 import {domain4} from "../lib/domain4-course.ts";
 import {domain5} from "../lib/domain5-course.ts";
 import {sourceDetailAdditions} from "../lib/source-detail-additions.ts";
+import {sourceDetailMore} from "../lib/source-detail-more.ts";
 import {parseLessonSelection,sourceUrlAllowed} from "../lib/course-review-core.mjs";
 
 const args=process.argv.slice(2),position=args.indexOf("--lesson");
@@ -64,7 +65,7 @@ function lessonFor(id){
 const results=[];
 for(const id of ids){
  const entry=lessonFor(id);
- const extract=(content,locale)=>[...("topics" in content?content.topics:content.sections).map(x=>x.title),...(sourceDetailAdditions[id]||[]).map(x=>x.title[locale==="vi"?0:1])];
+ const extract=(content,locale)=>[...("topics" in content?content.topics:content.sections).map(x=>x.title),...(sourceDetailAdditions[id]||[]).map(x=>x.title[locale==="vi"?0:1]),...(sourceDetailMore[id]||[]).map(x=>x.title[locale==="vi"?0:1])];
  const res={id,source:entry.source,fetchStatus:"not_started",manualContentReviewRequired:true,
     website:{vi:extract(entry.vi,"vi"),en:extract(entry.en,"en"),exerciseStepsVI:("steps" in entry.vi?entry.vi.steps:entry.vi.lab.steps).length,
     exerciseStepsEN:("steps" in entry.en?entry.en.steps:entry.en.lab.steps).length,
