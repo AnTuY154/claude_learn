@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import SourceVerifiedLecture from "./SourceVerifiedLecture";
+import LessonStageNav from "./LessonStageNav";
 import { useEffect, useState } from "react";
 import { domain3 } from "@/lib/domain3-course";
 import type { Domain2Language } from "@/lib/domain2-types";
@@ -47,6 +48,8 @@ export default function Domain3Lesson({number}:{number:number}){
           </div>
         </div>
 
+        <LessonStageNav language={language} exerciseId="domain3-build" quizId="domain3-quiz" sourceUrl={lesson.source}/>
+        <div id="lecture" className="lesson-stage-anchor" aria-hidden="true"/>
         <header className="lesson-hero bilingual-hero">
           <p>Claude Certified Architect · Domain 03 · Lesson 3.{number}</p>
           <h1>{t.title}</h1>
@@ -61,9 +64,8 @@ export default function Domain3Lesson({number}:{number:number}){
           <p>{display(t.scenario)}</p>
         </section>
 
-        <SourceVerifiedLecture id={`3.${number}`} language={language}/>
 
-        <nav className="bilingual-toc" aria-label="Lesson 3 table of contents">
+        <nav className="bilingual-toc" aria-label="Domain 3 lecture outline">
           {t.sections.map((sec,i)=><a key={sec.title} href={`#d3-topic-${number}-${i}`}>
             <b>{String(i+1).padStart(2,"0")}</b><span>{sec.title}</span></a>)}
           <a href="#domain3-decision"><b>↔</b><span>{vi?"Bảng so sánh":"Decision table"}</span></a>
@@ -86,6 +88,8 @@ export default function Domain3Lesson({number}:{number:number}){
           </section>)}
         </section>
 
+        <SourceVerifiedLecture id={`3.${number}`} language={language}/>
+
         <section id="domain3-decision" className="lesson7-comparison">
           <div className="section-heading"><span>DECISION MATRIX</span><h2>{vi?"So sánh để chọn đúng giải pháp":"Choose by scenario"}</h2></div>
           <div className="lesson7-table-wrap">
@@ -107,6 +111,20 @@ export default function Domain3Lesson({number}:{number:number}){
           <ol>{t.summary.map((s,i)=><li key={i}>{display(s)}</li>)}</ol>
         </section>
 
+        <section className="live-lab bilingual-lab domain2-build" id="domain3-build">
+          <div className="lab-heading"><div><span>BUILD EXERCISE · 3.{number} · {t.lab.duration}</span><h2>{t.lab.title}</h2></div><b>JavaScript / Node.js</b></div>
+          <p className="course-lede">{display(t.lab.goal)}</p>
+          <div className="research-warning">{t.lab.disclaimer}</div>
+          <ol className="domain2-lab-steps">{t.lab.steps.map((st,i)=><li key={i}>
+            <div className="domain2-lab-step-index">{String(i+1).padStart(2,"0")}</div>
+            <div><h3>{st.title}</h3><p>{st.instruction}</p><small><b>{vi?"Vì sao":"Why"}:</b> {st.why}</small><p><b>{vi?"Kết quả cần thấy":"Expected"}:</b> {st.expected}</p></div>
+          </li>)}</ol>
+          <div className="pattern-code"><div><span>{vi?"LỆNH CHẠY LOCAL":"LOCAL COMMANDS"}</span></div><pre>{t.lab.commands}</pre></div>
+          <p><a href={`https://github.com/AnTuY154/claude_learn/blob/main/${t.lab.source}`} target="_blank" rel="noreferrer">{vi?"Mở code ví dụ có comment trên GitHub":"Open commented example on GitHub"} ↗</a></p>
+          <p>{vi?"Xem website, học lý thuyết và làm quiz không tiêu tốn API tokens. Live API labs chỉ chạy trên máy có credentials hợp lệ.":"Reading and taking quizzes never consumes API tokens. Live API exercises require valid local credentials."}</p>
+        </section>
+
+
         <section className="course-quiz bilingual-quiz" id="domain3-quiz">
           <div className="section-heading"><span>QUIZ · {t.quiz.length} {vi?"câu hỏi":"questions"}</span><h2>{vi?"Tự kiểm tra kiến thức":"Check your understanding"}</h2></div>
           <div className="course-quiz-meter" aria-live="polite">
@@ -125,19 +143,6 @@ export default function Domain3Lesson({number}:{number:number}){
             {!graded&&<button type="button" disabled={totalAnswered!==t.quiz.length} onClick={()=>setGraded(true)}>{vi?"Chấm điểm":"Grade"} →</button>}
             <button type="button" className="secondary" onClick={()=>{setAnswers({});setGraded(false);}}>{vi?"Làm lại":"Retry"}</button>
           </div>
-        </section>
-
-        <section className="live-lab bilingual-lab domain2-build" id="domain3-build">
-          <div className="lab-heading"><div><span>BUILD EXERCISE · 3.{number} · {t.lab.duration}</span><h2>{t.lab.title}</h2></div><b>JavaScript / Node.js</b></div>
-          <p className="course-lede">{display(t.lab.goal)}</p>
-          <div className="research-warning">{t.lab.disclaimer}</div>
-          <ol className="domain2-lab-steps">{t.lab.steps.map((st,i)=><li key={i}>
-            <div className="domain2-lab-step-index">{String(i+1).padStart(2,"0")}</div>
-            <div><h3>{st.title}</h3><p>{st.instruction}</p><small><b>{vi?"Vì sao":"Why"}:</b> {st.why}</small><p><b>{vi?"Kết quả cần thấy":"Expected"}:</b> {st.expected}</p></div>
-          </li>)}</ol>
-          <div className="pattern-code"><div><span>{vi?"LỆNH CHẠY LOCAL":"LOCAL COMMANDS"}</span></div><pre>{t.lab.commands}</pre></div>
-          <p><a href={`https://github.com/AnTuY154/claude_learn/blob/main/${t.lab.source}`} target="_blank" rel="noreferrer">{vi?"Mở code ví dụ có comment trên GitHub":"Open commented example on GitHub"} ↗</a></p>
-          <p>{vi?"Xem website, học lý thuyết và làm quiz không tiêu tốn API tokens. Live API labs chỉ chạy trên máy có credentials hợp lệ.":"Reading and taking quizzes never consumes API tokens. Live API exercises require valid local credentials."}</p>
         </section>
 
         <footer className="lesson-footer">

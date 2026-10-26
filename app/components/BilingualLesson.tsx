@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import SourceVerifiedLecture from "./SourceVerifiedLecture";
+import LessonStageNav from "./LessonStageNav";
 import { useEffect, useState } from "react";
 import { course, type Locale } from "@/lib/bilingual-course";
 import { labExamples } from "@/lib/lab-examples";
@@ -78,11 +79,12 @@ export default function BilingualLesson({ number }: { number: number }) {
           </div>
         </div>
 
+        <LessonStageNav language={language} exerciseId="build" quizId="quiz" sourceUrl={item.source}/>
+        <div id="lecture" className="lesson-stage-anchor" aria-hidden="true"/>
         {/* 1. CHI TIẾT BÀI HỌC đứng đầu, không phải summary. */}
         <header className="lesson-hero bilingual-hero">
           <p>{t.overview}</p><h1>{content.title}</h1><h2><TermText text={content.intro} number={number} active={language==="vi"}/></h2>
         </header>
-        <SourceVerifiedLecture id={`1.${number}`} language={language}/>
         {number===7 && language==="vi" ? <Lesson7Original /> : <>
         <div className="application-note bilingual-bridge"><span>{t.bridge}</span><p>{content.bridge}</p></div>
         <nav className="bilingual-toc" aria-label="Lesson content">
@@ -125,6 +127,7 @@ export default function BilingualLesson({ number }: { number: number }) {
           <p className="research-limit">{language==="vi"?"Lưu ý: Fork chỉ tách lịch sử hội thoại, không tách filesystem. Fresh + Summary là chiến lược, không phải một SDK option riêng.":"Note: Fork separates conversation history, not the filesystem. Fresh + Summary is a strategy, not a dedicated SDK option."}</p>
         </section>}
         </>}
+        <SourceVerifiedLecture id={`1.${number}`} language={language}/>
         <p className="bilingual-source">{t.source}: <a href={item.source} target="_blank" rel="noreferrer">{item.source} ↗</a></p>
 
         {/* 2. SUMMARY đặt SAU phần lý thuyết, trước quiz. */}
@@ -133,37 +136,7 @@ export default function BilingualLesson({ number }: { number: number }) {
           <ol>{content.summary.map((point,i)=><li key={i}><TermText text={point} number={number} active={language==="vi"}/></li>)}</ol>
         </section>
 
-        {/* 3. TRẮC NGHIỆM. Toàn bộ câu hỏi/đáp án/giải thích thay đổi VI/EN. */}
-        <section className="course-quiz bilingual-quiz" id="quiz">
-          <div className="section-heading"><span>{t.quiz} · {content.quiz.length} {t.questions}</span><h2>{t.quizTitle}</h2></div>
-          <div className="course-quiz-meter" aria-live="polite">
-            <strong>{graded ? `${t.percentage}: ${score}/${content.quiz.length} (${Math.round(100*score/content.quiz.length)}%)` : `${t.all}: ${completed}/${content.quiz.length}`}</strong>
-            <div className="coverage-meter"><i style={{width:`${100*(graded?score:completed)/content.quiz.length}%`}}/></div>
-            {graded && <p>{score>=pass?"✓ ":"↻ "}{t.target}</p>}
-          </div>
-          <div className="course-questions">
-            {content.quiz.map((q,i)=><fieldset className="course-question" key={i}>
-              <legend><b>{String(i+1).padStart(2,"0")}</b>{q.question}</legend>
-              <div className="course-choices">
-                {q.choices.map((choice,j)=><label key={j} className={graded&&j===q.correct?"correct":graded&&answers[i]===j?"wrong":""}>
-                  <input type="radio" name={`lesson-${number}-question-${i}`} checked={answers[i]===j} disabled={graded}
-                    onChange={()=>setAnswers(a=>({...a,[i]:j}))}/>
-                  <b>{String.fromCharCode(65+j)}</b>{choice}
-                </label>)}
-              </div>
-              {graded && <div className="course-answer" role="status">
-                <strong>{answers[i]===q.correct?t.right:`${t.wrong} — ${t.answer}: ${String.fromCharCode(65+q.correct)}`}</strong>
-                <p>{t.explanation} {q.explanation}</p>
-              </div>}
-            </fieldset>)}
-          </div>
-          <div className="course-actions">
-            {!graded && <button type="button" disabled={completed!==content.quiz.length} onClick={()=>setGraded(true)}>{t.grade} →</button>}
-            <button type="button" className="secondary" onClick={()=>{setAnswers({});setGraded(false);}}>{t.retry}</button>
-          </div>
-        </section>
-
-        {/* 4. BUILD EXERCISE: source runnable CLI, NO client API secret. */}
+        {/* 2. BUILD EXERCISE, TRƯỚC PHẦN CÂU HỎI: source runnable CLI, NO client API secret. */}
         {number===7 ? <Lesson7BuildLab language={language}/> : <section className="live-lab bilingual-lab" id="build">
           <div className="lab-heading"><div><span>{t.lab} · 1.{number}</span><h2>{content.labTitle}</h2></div><b>Node.js + Anthropic API</b></div>
           <p className="course-lede">{t.labDetail}</p>
@@ -200,6 +173,37 @@ npm run ${number===5?"lab:sdk-hooks":"lab:sdk-sessions"}`}</pre>
             </div>}
           </div>
         </section>}
+
+        {/* 3. CÂU HỎI TRẮC NGHIỆM SAU BÀI TẬP. Toàn bộ câu hỏi/đáp án/giải thích thay đổi VI/EN. */}
+        <section className="course-quiz bilingual-quiz" id="quiz">
+          <div className="section-heading"><span>{t.quiz} · {content.quiz.length} {t.questions}</span><h2>{t.quizTitle}</h2></div>
+          <div className="course-quiz-meter" aria-live="polite">
+            <strong>{graded ? `${t.percentage}: ${score}/${content.quiz.length} (${Math.round(100*score/content.quiz.length)}%)` : `${t.all}: ${completed}/${content.quiz.length}`}</strong>
+            <div className="coverage-meter"><i style={{width:`${100*(graded?score:completed)/content.quiz.length}%`}}/></div>
+            {graded && <p>{score>=pass?"✓ ":"↻ "}{t.target}</p>}
+          </div>
+          <div className="course-questions">
+            {content.quiz.map((q,i)=><fieldset className="course-question" key={i}>
+              <legend><b>{String(i+1).padStart(2,"0")}</b>{q.question}</legend>
+              <div className="course-choices">
+                {q.choices.map((choice,j)=><label key={j} className={graded&&j===q.correct?"correct":graded&&answers[i]===j?"wrong":""}>
+                  <input type="radio" name={`lesson-${number}-question-${i}`} checked={answers[i]===j} disabled={graded}
+                    onChange={()=>setAnswers(a=>({...a,[i]:j}))}/>
+                  <b>{String.fromCharCode(65+j)}</b>{choice}
+                </label>)}
+              </div>
+              {graded && <div className="course-answer" role="status">
+                <strong>{answers[i]===q.correct?t.right:`${t.wrong} — ${t.answer}: ${String.fromCharCode(65+q.correct)}`}</strong>
+                <p>{t.explanation} {q.explanation}</p>
+              </div>}
+            </fieldset>)}
+          </div>
+          <div className="course-actions">
+            {!graded && <button type="button" disabled={completed!==content.quiz.length} onClick={()=>setGraded(true)}>{t.grade} →</button>}
+            <button type="button" className="secondary" onClick={()=>{setAnswers({});setGraded(false);}}>{t.retry}</button>
+          </div>
+        </section>
+
         <footer className="lesson-footer">
           <Link href={number>1?`/lesson${number-1}`:"/"}>← {t.previous}</Link><span>{String(number).padStart(2,"0")} / 07</span>
           {number<7?<Link href={`/lesson${number+1}`}>{t.next} →</Link>:<Link href="/">Course →</Link>}

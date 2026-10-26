@@ -4,10 +4,11 @@
 
 ## Cấu trúc tất cả các bài (VI / EN)
 
-1. **Detailed Lesson**: lý thuyết đầy đủ, terms, examples và exam takeaways; đổi giữa **Tiếng Việt** và **English**.
-2. **Key Takeaways**: tóm tắt các ý quan trọng **sau** lý thuyết.
-3. **Knowledge Quiz**: trắc nghiệm có giải thích đúng/sai; câu hỏi và đáp án theo ngôn ngữ đã chọn.
-4. **Build Exercise**: comment code, các bước tự làm, lệnh Node.js chạy thật và log từng request/tool/usage.
+1. **Bài giảng / Lecture**: giải thích biên soạn đầy đủ, sát mục tiêu từng Task Statement; ví dụ, thuật ngữ, phân biệt Exam Guide/Current state và bẫy thi trong cùng một phần. Có VI/EN và liên kết nguồn duy nhất tại `claudecertificationguide.com/learn`.
+2. **Bài tập / Build Exercise**: các bước, giải thích, tiêu chí hoàn thành và ví dụ chạy kiểm chứng (chỉ khi có môi trường phù hợp).
+3. **Câu hỏi / MCQ**: 4 lựa chọn không chọn sẵn, chấm và giải thích sau khi đã đọc bài giảng và làm bài tập.
+
+Không sao chép hoặc dịch nguyên văn nội dung tác giả bên thứ ba. Nội dung website là bản diễn giải độc lập dựa trên nguồn gốc; mở liên kết bài gốc để đối chiếu nguyên văn.
 
 Nút **VI/EN** ở đầu mỗi bài nhớ lựa chọn trong browser. Thanh header cho phép chuyển giữa 1.1–1.7, 2.1–2.5, 3.1–3.6, 4.1–4.6 và 5.1–5.6. Website: https://antuy154.github.io/claude_learn/
 
