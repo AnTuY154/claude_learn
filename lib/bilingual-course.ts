@@ -90,7 +90,7 @@ const en: Record<number, EnglishOutline> = {
       { question: "How should your application evaluate a tool-supplied expression?", choices: ["Use eval()", "Validate or safely parse supported arithmetic", "Run arbitrary JS", "Trust the model input"], correct: 1, explanation: "Model-provided tool inputs are untrusted data, not executable JavaScript." }
     ],
     labTitle: "Multi-Tool Agent Loop with Protocol Logs",
-    steps: ["Define a mock lookup tool and a safe calculator tool.", "Send messages and tool definitions to Claude.", "Log stop_reason and requested tool inputs.", "Execute tools and append tool_result blocks.", "Continue until end_turn or a safety bound is reached."]
+    steps: ["Define a mock lookup tool and a safe calculator tool, each with name, description and JSON Schema inputs.", "Send a Messages API request that exposes both tools and preserves conversation history.", "Inspect response.stop_reason after every response, not response.content[0].type.", "Execute all requested client tools; append assistant tool_use and matching user tool_result blocks.", "Test a request that requires sequential lookup and calculation tool calls, continuing until end_turn.", "Add a safety iteration cap (for example, 20) with a warning; do not treat the cap as successful completion."]
   },
   2: {
     title: "Multi-Agent Orchestration",
@@ -120,7 +120,7 @@ const en: Record<number, EnglishOutline> = {
       { question: "What is wrong with running six agents for every trivial request?", choices: ["Nothing", "Inefficient dynamic selection", "Wrong time format", "Wrong session flag"], correct: 1, explanation: "Coordinator routing should reflect actual task requirements." }
     ],
     labTitle: "Hub-and-Spoke Coordinator with Live Logs",
-    steps: ["Define a broad research goal with explicit category coverage.", "Delegate independent source reviews to separate model calls.", "Log every specialist prompt and response.", "Aggregate the findings and identify missing categories.", "Run targeted follow-up research before synthesis if needed."]
+    steps: ["Define a broad research goal and an explicit category coverage plan before delegation.", "Decompose the research scope into at least five distinct, sufficiently broad subtopics.", "Invoke two independent specialists with complete tasks and explicitly passed context.", "Aggregate structured findings and check which original subtopics remain uncovered.", "Run targeted iterative refinement for gaps and re-invoke synthesis with the new evidence.", "Test the broad renewable-energy example: check that solar, wind, geothermal, tidal, biomass and fusion are represented or explicitly marked as uncovered."]
   },
   3: {
     title: "Subagent Invocation and Context Passing",
@@ -286,13 +286,16 @@ function vietnamese(n:number): LearningContent {
         "Gửi Messages API request và log stop_reason sau mỗi lượt.",
         "Thực thi tool, đưa tool_result đúng ID vào messages.",
         "Lặp tới end_turn hoặc chạm safety cap.",
+        "Thử tác vụ cần hai lượt gọi tool tuần tự: tra dữ liệu rồi tính toán; xác nhận vòng lặp kết thúc bằng end_turn.",
+        "Đặt safety cap (ví dụ 20 vòng), ghi cảnh báo khi chạm trần và tuyệt đối không coi chạm cap là thành công.",
         "In input_tokens/output_tokens và kết quả cuối."
       ] : [
         "Tạo goal nghiên cứu và danh sách category cần bao phủ.",
         "Giao tác vụ riêng cho hai specialist bằng Messages API calls.",
         "Log prompt, response và token usage mỗi agent.",
         "Coordinator kiểm tra coverage và refinement nếu thiếu.",
-        "Synthesis nhận findings và hoàn tất."
+        "Kiểm tra phạm vi với sáu nhóm năng lượng: solar, wind, geothermal, tidal, biomass và fusion; ghi rõ nhóm chưa được nghiên cứu.",
+        "Synthesis nhận findings, kiểm chứng coverage và hoàn tất."
       ]
     };
   }
