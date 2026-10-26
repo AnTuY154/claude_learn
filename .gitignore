@@ -32,3 +32,6 @@ next-env.d.ts
 
 # Domain 5 source-aligned local learning fixtures
 /domain5-workspaces/
+
+# Generated course-vs-source audit reports
+/artifacts/

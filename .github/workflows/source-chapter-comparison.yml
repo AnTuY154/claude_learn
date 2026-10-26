@@ -1,0 +1,42 @@
+name: Compare CCAR-F Source Chapters
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/audit-curriculum-structure.mjs"
+      - "lib/domain*/lesson*.ts"
+      - "app/components/*Lesson.tsx"
+      - ".github/workflows/source-chapter-comparison.yml"
+  workflow_dispatch:
+    inputs:
+      lesson:
+        description: 'all or a Task Statement, e.g. 3.3'
+        required: true
+        type: string
+        default: 'all'
+permissions:
+  contents: read
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Compare curriculum headings to website outlines
+        env:
+          LESSON: ${{ inputs.lesson || 'all' }}
+        run: npm run audit:curriculum -- --lesson "$LESSON"
+      - name: Upload source inventory and blockers
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ccarf-source-outline-comparison
+          path: artifacts/ccarf-source-structure/
+          if-no-files-found: warn
+          retention-days: 14
