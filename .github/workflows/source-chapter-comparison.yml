@@ -1,6 +1,13 @@
 name: Compare CCAR-F Source Chapters
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/audit-curriculum-structure.mjs"
+      - "lib/domain*/lesson*.ts"
+      - "app/components/*Lesson.tsx"
+      - ".github/workflows/source-chapter-comparison.yml"
   workflow_dispatch:
     inputs:
       lesson:
@@ -23,7 +30,7 @@ jobs:
       - run: npm ci
       - name: Compare curriculum headings to website outlines
         env:
-          LESSON: ${{ inputs.lesson }}
+          LESSON: ${{ inputs.lesson || 'all' }}
         run: npm run audit:curriculum -- --lesson "$LESSON"
       - name: Upload source inventory and blockers
         if: always()
