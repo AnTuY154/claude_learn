@@ -1,15 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import SourceVerifiedLecture from "./SourceVerifiedLecture";
-import SourceDetailChapters from "./SourceDetailChapters";
 import LessonStageNav from "./LessonStageNav";
+import CurriculumExamTraps from "./CurriculumExamTraps";
 import { useEffect, useState } from "react";
 import { course, type Locale } from "@/lib/bilingual-course";
 import { labExamples } from "@/lib/lab-examples";
 import { Lesson7Original } from "./Lesson7Original";
 import { Lesson7BuildLab } from "./Lesson7BuildLab";
-import { LessonStory } from "./LessonStory";
 import { LessonGlossary, TermText } from "./CourseGlossary";
 
 const labels = {
@@ -86,8 +84,8 @@ export default function BilingualLesson({ number }: { number: number }) {
         <header className="lesson-hero bilingual-hero">
           <p>{t.overview}</p><h1>{content.title}</h1><h2><TermText text={content.intro} number={number} active={language==="vi"}/></h2>
         </header>
+        <div className="section-heading curriculum-heading"><span>1.{number}</span><h2>What You Need to Know</h2></div>
         {number===7 && language==="vi" ? <Lesson7Original /> : <>
-        <div className="application-note bilingual-bridge"><span>{t.bridge}</span><p>{content.bridge}</p></div>
         <nav className="bilingual-toc" aria-label="Lesson content">
           {content.topics.map((topic,i)=><a href={`#concept-${number}-${i}`} key={i}>
             <b>{String(i+1).padStart(2,"0")}</b><span>{topic.title}</span></a>)}
@@ -104,7 +102,6 @@ export default function BilingualLesson({ number }: { number: number }) {
             {topic.warning && <p className="bilingual-warning">{topic.warning}</p>}
           </section>)}
         </section>
-        {number>=1 && number<=6 && <LessonStory number={number} language={language}/>}
         {number===7 && <section className="lesson7-comparison" aria-label={language==="vi"?"So sánh ba chiến lược session":"Compare session strategies"}>
           <div className="section-heading"><span>Session decision matrix</span><h2>{language==="vi"?"So sánh Resume, Fork và Fresh Start":"Resume vs Fork vs Fresh Start"}</h2></div>
           <div className="lesson7-table-wrap"><table>
@@ -128,15 +125,10 @@ export default function BilingualLesson({ number }: { number: number }) {
           <p className="research-limit">{language==="vi"?"Lưu ý: Fork chỉ tách lịch sử hội thoại, không tách filesystem. Fresh + Summary là chiến lược, không phải một SDK option riêng.":"Note: Fork separates conversation history, not the filesystem. Fresh + Summary is a strategy, not a dedicated SDK option."}</p>
         </section>}
         </>}
-        <SourceDetailChapters id={`1.${number}`} language={language}/>
-        <SourceVerifiedLecture id={`1.${number}`} language={language}/>
+        <CurriculumExamTraps id={`1.${number}`} language={language}/>
         <p className="bilingual-source">{t.source}: <a href={item.source} target="_blank" rel="noreferrer">{item.source} ↗</a></p>
 
         {/* 2. SUMMARY đặt SAU phần lý thuyết, trước quiz. */}
-        <section className="lesson-summary bilingual-summary" id="summary">
-          <span>{t.important}</span><h2>{t.sumTitle}</h2>
-          <ol>{content.summary.map((point,i)=><li key={i}><TermText text={point} number={number} active={language==="vi"}/></li>)}</ol>
-        </section>
 
         {/* 2. BUILD EXERCISE, TRƯỚC PHẦN CÂU HỎI: source runnable CLI, NO client API secret. */}
         {number===7 ? <Lesson7BuildLab language={language}/> : <section className="live-lab bilingual-lab" id="build">
