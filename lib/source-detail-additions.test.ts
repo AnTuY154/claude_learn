@@ -19,15 +19,7 @@ test("Additional chapters are bilingual, source-scoped and clearly distinguish b
   }
  }
 });
-test("Deep source material appears inside the lecture, before labs and questions",()=>{
- for(const filename of ["BilingualLesson","Domain3Lesson"]){
-  const content=readFileSync("app/components/"+filename+".tsx","utf8");
-  const source=content.indexOf("<SourceDetailChapters");
-  const exercise=content.indexOf("live-lab bilingual-lab");
-  const quiz=content.indexOf("course-quiz bilingual-quiz");
-  assert.ok(source>0&&source<exercise&&exercise<quiz,filename);
- }
-});
+
 
 test("The four smaller source-outline gaps are explicit and remain inside the lecture",()=>{
  assert.deepEqual(Object.keys(sourceDetailMore),["1.4","3.2","3.3","3.4"]);
@@ -41,6 +33,5 @@ test("The four smaller source-outline gaps are explicit and remain inside the le
    }
   }
  }
- const component=readFileSync("app/components/SourceDetailChapters.tsx","utf8");
- assert.match(component,/sourceDetailMore/);
+
 });

@@ -1,13 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import SourceVerifiedLecture from "./SourceVerifiedLecture";
-import SourceDetailChapters from "./SourceDetailChapters";
 import LessonStageNav from "./LessonStageNav";
+import CurriculumExamTraps from "./CurriculumExamTraps";
 import { useEffect, useState } from "react";
 import { domain3 } from "@/lib/domain3-course";
 import type { Domain2Language } from "@/lib/domain2-types";
-import { TermText, LessonGlossary } from "./CourseGlossary";
+import { TermText } from "./CourseGlossary";
 
 // Trang Domain 2 không ghép thêm một 'Story' ngắn ở cuối.
 // Mỗi chương là bài giảng độc lập: context → cơ chế → code → pitfalls → comparison → quiz → exercise.
@@ -56,27 +55,22 @@ export default function Domain3Lesson({number}:{number:number}){
           <h1>{t.title}</h1>
           <h2>{display(t.subtitle)}</h2>
         </header>
-        <div className="application-note bilingual-bridge">
-          <span>{vi?"KIẾN THỨC NỐI TIẾP":"PRIOR KNOWLEDGE"}</span><p>{display(t.bridge)}</p>
-        </div>
-        <section className="domain2-scenario">
-          <span>{vi?"TÌNH HUỐNG XUYÊN SUỐT":"RUNNING SCENARIO"}</span>
-          <h2>{t.scenarioTitle}</h2>
-          <p>{display(t.scenario)}</p>
-        </section>
 
 
+        <div className="section-heading curriculum-heading"><span>3.{number}</span><h2>What You Need to Know</h2></div>
         <nav className="bilingual-toc" aria-label="Domain 3 lecture outline">
           {t.sections.map((sec,i)=><a key={sec.title} href={`#d3-topic-${number}-${i}`}>
             <b>{String(i+1).padStart(2,"0")}</b><span>{sec.title}</span></a>)}
           <a href="#domain3-decision"><b>↔</b><span>{vi?"Bảng so sánh":"Decision table"}</span></a>
-          <a href="#domain3-quiz"><b>?</b><span>{vi?"Trắc nghiệm":"Quiz"}</span></a>
           <a href="#domain3-build"><b>JS</b><span>Build Exercise</span></a>
+          <a href="#domain3-quiz"><b>?</b><span>{vi?"Câu hỏi":"Concept Check"}</span></a>
         </nav>
-
-        {vi&&<LessonGlossary number={glossaryId}/>}
         <section className="bilingual-topics" aria-label="Complete detailed explanation">
           {t.sections.map((sec,i)=><section className="course-topic domain2-topic" id={`d3-topic-${number}-${i}`} key={sec.title}>
+            {number===5 && (i===0||i===3||i===5) && <div className="section-heading">
+              <span>{vi?"THEO ĐÚNG ĐỀ MỤC NGUỒN":"SOURCE CURRICULUM HEADING"}</span>
+              <h2>{i===0?"The Technique Hierarchy":i===3?"Batch vs Sequential Feedback":"Switching From Prose to Examples"}</h2>
+            </div>}
             <div className="course-topic-heading"><span>{String(i+1).padStart(2,"0")}</span><div>
               <small>DOMAIN 03 · 3.{number}</small><h3>{sec.title}</h3>
             </div></div>
@@ -89,28 +83,22 @@ export default function Domain3Lesson({number}:{number:number}){
           </section>)}
         </section>
 
-        <SourceDetailChapters id={`3.${number}`} language={language}/>
-        <SourceVerifiedLecture id={`3.${number}`} language={language}/>
-
         <section id="domain3-decision" className="lesson7-comparison">
-          <div className="section-heading"><span>DECISION MATRIX</span><h2>{vi?"So sánh để chọn đúng giải pháp":"Choose by scenario"}</h2></div>
+          <div className="section-heading"><span>{vi?"TRONG BÀI THI":"IN THE EXAM"}</span><h2>In the exam</h2></div>
           <div className="lesson7-table-wrap">
             <table><thead><tr>{t.table.headers.map((h,i)=><th key={i}>{h}</th>)}</tr></thead>
             <tbody>{t.table.rows.map((r,i)=><tr key={i}>{r.map((v,j)=>j===0?<th key={j} scope="row">{display(v)}</th>:<td key={j}>{display(v)}</td>)}</tr>)}</tbody></table>
           </div>
         </section>
 
-        <section className="domain2-vocabulary">
-          <div className="section-heading"><span>ENGLISH + VIETNAMESE</span><h2>{vi?"Từ vựng phải nhớ khi thi":"Exam vocabulary"}</h2></div>
-          <div className="lesson7-table-wrap"><table><thead><tr><th>English term</th><th>{vi?"Nghĩa tiếng Việt":"Vietnamese"}</th><th>{vi?"Giải thích ngắn":"Meaning"}</th></tr></thead>
-          <tbody>{t.vocabulary.map(([term,meaning,desc])=><tr key={term}><th scope="row">{term}</th><td>{meaning}</td><td>{desc}</td></tr>)}</tbody></table></div>
-        </section>
-
         <p className="bilingual-source">{vi?"Nguồn bài học gốc (nội dung được biên soạn lại)":"Original reference (independently paraphrased)"}: <a href={lesson.source} target="_blank" rel="noreferrer">{lesson.source} ↗</a></p>
-        <section className="lesson-summary bilingual-summary" id="domain3-summary">
-          <span>{vi?"TÓM TẮT TRỌNG TÂM":"KEY TAKEAWAYS"}</span>
-          <h2>{vi?"Ôn lại trước khi làm bài":"Review before the quiz"}</h2>
-          <ol>{t.summary.map((s,i)=><li key={i}>{display(s)}</li>)}</ol>
+
+        <CurriculumExamTraps id={`3.${number}`} language={language}/>
+
+        <section className="domain2-scenario">
+          <span>{vi?"TÌNH HUỐNG THỰC HÀNH":"PRACTICE SCENARIO"}</span>
+          <h2>{t.scenarioTitle}</h2>
+          <p>{display(t.scenario)}</p>
         </section>
 
         <section className="live-lab bilingual-lab domain2-build" id="domain3-build">

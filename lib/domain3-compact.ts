@@ -18,7 +18,7 @@ export function compactLesson(number:number,d:Compact):Domain3Entry{
  const convert=(locale:"vi"|"en"):Domain2Content=>{
   const en=locale==="en",i=en?1:0;
   const topics=d.topics.map((s)=>({
-   title:s[i],explanation:[s[i+2],s[i+2].split(". ").slice(-2).join(". ")+" "+s[i+5]],
+   title:s[i],explanation:[s[i+2]],
    code:s[4],codeLabel:"Annotated Claude Code / JavaScript",keyPoint:s[i+5]
   }));
   const quizzes=d.questions.map((q,k)=>{

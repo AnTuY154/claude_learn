@@ -242,36 +242,36 @@ export const lesson35=compactLesson(5,{
     ]
   ],
   "exercise": [
-    [
-      "Ví dụ I/O",
-      "Concrete examples",
-      "Viết hai cặp before/after Promise<Result> và thử unseen function.",
-      "Supply two before/after transformation pairs and test on unseen function."
-    ],
-    [
-      "Thêm tests",
-      "Test-driven feedback",
-      "Viết Node tests cho null, success, rejected fetch.",
-      "Write tests for null, success and failures."
-    ],
-    [
-      "Interview",
-      "Interview pattern",
-      "Yêu cầu Claude hỏi về TTL, fallback, consistency trước coding.",
-      "Have Claude interview you about unfamiliar cache requirements."
-    ],
-    [
-      "Batch feedback",
-      "Batch interdependent issues",
-      "Gửi error/logging/type corrections chung một message.",
-      "Provide interconnected error/logging/type feedback together."
-    ],
-    [
-      "Sequential feedback",
-      "Sequential independent issues",
-      "Thực hiện naming, xác minh, sau đó formatting.",
-      "Refine naming and formatting separately."
-    ]
+  [
+    "So sánh một prompt prose qua ba lần chạy",
+    "Compare a prose-only prompt across three attempts",
+    "Yêu cầu Claude Code sửa kiểu trả về của hai functions bằng một mô tả ngắn; thử ba lần trên cùng input và lưu diff khác nhau, nếu có. Không tuyên bố chắc chắn model sẽ khác nhau.",
+    "Ask Claude Code to modify two return types using only prose. Compare three attempts on the same example and record any differences; variability is something to measure, not assume."
   ],
+  [
+    "Đưa hai hoặc ba ví dụ trước/sau rồi thử lại",
+    "Provide two or three before/after pairs and retry",
+    "Viết 2–3 cặp chữ ký Promise<T> thành Promise<Result<T, ApiError>>, chạy lại ba lần và so với kết quả prose-only; kiểm chứng thêm một function chưa từng đưa vào ví dụ.",
+    "Show two or three exact Promise<T> to Promise<Result<T, ApiError>> pairs; repeat three attempts and test an unseen function for consistent generalisation."
+  ],
+  [
+    "Viết tests trước cho hành vi biên và lỗi",
+    "Write tests first for edge cases and errors",
+    "Định nghĩa success, null, empty list, rejected fetch và error mapping; chạy npm test để lấy diff expected/actual, đưa failure cho Claude và chạy lại cho tới khi tests xanh.",
+    "Define success, null, empty list, rejected fetch and error mapping; run npm test, share the observed expected/actual failure with Claude and re-run until tests pass."
+  ],
+  [
+    "Dùng interview cho phần domain chưa rõ",
+    "Use the interview pattern for an unfamiliar area",
+    "Đề bài triển khai caching nhưng chưa rõ TTL, invalidation và consistency. Yêu cầu Claude đặt khoảng 5–10 câu hỏi về yêu cầu trước khi đề xuất thay đổi mã.",
+    "Ask Claude five to ten questions about caching TTL, invalidation, consistency and failures before implementing a design in an unfamiliar domain."
+  ],
+  [
+    "Gộp ba sửa đổi liên đới vào một feedback",
+    "Batch three interdependent changes",
+    "Yêu cầu đồng thời thêm error.code ở response, log cùng mã đó và cập nhật client type. Xác minh cả ba chỗ thống nhất; không tách sửa thành ba lượt gây mâu thuẫn.",
+    "Send error response code, structured logging and client type adjustments in one request. Check all three contracts remain consistent rather than fixing interacting items separately."
+  ]
+],
   "commands": "npm run lab:domain3 -- 5\ncd domain3-workspaces/lesson35\nnpm test\nclaude"
 });
