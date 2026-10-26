@@ -19,5 +19,6 @@ export default function LessonStageNav({language,exerciseId,quizId,sourceUrl}:{
    :"This is an independently written explanation of the curriculum, not a verbatim copy. Consult the original page for exact examples and wording:"}{" "}
    <a href={sourceUrl} target="_blank" rel="noreferrer">{vi?"Bài gốc":"Original lesson"} ↗</a>
   </p>
+  {vi&&<p className="lesson-source-note">Muốn đọc <strong>toàn bộ nội dung gốc bằng tiếng Việt</strong>, hãy mở bài gốc và dùng chức năng <strong>Dịch sang tiếng Việt</strong> của trình duyệt. Bản giải thích trên website này giúp học và luyện tập nhưng không thay thế nguyên văn tài liệu nguồn.</p>}
  </nav>;
 }
