@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import SourceVerifiedLecture from "./SourceVerifiedLecture";
+import SourceDetailChapters from "./SourceDetailChapters";
 import LessonStageNav from "./LessonStageNav";
 import { useEffect, useState } from "react";
 import { domain3 } from "@/lib/domain3-course";
@@ -88,6 +89,7 @@ export default function Domain3Lesson({number}:{number:number}){
           </section>)}
         </section>
 
+        <SourceDetailChapters id={`3.${number}`} language={language}/>
         <SourceVerifiedLecture id={`3.${number}`} language={language}/>
 
         <section id="domain3-decision" className="lesson7-comparison">

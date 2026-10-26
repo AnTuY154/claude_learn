@@ -1,0 +1,29 @@
+import {test} from "node:test";
+import assert from "node:assert/strict";
+import {readFileSync} from "node:fs";
+import {sourceDetailAdditions} from "./source-detail-additions.ts";
+test("Additional chapters are bilingual, source-scoped and clearly distinguish beyond-guide material",()=>{
+ assert.deepEqual(Object.keys(sourceDetailAdditions),["1.5","3.1","3.6"]);
+ assert.equal(sourceDetailAdditions["1.5"].length,2);
+ assert.equal(sourceDetailAdditions["3.1"].length,2);
+ assert.equal(sourceDetailAdditions["3.6"].length,4);
+ for(const [lesson,chapters] of Object.entries(sourceDetailAdditions)){
+  for(const chapter of chapters){
+   assert.ok(["exam","supplement"].includes(chapter.scope));
+   for(const field of ["title","detail","example","trap"] as const){
+    assert.equal(chapter[field].length,2);
+    assert.ok(chapter[field][0].length>(field==="title"?20:90),lesson+" "+field+" VI");
+    assert.ok(chapter[field][1].length>(field==="title"?20:90),lesson+" "+field+" EN");
+   }
+  }
+ }
+});
+test("Deep source material appears inside the lecture, before labs and questions",()=>{
+ for(const filename of ["BilingualLesson","Domain3Lesson"]){
+  const content=readFileSync("app/components/"+filename+".tsx","utf8");
+  const source=content.indexOf("<SourceDetailChapters");
+  const exercise=content.indexOf("live-lab bilingual-lab");
+  const quiz=content.indexOf("course-quiz bilingual-quiz");
+  assert.ok(source>0&&source<exercise&&exercise<quiz,filename);
+ }
+});
