@@ -67,6 +67,10 @@ export default function Domain3Lesson({number}:{number:number}){
         </nav>
         <section className="bilingual-topics" aria-label="Complete detailed explanation">
           {t.sections.map((sec,i)=><section className="course-topic domain2-topic" id={`d3-topic-${number}-${i}`} key={sec.title}>
+            {number===5 && (i===0||i===3||i===5) && <div className="section-heading">
+              <span>{vi?"THEO ĐÚNG ĐỀ MỤC NGUỒN":"SOURCE CURRICULUM HEADING"}</span>
+              <h2>{i===0?"The Technique Hierarchy":i===3?"Batch vs Sequential Feedback":"Switching From Prose to Examples"}</h2>
+            </div>}
             <div className="course-topic-heading"><span>{String(i+1).padStart(2,"0")}</span><div>
               <small>DOMAIN 03 · 3.{number}</small><h3>{sec.title}</h3>
             </div></div>

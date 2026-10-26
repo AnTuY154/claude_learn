@@ -51,12 +51,67 @@ if(id===4){
   steps.push("Start claude --permission-mode plan; confirm Plan in UI.","Plan oldDate migration across three callers; do not edit during Plan.","Use direct execution for the known null guard in profile.js.","Approve migration plan; implement, then verify tests and diff.","Use Explore to isolate verbose file discovery if needed.");
 }
 if(id===5){
-  add("CLAUDE.md","# Test-driven lab\nShow concrete before/after transformations and preserve null.");
-  add("src/normalise.js","// INTENTIONAL BUG for failing test\nexport const normalise=x=>x==null?'':x;");
-  add("src/normalise.test.js","import test from 'node:test';\nimport assert from 'node:assert/strict';\nimport {normalise} from './normalise.js';\ntest('null preserved',()=>assert.equal(normalise(null),null));\ntest('strings unchanged',()=>assert.equal(normalise('ok'),'ok'));");
-  add("package.json",JSON.stringify({type:"module",scripts:{test:"node --test src/normalise.test.js"}},null,2));
-  add("examples.md","Before: getUser(id): Promise<User>\nAfter: getUser(id): Promise<Result<User,ApiError>>\nBefore: fetchOrders(id): Promise<Order[]>\nAfter: fetchOrders(id): Promise<Result<Order[],ApiError>>");
-  steps.push("Run npm test: one assertion intentionally FAILS before refinement.","Give Claude the actual failure; correct null behaviour.","Give two before/after Result examples then test unseen cases.","Use interview pattern for unfamiliar caching requirements.","Batch interdependent feedback, sequence unrelated changes.");
+  add("CLAUDE.md","# Iterative refinement workshop\\nUse before/after demonstrations and treat failing tests as objective feedback.");
+  add("src/migrate.js",`// INTENTIONALLY INCORRECT implementation; fix after reading the failing tests.
+export function normalise(value){
+  if(value===null) return "";
+  if(Array.isArray(value)) return value.length===0 ? ["placeholder"] : value;
+  return value;
+}
+export async function loadAndMap(fetcher){
+  try {
+    const response=await fetcher();
+    return {ok:true,data:normalise(response)};
+  } catch(error) {
+    return {ok:false,error:"unknown"};
+  }
+}`);
+  add("src/migrate.test.js",`import test from "node:test";
+import assert from "node:assert/strict";
+import {normalise,loadAndMap} from "./migrate.js";
+test("success: existing value preserved",()=>assert.equal(normalise("ready"),"ready"));
+test("null: null must remain null",()=>assert.equal(normalise(null),null));
+test("empty list: empty remains empty",()=>assert.deepEqual(normalise([]),[]));
+test("successful fetch: returns source data",async()=>{
+  assert.deepEqual(await loadAndMap(async()=>["booking"]),{ok:true,data:["booking"]});
+});
+test("rejected fetch: explicit error code mapping",async()=>{
+  const result=await loadAndMap(async()=>{throw Object.assign(new Error("Timed out"),{code:"ETIMEDOUT"});});
+  assert.deepEqual(result,{ok:false,error:"ETIMEDOUT"});
+});`);
+  add("package.json",JSON.stringify({type:"module",scripts:{test:"node --test src/migrate.test.js"}},null,2));
+  add("before-after.md",`# Concrete transformation pairs (written for this workshop)
+Input: getBooking(id: string): Promise<Booking>
+Expected: getBooking(id: string): Promise<Result<Booking, ApiError>>
+
+Input: listGuests(bookingId: string): Promise<Guest[]>
+Expected: listGuests(bookingId: string): Promise<Result<Guest[], ApiError>>
+
+Unseen verification case: fetchRoom(id: string): Promise<Room>
+What result should the new signature produce?`);
+  add("experiment.md",`# Lesson 3.5: practice log
+## 1. Prose-only test: record actual output from three attempts
+Attempt 1:
+Attempt 2:
+Attempt 3:
+## 2. Concrete examples: compare another three attempts and an unseen function
+Attempt 1:
+Attempt 2:
+Attempt 3:
+Unseen function:
+## 3. Share the REAL npm test failure with Claude Code
+Tests initially fail for null, empty list and rejected fetch mapping.
+Do not claim all tests were successful until npm test passes.
+## 4. Interview unfamiliar caching requirements
+Ask about TTL, invalidation, consistency, capacity and failure behaviour BEFORE coding.
+## 5. Batch interacting corrections
+Change {error.code} response shape, logger format and client types in one message.
+Compare the complete contracts after the change.`);
+  steps.push("Run npm test and keep the actual failure output; do not fabricate model behaviour.");
+  steps.push("Run the same prose-only transformation three times and record the real variations, if any.");
+  steps.push("Use the 2–3 examples from before-after.md; repeat three times and verify an unseen input.");
+  steps.push("Share failing null/empty/error tests with Claude until each actual failing assertion passes.");
+  steps.push("Interview the developer about unfamiliar caching constraints; then batch interdependent error/log/type changes.");
 }
 if(id===6){
   add("CLAUDE.md","# CI review conventions\nReview current code with evidence. Do not print credentials.");

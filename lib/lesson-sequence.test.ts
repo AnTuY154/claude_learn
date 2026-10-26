@@ -34,7 +34,9 @@ test("All five reusable lesson views put exercises before quizzes and include st
  for(const name of targets){
   const content=readFileSync("app/components/"+name+".tsx","utf8");
   assert.match(content,/LessonStageNav/,name);
-  assert.match(content,/SourceVerifiedLecture/,name);
+  assert.match(content,/CurriculumExamTraps/,name);
+  assert.doesNotMatch(content,/<SourceVerifiedLecture/,name);
+  assert.doesNotMatch(content,/<SourceDetailChapters/,name);
   const exercise=content.indexOf("live-lab bilingual-lab");
   const quiz=content.indexOf("course-quiz bilingual-quiz");
   if(name==="BilingualLesson"){
