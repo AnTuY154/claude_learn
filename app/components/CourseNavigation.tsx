@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 // HEADER CHUNG: sử dụng Next Link để basePath của GitHub Pages được tự động thêm.
 // Có thể cuộn ngang trên màn hình nhỏ; aria-current đánh dấu bài đang học.
 const items = [
+  ["QB", "Question Bank · 5 đề thi", "/question-bank"],
   ["1.1", "Agentic Loops", "/lesson1"],
   ["1.2", "Orchestration", "/lesson2"],
   ["1.3", "Context Passing", "/lesson3"],
@@ -46,7 +47,7 @@ export default function CourseNavigation() {
         <Link href="/" className="course-logo" aria-label="Claude Learning Lab — Trang chủ">
           <span>CL</span><strong>Claude Learning Lab</strong>
         </Link>
-        <nav className="course-nav" aria-label="Điều hướng Claude Certification Domains 1, 2, 3 và 4">
+        <nav className="course-nav" aria-label="Điều hướng bài học và Question Bank">
           {items.map(([number, title, href]) => (
             <Link key={number} href={href} className={pathname === href || pathname?.startsWith(href + "/") ? "active" : ""}
               aria-current={pathname === href || pathname?.startsWith(href + "/") ? "page" : undefined}
