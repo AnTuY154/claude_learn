@@ -76,6 +76,11 @@ export default function Home() {
       <h1>Claude Certified Architect<br/>Domains 1–5</h1>
       <h2>30 bài học song ngữ: kiến thức nền tảng, ví dụ JavaScript thực tế, từ vựng, trắc nghiệm và Build Exercise theo giáo trình.</h2>
     </div>
+    <Link href="/question-bank" className="qb-home-banner">
+      <span>CCAR-F · QUESTION BANK</span>
+      <strong>5 bộ đề luyện thi · 300 câu · Tiếng Việt / English</strong>
+      <small>Chọn đáp án và xem kết quả đúng/sai cùng giải thích ngay lập tức →</small>
+    </Link>
     <div className="section-heading"><span>Curriculum</span><h2>Chọn bài học</h2></div>
     <div className="course-home-grid">
       {topics.map(([label, title, subtitle], index) => (

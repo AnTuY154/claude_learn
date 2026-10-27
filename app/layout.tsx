@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import "./question-bank/question-bank.css";
 import CourseNavigation from "./components/CourseNavigation";
 
 export const metadata: Metadata = {
