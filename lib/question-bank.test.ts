@@ -13,7 +13,7 @@ const vi:ExamData=JSON.parse(readFileSync(path.join(root,"exams-vi.json"),"utf8"
 const keys=["A","B","C","D"];
 
 test("All five uploaded exam sets contain exactly 60 original questions in each language",()=>{
- for(const [lang,d] of [["en",en],["vi",vi]]){
+ for(const [lang,d] of [["en",en],["vi",vi]] as const){
   assert.equal(d.language,lang);
   assert.equal(d.questions_per_set,60);
   assert.equal(d.total_questions,300);
