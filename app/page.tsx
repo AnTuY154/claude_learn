@@ -78,7 +78,7 @@ export default function Home() {
     </div>
     <Link href="/question-bank" className="qb-home-banner">
       <span>CCAR-F · QUESTION BANK</span>
-      <strong>5 bộ đề luyện thi · 300 câu · Tiếng Việt / English</strong>
+      <strong>7 bộ đề luyện thi · 420 câu · Tiếng Việt / English</strong>
       <small>Chọn đáp án và xem kết quả đúng/sai cùng giải thích ngay lập tức →</small>
     </Link>
     <div className="section-heading"><span>Curriculum</span><h2>Chọn bài học</h2></div>

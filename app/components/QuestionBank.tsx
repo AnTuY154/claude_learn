@@ -4,46 +4,47 @@ import {useEffect,useMemo,useState} from "react";
 import Link from "next/link";
 import enJson from "@/lib/question-bank/exams-en.json";
 import viJson from "@/lib/question-bank/exams-vi.json";
+import {sameAnswers,summariseSet,validSelection} from "@/lib/question-bank/quiz-core";
+import type {ChoiceKey,ExamData,AnswerStore} from "@/lib/question-bank/quiz-core";
 
 type Language="vi"|"en";
-type ChoiceKey="A"|"B"|"C"|"D";
-type Question={
- id:string;domain_code:string;domain_name:string;question:string;
- options:{key:ChoiceKey;text:string}[];answer:ChoiceKey;explanation:string;sources:string[];
+type SavedState={
+ answers:AnswerStore;drafts:AnswerStore;language:Language;
+ indices:Record<string,number>;activeSet:string;
 };
-type ExamSet={set_id:string;questions:Question[]};
-type ExamData={title:string;note:string;exam_sets:ExamSet[]};
-type AnswerStore=Record<string,Record<string,ChoiceKey>>;
-type SavedState={answers:AnswerStore;language:Language;indices:Record<string,number>;activeSet:string};
 const bank:Record<Language,ExamData>={
- vi:viJson as unknown as ExamData,en:enJson as unknown as ExamData
+ vi:viJson as unknown as ExamData,
+ en:enJson as unknown as ExamData,
 };
-const storageKey="ccarf-question-bank-answers-v1";
-const setIds=bank.vi.exam_sets.map(item=>item.set_id);
+// This is a different exam edition; never carry over answers for the old 5-set format.
+const storageKey="ccarf-question-bank-mixed-7-sets-v2";
+const setIds=bank.vi.exam_sets.map(set=>set.set_id);
 const labels={
  vi:{
   kicker:"CCAR-F · NGÂN HÀNG CÂU HỎI",heading:"Luyện thi Question Bank",
-  intro:"5 bộ đề · 60 câu mỗi bộ. Chọn một đáp án để xem ngay đúng/sai và lời giải. Chuyển ngôn ngữ không làm mất kết quả.",
+  intro:"7 bộ đề · 60 câu mỗi bộ. Gồm câu chọn một, hai hoặc ba đáp án. Chuyển ngôn ngữ không làm mất kết quả.",
   notOfficial:"Bộ đề ôn tập độc lập, không phải câu hỏi thi chính thức.",
   set:"Bộ đề",question:"Câu hỏi",answered:"Đã làm",correct:"Đúng",wrong:"Sai",remaining:"Còn lại",
-  answerNow:"Chọn một đáp án để kiểm tra ngay.",yourAnswer:"Bạn đã chọn",correctAnswer:"Đáp án đúng",
+  answerNow:"Chọn đáp án để xem ngay đúng/sai và lời giải.",
+  selectCount:"Đã chọn",checkAnswer:"Chấm đáp án",yourAnswer:"Bạn đã chọn",correctAnswer:"Đáp án đúng",
   right:"Chính xác!",incorrect:"Chưa chính xác",why:"Giải thích",references:"Tài liệu tham khảo",
   previous:"Câu trước",next:"Câu tiếp theo",nextUnanswered:"Câu chưa làm tiếp",restart:"Làm lại bộ đề",
   restartConfirm:"Bạn có muốn xoá toàn bộ câu trả lời của bộ đề này không?",
   complete:"Hoàn thành bộ đề",summary:"Kết quả",home:"Về trang chủ",jump:"Đi đến câu hỏi",
-  outOf:"trên",score:"Điểm",language:"Ngôn ngữ",total:"Tổng tiến độ",review:"Xem lại hoặc chuyển sang bộ đề khác."
+  score:"Điểm",language:"Ngôn ngữ",total:"Tổng tiến độ",review:"Xem lại hoặc chuyển sang bộ đề khác."
  },
  en:{
   kicker:"CCAR-F · QUESTION BANK",heading:"Question Bank Practice",
-  intro:"5 exam sets · 60 questions each. Choose an answer for instant feedback and an explanation. Switch languages without losing your answers.",
+  intro:"7 exam sets · 60 questions each, with single-, two- and three-answer questions. Switch languages without losing your results.",
   notOfficial:"Independent practice questions; these are not official certification exam items.",
   set:"Exam set",question:"Question",answered:"Answered",correct:"Correct",wrong:"Incorrect",remaining:"Remaining",
-  answerNow:"Select one option to check your answer instantly.",yourAnswer:"You selected",correctAnswer:"Correct answer",
+  answerNow:"Select an answer to see instant feedback and an explanation.",
+  selectCount:"Selected",checkAnswer:"Check answers",yourAnswer:"You selected",correctAnswer:"Correct answer",
   right:"Correct!",incorrect:"Not quite",why:"Explanation",references:"References",
   previous:"Previous",next:"Next question",nextUnanswered:"Next unanswered",restart:"Restart this set",
   restartConfirm:"Remove all answers for this exam set?",
   complete:"Set complete",summary:"Result",home:"Back to home",jump:"Jump to question",
-  outOf:"of",score:"Score",language:"Language",total:"Overall progress",review:"Review your answers or choose another set."
+  score:"Score",language:"Language",total:"Overall progress",review:"Review your answers or choose another set."
  }
 };
 
@@ -51,26 +52,30 @@ function safeRestore(input:unknown):SavedState|null{
  if(!input||typeof input!=="object")return null;
  const v=input as Partial<SavedState>;
  const language:Language=v.language==="en"?"en":"vi";
- const activeSet=typeof v.activeSet==="string"&&setIds.includes(v.activeSet)?v.activeSet:"SET01";
+ const activeSet=typeof v.activeSet==="string"&&setIds.includes(v.activeSet)?v.activeSet:setIds[0];
  const answers:AnswerStore={};
+ const drafts:AnswerStore={};
  const indices:Record<string,number>={};
- for(const s of bank.en.exam_sets){
-  answers[s.set_id]={};
-  const stored=v.answers?.[s.set_id];
-  for(const q of s.questions){
-   const value=stored?.[q.id];
-   if(value==="A"||value==="B"||value==="C"||value==="D")answers[s.set_id][q.id]=value;
+ for(const set of bank.en.exam_sets){
+  answers[set.set_id]={};
+  drafts[set.set_id]={};
+  for(const q of set.questions){
+   const completed=validSelection(v.answers?.[set.set_id]?.[q.id],q,true);
+   if(completed){answers[set.set_id][q.id]=completed;continue;}
+   const draft=validSelection(v.drafts?.[set.set_id]?.[q.id],q,false);
+   if(draft)drafts[set.set_id][q.id]=draft;
   }
-  const raw=v.indices?.[s.set_id];
-  indices[s.set_id]=Number.isInteger(raw)&&raw!==undefined&&raw>=0&&raw<60?raw:0;
+  const index=v.indices?.[set.set_id];
+  indices[set.set_id]=typeof index==="number"&&Number.isInteger(index)&&index>=0&&index<set.questions.length?index:0;
  }
- return {language,activeSet,answers,indices};
+ return {language,activeSet,answers,drafts,indices};
 }
 
 export default function QuestionBank(){
  const [language,setLanguage]=useState<Language>("vi");
- const [activeSet,setActiveSet]=useState("SET01");
+ const [activeSet,setActiveSet]=useState(setIds[0]);
  const [answers,setAnswers]=useState<AnswerStore>({});
+ const [drafts,setDrafts]=useState<AnswerStore>({});
  const [indices,setIndices]=useState<Record<string,number>>({});
  const [hydrated,setHydrated]=useState(false);
  useEffect(()=>{
@@ -78,33 +83,32 @@ export default function QuestionBank(){
    const raw=localStorage.getItem(storageKey);
    if(raw){
     const saved=safeRestore(JSON.parse(raw));
-    if(saved){setLanguage(saved.language);setActiveSet(saved.activeSet);setAnswers(saved.answers);setIndices(saved.indices);}
+    if(saved){
+     setLanguage(saved.language);setActiveSet(saved.activeSet);
+     setAnswers(saved.answers);setDrafts(saved.drafts);setIndices(saved.indices);
+    }
    }
-  }catch{ /* Browser storage may be disabled. Practice still works in this tab. */ }
+  }catch{ /* Practice still works if storage is unavailable. */ }
   setHydrated(true);
  },[]);
  useEffect(()=>{
   if(!hydrated)return;
-  try{localStorage.setItem(storageKey,JSON.stringify({language,activeSet,answers,indices}));}catch{}
- },[hydrated,language,activeSet,answers,indices]);
+  try{localStorage.setItem(storageKey,JSON.stringify({language,activeSet,answers,drafts,indices}));}catch{}
+ },[hydrated,language,activeSet,answers,drafts,indices]);
 
- const t=labels[language],data=bank[language];
- const selectedSet=data.exam_sets.find(s=>s.set_id===activeSet)??data.exam_sets[0];
+ const t=labels[language];
+ const data=bank[language];
+ const selectedSet=data.exam_sets.find(set=>set.set_id===activeSet)??data.exam_sets[0];
  const questions=selectedSet.questions;
  const current=Math.max(0,Math.min(questions.length-1,indices[activeSet]??0));
  const question=questions[current];
  const chosen=answers[activeSet]?.[question.id];
+ const draft=drafts[activeSet]?.[question.id]??[];
  const revealed=chosen!==undefined;
- const correct=chosen===question.answer;
+ const correct=sameAnswers(chosen,question.answer);
  const result=useMemo(()=>{
-  const perSet=bank.en.exam_sets.map(set=>{
-   const a=answers[set.set_id]??{};
-   return {id:set.set_id,
-    answered:set.questions.filter(q=>a[q.id]!==undefined).length,
-    correct:set.questions.filter(q=>a[q.id]===q.answer).length,
-    total:set.questions.length};
-  });
-  return {perSet,overall:perSet.reduce((sum,s)=>sum+s.answered,0)};
+  const perSet=bank.en.exam_sets.map(set=>summariseSet(set,answers[set.set_id]));
+  return {perSet,overall:perSet.reduce((sum,set)=>sum+set.answered,0)};
  },[answers]);
  const setResult=result.perSet.find(s=>s.id===activeSet)!;
 
@@ -113,14 +117,32 @@ export default function QuestionBank(){
   setIndices(old=>({...old,[activeSet]:index}));
   document.getElementById("qb-question")?.scrollIntoView({block:"start",behavior:"smooth"});
  };
+ const submit=(selection:ChoiceKey[])=>{
+  if(revealed||selection.length!==question.select_count)return;
+  setAnswers(old=>({...old,[activeSet]:{...(old[activeSet]??{}),[question.id]:selection}}));
+  setDrafts(old=>{
+   const currentDrafts={...(old[activeSet]??{})};
+   delete currentDrafts[question.id];
+   return {...old,[activeSet]:currentDrafts};
+  });
+ };
  const choose=(key:ChoiceKey)=>{
-  if(revealed)return;
-  if(!question.options.some(x=>x.key===key))return;
-  setAnswers(old=>({...old,[activeSet]:{...(old[activeSet]??{}),[question.id]:key}}));
+  if(revealed||!question.options.some(option=>option.key===key))return;
+  if(question.question_type==="single_answer"){
+   submit([key]);return;
+  }
+  setDrafts(old=>{
+   const previous=old[activeSet]?.[question.id]??[];
+   const next=previous.includes(key)
+    ?previous.filter(x=>x!==key)
+    :previous.length<question.select_count?[...previous,key]:previous;
+   return {...old,[activeSet]:{...(old[activeSet]??{}),[question.id]:next}};
+  });
  };
  const resetSet=()=>{
   if(!window.confirm(t.restartConfirm))return;
   setAnswers(old=>({...old,[activeSet]:{}}));
+  setDrafts(old=>({...old,[activeSet]:{}}));
   setIndices(old=>({...old,[activeSet]:0}));
  };
  const nextUnanswered=()=>{
@@ -148,11 +170,12 @@ export default function QuestionBank(){
    </header>
 
    <section aria-label={t.set} className="qb-sets">
-    {result.perSet.map((s,i)=><button type="button" key={s.id} className={"qb-set "+(activeSet===s.id?"active":"")}
-     onClick={()=>setActiveSet(s.id)} aria-pressed={activeSet===s.id}>
+    {result.perSet.map((set,i)=><button type="button" key={set.id}
+      className={"qb-set "+(activeSet===set.id?"active":"")}
+      onClick={()=>setActiveSet(set.id)} aria-pressed={activeSet===set.id}>
       <span>{t.set} {String(i+1).padStart(2,"0")}</span>
-      <strong>{s.answered}/{s.total}</strong>
-      <span className="qb-set-bar"><i style={{width:String(100*s.answered/s.total)+"%"}}/></span>
+      <strong>{set.answered}/{set.total}</strong>
+      <span className="qb-set-bar"><i style={{width:(100*set.answered/set.total)+"%"}}/></span>
      </button>)}
    </section>
 
@@ -161,36 +184,52 @@ export default function QuestionBank(){
     <div><span>{t.correct}</span><strong>{setResult.correct}</strong></div>
     <div><span>{t.wrong}</span><strong>{setResult.answered-setResult.correct}</strong></div>
     <div><span>{t.score}</span><strong>{setResult.answered?Math.round(setResult.correct/setResult.answered*100):0}%</strong></div>
-    <div className="qb-overall"><span>{t.total}</span><strong>{result.overall} / 300</strong></div>
+    <div className="qb-overall"><span>{t.total}</span><strong>{result.overall} / {data.total_questions}</strong></div>
    </section>
 
    <div className="qb-main">
     <section className="qb-exam" id="qb-question">
-     <div className="qb-question-head"><span>{selectedSet.set_id} · {t.question} {current+1}/{questions.length}</span>
+     <div className="qb-question-head">
+      <span>{selectedSet.set_id} · {t.question} {current+1}/{questions.length}</span>
       <span className="qb-domain">{question.domain_code} · {question.domain_name}</span>
      </div>
      <h2>{question.question}</h2>
+     <p className="qb-select-instruction">{question.selection_instruction}</p>
      <div className="qb-choices" role="group" aria-label={t.question+" "+(current+1)}>
       {question.options.map(option=>{
-       const isSelected=chosen===option.key;
-       const state=!revealed?"":option.key===question.answer?"correct":isSelected?"incorrect":"muted";
-       return <button type="button" key={option.key} className={"qb-choice "+state+(isSelected?" selected":"")}
-        onClick={()=>choose(option.key)} disabled={revealed} aria-pressed={isSelected}>
+       const isSelected=revealed?chosen.includes(option.key):draft.includes(option.key);
+       const isExpected=question.answer.includes(option.key);
+       const state=!revealed?(isSelected?"draft":""):isExpected?"correct":isSelected?"incorrect":"muted";
+       return <button type="button" key={option.key}
+        className={"qb-choice "+state+(isSelected?" selected":"")}
+        onClick={()=>choose(option.key)} disabled={revealed}
+        aria-pressed={isSelected}>
         <span className="qb-choice-key">{option.key}</span>
         <span className="qb-choice-copy">{option.text}</span>
-        {revealed&&option.key===question.answer&&<span className="qb-choice-result" aria-label={t.correct}>✓</span>}
-        {revealed&&isSelected&&!correct&&<span className="qb-choice-result" aria-label={t.wrong}>×</span>}
+        {revealed&&isExpected&&<span className="qb-choice-result" aria-label={t.correct}>✓</span>}
+        {revealed&&isSelected&&!isExpected&&<span className="qb-choice-result" aria-label={t.wrong}>×</span>}
+        {!revealed&&question.question_type==="multiple_response"&&isSelected&&<span className="qb-choice-result" aria-hidden="true">✓</span>}
        </button>;
       })}
      </div>
+     {!revealed&&question.question_type==="multiple_response"&&
+      <div className="qb-selection-control" aria-live="polite">
+       <p>{t.selectCount}: <strong>{draft.length}/{question.select_count}</strong></p>
+       <button type="button" onClick={()=>submit(draft)} disabled={draft.length!==question.select_count}>
+        {t.checkAnswer}
+       </button>
+      </div>}
      {revealed?<section className={"qb-feedback "+(correct?"good":"bad")} aria-live="polite" aria-label={t.summary}>
       <h3>{correct?"✓ "+t.right:"× "+t.incorrect}</h3>
-      <p><strong>{t.yourAnswer}:</strong> {chosen} · <strong>{t.correctAnswer}:</strong> {question.answer}</p>
+      <p><strong>{t.yourAnswer}:</strong> {chosen.join(", ")} · <strong>{t.correctAnswer}:</strong> {question.answer.join(", ")}</p>
       <h4>{t.why}</h4>
       <p>{question.explanation}</p>
       {question.sources.length>0&&<div className="qb-references">
        <strong>{t.references}</strong>
-       {question.sources.filter(url=>url.startsWith("https://")).map((url,i)=><a key={url} href={url} target="_blank" rel="noopener noreferrer">{i+1}. {(()=>{try{return new URL(url).hostname+new URL(url).pathname}catch{return url}})()} ↗</a>)}
+       {question.sources.filter(url=>url.startsWith("https://")).map((url,i)=>
+        <a key={url} href={url} target="_blank" rel="noopener noreferrer">
+         {i+1}. {(()=>{try{const u=new URL(url);return u.hostname+u.pathname;}catch{return url;}})()} ↗
+        </a>)}
       </div>}
      </section>:<p className="qb-prompt">{t.answerNow}</p>}
      {setResult.answered===setResult.total&&<div className="qb-complete" role="status">
@@ -209,11 +248,12 @@ export default function QuestionBank(){
       <div className="qb-grid">
        {questions.map((q,i)=>{
         const selected=answers[activeSet]?.[q.id];
-        const status=selected===undefined?"unanswered":selected===q.answer?"correct":"incorrect";
+        const partial=drafts[activeSet]?.[q.id]?.length;
+        const status=selected===undefined?(partial?"draft":"unanswered"):sameAnswers(selected,q.answer)?"correct":"incorrect";
         return <button type="button" key={q.id} onClick={()=>navigate(i)}
          className={"qb-jump "+status+(i===current?" current":"")}
          aria-current={i===current?"step":undefined}
-         aria-label={t.question+" "+(i+1)+" · "+(selected===undefined?t.remaining:selected===q.answer?t.correct:t.wrong)}>
+         aria-label={t.question+" "+(i+1)+" · "+(selected===undefined?t.remaining:sameAnswers(selected,q.answer)?t.correct:t.wrong)}>
          {i+1}
         </button>;
        })}
