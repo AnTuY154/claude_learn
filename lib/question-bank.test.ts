@@ -4,8 +4,12 @@ import {readFileSync} from "node:fs";
 import path from "node:path";
 
 const root=path.resolve("lib/question-bank");
-const en=JSON.parse(readFileSync(path.join(root,"exams-en.json"),"utf8"));
-const vi=JSON.parse(readFileSync(path.join(root,"exams-vi.json"),"utf8"));
+type Option={key:string;text:string};
+type Question={id:string;domain_code:string;domain_name:string;question:string;options:Option[];answer:string;explanation:string;sources:string[]};
+type ExamSet={set_id:string;questions:Question[]};
+type ExamData={language:string;questions_per_set:number;total_questions:number;exam_sets:ExamSet[]};
+const en:ExamData=JSON.parse(readFileSync(path.join(root,"exams-en.json"),"utf8"));
+const vi:ExamData=JSON.parse(readFileSync(path.join(root,"exams-vi.json"),"utf8"));
 const keys=["A","B","C","D"];
 
 test("All five uploaded exam sets contain exactly 60 original questions in each language",()=>{
