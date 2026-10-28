@@ -42,7 +42,7 @@ test("Q123 has no scorable key; all other questions have unverified AI keys", ()
 
 test("Multi-select is graded by an exact order-independent set", () => {
   const q = questions.find(q => q.selectCount === 2 && q.correctAnswers)!;
-  assert.ok(sameAnswerSet(q.correctAnswers, [...q.correctAnswers!].reverse()));
+  assert.ok(sameAnswerSet(q.correctAnswers!, [...q.correctAnswers!].reverse()));
   assert.ok(!sameAnswerSet([q.correctAnswers![0]], q.correctAnswers));
   assert.ok(!sameAnswerSet([q.correctAnswers![0], q.correctAnswers![0]], q.correctAnswers));
   assert.ok(selectionIsValid(q.correctAnswers, q, true));
