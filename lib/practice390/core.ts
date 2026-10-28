@@ -51,8 +51,10 @@ export function restoreProgress(raw: unknown, questions: readonly SourceQuestion
   const savedAnswers: Record<string, unknown> = data.answers && typeof data.answers === "object" ? data.answers : {};
   const savedDrafts: Record<string, unknown> = data.drafts && typeof data.drafts === "object" ? data.drafts : {};
   for (const q of questions) {
-    if (selectionIsValid(savedAnswers[q.id], q, true)) answers[q.id] = [...savedAnswers[q.id]];
-    else if (selectionIsValid(savedDrafts[q.id], q, false)) drafts[q.id] = [...savedDrafts[q.id]];
+    const submitted = savedAnswers[q.id];
+    const draft = savedDrafts[q.id];
+    if (selectionIsValid(submitted, q, true)) answers[q.id] = [...submitted];
+    else if (selectionIsValid(draft, q, false)) drafts[q.id] = [...draft];
   }
   return {
     current: typeof data.current === "number" && Number.isInteger(data.current) && data.current >= 0 && data.current < questions.length ? data.current : 0,
