@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 // HEADER CHUNG: sử dụng Next Link để basePath của GitHub Pages được tự động thêm.
 // Có thể cuộn ngang trên màn hình nhỏ; aria-current đánh dấu bài đang học.
 const items = [
+  ["390", "390 câu · Luyện tập", "/390"],
   ["QB", "Question Bank · 7 đề thi", "/question-bank"],
   ["1.1", "Agentic Loops", "/lesson1"],
   ["1.2", "Orchestration", "/lesson2"],

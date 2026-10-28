@@ -81,6 +81,11 @@ export default function Home() {
       <strong>7 bộ đề luyện thi · 420 câu · Tiếng Việt / English</strong>
       <small>Chọn đáp án và xem kết quả đúng/sai cùng giải thích ngay lập tức →</small>
     </Link>
+    <Link href="/390" className="qb-home-banner">
+      <span>390 CÂU · CCAR-F PRACTICE</span>
+      <strong>Ôn tập 390 câu · Anh / Việt · Chấm ngay sau khi chọn</strong>
+      <small>Bộ câu hỏi độc lập từ dữ liệu bạn đã cung cấp; không sao chép Coding N Concepts →</small>
+    </Link>
     <div className="section-heading"><span>Curriculum</span><h2>Chọn bài học</h2></div>
     <div className="course-home-grid">
       {topics.map(([label, title, subtitle], index) => (
