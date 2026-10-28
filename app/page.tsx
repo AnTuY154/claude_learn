@@ -83,8 +83,8 @@ export default function Home() {
     </Link>
     <Link href="/390" className="qb-home-banner">
       <span>390 CÂU · CCAR-F PRACTICE</span>
-      <strong>Ôn tập 390 câu · Anh / Việt · Chấm ngay sau khi chọn</strong>
-      <small>Bộ câu hỏi độc lập từ dữ liệu bạn đã cung cấp; không sao chép Coding N Concepts →</small>
+      <strong>390 câu gốc · 5 Domain · Chấm theo đáp án AI</strong>
+      <small>Câu hỏi tiếng Anh từ HTML nguồn bạn cung cấp; đáp án AI chưa xác minh →</small>
     </Link>
     <div className="section-heading"><span>Curriculum</span><h2>Chọn bài học</h2></div>
     <div className="course-home-grid">
